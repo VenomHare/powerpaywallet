@@ -1,0 +1,28 @@
+{
+  "name": "bank-webhook",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc && pnpm start",
+    "start": "ts-node src/index.ts",
+    "reset": "rm -rf node_modules && rm -rf dist"
+  },
+  "devDependencies": {
+    "@powerpaywallet/typescript-config": "workspace:*",
+    "@types/express": "^5.0.2",
+    "typescript": "^5.8.3"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@powerpaywallet/db": "workspace:*",
+    "@powerpaywallet/schemas": "workspace:*",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "ts-node": "^10.9.2",
+    "zod": "^3.25.36"
+  }
+}

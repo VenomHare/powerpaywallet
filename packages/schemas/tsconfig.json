@@ -1,0 +1,5 @@
+{
+    "extends": "@powerpaywallet/typescript-config/base.json",
+    "include": ["src"],
+    "exclude": ["dist","node_modules"]
+}

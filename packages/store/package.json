@@ -1,0 +1,22 @@
+{
+  "name": "@powerpaywallet/store",
+  "version": "0.0.1",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "exports":{
+    ".": "./src/index.ts",
+    "./slices":"./src/slices/index.ts"
+  },
+  "dependencies": {
+    "@powerpaywallet/typescript-config": "workspace:*",
+    "@reduxjs/toolkit": "^2.8.1",
+    "react-redux": "^9.2.0"
+  },
+  "keywords": [],
+  "author": "venomhare",
+  "workspaces": ["app/*"],
+  "license": "ISC"
+}

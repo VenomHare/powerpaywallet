@@ -1,0 +1,9 @@
+{
+  "extends": "@powerpaywallet/typescript-config/react-library.json",
+  "compilerOptions": {
+    "baseUrl": "src",
+    "outDir": "dist"
+  },
+  "exclude": ["dist","node_modules"],
+  "include": ["src"]
+}

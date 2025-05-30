@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  powerpay_postgres:
+    image: postgres
+    container_name: powerpay_postgres
+    environment:
+      POSTGRES_PASSWORD: "sacredpassword"
+    ports: 
+     - "5432:5432"
+    volumes: 
+     - powerpay_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  powerpay_postgres_data:
