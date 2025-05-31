@@ -4,19 +4,25 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint . --max-warnings 0"
   },
-  "exports":{
+  "exports": {
     ".": "./src/index.ts",
-    "./slices":"./src/slices/index.ts"
+    "./slices": "./src/slices/index.ts"
   },
   "dependencies": {
     "@powerpaywallet/typescript-config": "workspace:*",
     "@reduxjs/toolkit": "^2.8.1",
     "react-redux": "^9.2.0"
   },
+  "devDependencies": {
+    "@powerpaywallet/eslint-config": "workspace:*",
+    "eslint": "^9.26.0"
+  },
   "keywords": [],
   "author": "venomhare",
-  "workspaces": ["app/*"],
+  "workspaces": [
+    "app/*"
+  ],
   "license": "ISC"
 }

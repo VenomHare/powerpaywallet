@@ -5,11 +5,10 @@ import { LoginForm } from "@/components/login-form";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, useState } from "react";
 import useSWR from "swr";
-import { z } from "zod";
 
 const fetcher = (url: string) => fetch(url).then(r=>r.json());
 
-export default function() {
+export default function TransferPage() {
 
     const [loggedIn, setLoggedIn] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -17,7 +16,7 @@ export default function() {
     
     const searchParams = useSearchParams();
     const token = searchParams.get("token");
-    const { data, error, isLoading } = useSWR(`/api/v1/payments/verify?token=${token}`,fetcher);
+    const { data, isLoading } = useSWR(`/api/v1/payments/verify?token=${token}`,fetcher);
 
 
     const onLoginSubmit = async (e: FormEvent) => {

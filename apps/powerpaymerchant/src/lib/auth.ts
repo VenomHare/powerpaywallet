@@ -1,6 +1,5 @@
 import { AuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import { JWT } from "next-auth/jwt";
 
 // Extend the built-in session types
 declare module "next-auth" {
@@ -21,7 +20,7 @@ export const authOptions : AuthOptions = {
             clientSecret: process.env.GOOGLE_CLIENT_SECRET || ""
         })
     ],
-    secret: process.env.NEXTAUTH_SECRET || "secret",
+    secret: process.env.MERCHANT_AUTH_SECRET || "secret",
     pages: {
         signIn: '/auth/signin',
     },

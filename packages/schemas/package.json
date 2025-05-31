@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "lint": "eslint . --max-warnings 0"
+  },
   "exports": {
-    "./webhook":"./src/webhook/index.ts"
+    "./webhook": "./src/webhook/index.ts"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +16,8 @@
     "zod": "^3.25.36"
   },
   "devDependencies": {
-    "@powerpaywallet/typescript-config":"workspace:*"
+    "@powerpaywallet/typescript-config": "workspace:*",
+    "@powerpaywallet/eslint-config": "workspace:*",
+    "eslint": "^9.26.0"
   }
 }

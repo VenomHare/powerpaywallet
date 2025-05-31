@@ -7,7 +7,8 @@
     "generate": "prisma generate",
     "migrate": "prisma migrate dev --skip-generate",
     "deploy": "prisma migrate deploy",
-    "studio": "prisma studio"
+    "studio": "prisma studio",
+    "build": "tsc"
   },
   "exports": {
     ".": "./src/index.ts",

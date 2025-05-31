@@ -21,7 +21,10 @@ export const GET = async (req: NextRequest) => {
     try {
         await fetch(url, {
             method:"POST",
-            body: JSON.stringify(body)
+            body: JSON.stringify(body),
+            headers: {
+                "Authorization": process.env.WEBHOOK_SECRET||""
+            }
         })
     }
     catch(err)
