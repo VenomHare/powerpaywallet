@@ -5,7 +5,6 @@ import { LoginForm } from "@/components/login-form";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, useState } from "react";
 import useSWR from "swr";
-import { z } from "zod";
 
 const fetcher = (url: string) => fetch(url).then(r=>r.json());
 

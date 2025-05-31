@@ -1,5 +1,5 @@
 import { mockPaymentStorage } from "@/lib/MockPaymentStorage";
-import { MockPayment, MockPaymentStore, MockPaymentTokenRequest } from "@powerpaywallet/schemas/webhook";
+import { MockPayment, MockPaymentTokenRequest } from "@powerpaywallet/schemas/webhook";
 import { NextRequest, NextResponse } from "next/server";
 
 function generatePaymentToken(length = 24) {
@@ -41,8 +41,3 @@ export const POST = async (req: NextRequest) => {
         url: `${hostname}/netbanking/transfer?token=${payment.token}`
     })
 }
-
-export const getPaymentByToken = (token: string) => {
-    return mockPaymentStorage.get(token);
-}
-

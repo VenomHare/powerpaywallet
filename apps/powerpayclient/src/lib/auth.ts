@@ -1,6 +1,6 @@
 import Credentials from "next-auth/providers/credentials"
 import bcrypt from "bcrypt";
-import { prisma } from "@powerpaywallet/db";
+import { prisma } from "@powerpaywallet/db/client";
 
 export const authOptions = {
     providers: [
