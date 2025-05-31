@@ -1,10 +1,10 @@
 "use client";
-import { CircleCheckBig, TriangleAlert } from "lucide-react";
+import { CircleCheckBig } from "lucide-react";
 import { useEffect, useState } from "react";
 
-export default function(){
+export default function SuccessPage(){
 
-    const [timer, setTimer] = useState(15);
+    const [timer, setTimer] = useState(10);
 
     useEffect(()=>{
         if (timer <= 0) {

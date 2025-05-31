@@ -2,7 +2,7 @@
 import { TriangleAlert } from "lucide-react";
 import { useEffect, useState } from "react";
 
-export default function(){
+export default function FailPage(){
 
     const [timer, setTimer] = useState(15);
 

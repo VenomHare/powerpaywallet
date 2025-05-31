@@ -1,8 +1,8 @@
 import React, { Suspense } from "react"
 
-export default ({children}:{
+export default function TransferLayout({children}:{
     children: React.ReactNode
-}) => {
+}){
     return (<>
         <Suspense>
             {children}  

@@ -7,10 +7,13 @@
     "build": "tsc",
     "dev": "tsc && pnpm start",
     "start": "ts-node src/index.ts",
-    "reset": "rm -rf node_modules && rm -rf dist"
+    "reset": "rm -rf node_modules && rm -rf dist",
+    "lint": "eslint . --max-warnings 0"
   },
   "devDependencies": {
     "@powerpaywallet/typescript-config": "workspace:*",
+    "@powerpaywallet/eslint-config": "workspace:*",
+    "eslint": "^9.26.0",
     "@types/express": "^5.0.2",
     "typescript": "^5.8.3"
   },

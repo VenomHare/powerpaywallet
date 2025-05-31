@@ -11,7 +11,7 @@ function generatePaymentToken(length = 24) {
     return token;
 }
 
-const hostname = process.env.HOST || "http://localhost:3003"
+const hostname = process.env.BANK_HOSTNAME || "http://localhost:3003"
 
 export const POST = async (req: NextRequest) => {
     const { success, data, error } = MockPaymentTokenRequest.safeParse(await req.json());

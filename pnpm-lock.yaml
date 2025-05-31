@@ -293,9 +293,15 @@ importers:
         specifier: ^3.25.36
         version: 3.25.36
     devDependencies:
+      '@powerpaywallet/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
       '@powerpaywallet/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
+      eslint:
+        specifier: ^9.26.0
+        version: 9.26.0(jiti@2.4.2)
 
   packages/store:
     dependencies:
@@ -308,6 +314,13 @@ importers:
       react-redux:
         specifier: ^9.2.0
         version: 9.2.0(@types/react@19.1.0)(react@19.1.0)(redux@5.0.1)
+    devDependencies:
+      '@powerpaywallet/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      eslint:
+        specifier: ^9.26.0
+        version: 9.26.0(jiti@2.4.2)
 
   packages/typescript-config: {}
 

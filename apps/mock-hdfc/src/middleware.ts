@@ -14,7 +14,7 @@ export async function middleware(request: NextRequest) {
             );
         }
         // process token
-        if (token === process.env.SECRET) {
+        if (token === process.env.BANK_SECRET) {
             return NextResponse.next();
         }
         return NextResponse.json(

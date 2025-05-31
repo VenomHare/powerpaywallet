@@ -5,11 +5,11 @@ import { MockPaymentSchema } from "@powerpaywallet/schemas/webhook"
 import { mockPowerPayRequestValidation } from "./middleware";
 
 dotenv.config();
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.WEBHOOK_PORT || 3002;
 
 const app = express();
 app.use(express.json())
-app.use((req, res, next) => {
+app.use((req, _, next) => {
     console.log([req.method, JSON.stringify(req.url), JSON.stringify(req.body)].join(" "));
     next();
 })
@@ -73,7 +73,7 @@ v1Router.post("/mock/powerpay/success", mockPowerPayRequestValidation, async (re
             });
         }
         catch (err) {
-            console.error("Failed to update payment status to \"Failed\"")
+            console.error("Failed to update payment status to \"Failed\"", err);
         }
         res.status(411).json({
             message: "Error while processing Webhook Request"
@@ -104,7 +104,7 @@ v1Router.post("/mock/powerpay/failure", mockPowerPayRequestValidation, (req, res
         res.json({ message: "recorded" });
     }
     catch (err) {
-        console.error("Failed to update payment status to \"Failed\"")
+        console.error("Failed to update payment status to \"Failed\"", err);
         res.status(500).json({ message: "Failed to record the failed payment" })
     }
 
