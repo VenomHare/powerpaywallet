@@ -7,7 +7,9 @@
     "dev": "next dev --turbopack --port 3003",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "vitest run",
+    "test:dev": "vitest"
   },
   "dependencies": {
     "@powerpaywallet/schemas": "workspace:*",
@@ -23,7 +25,9 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "node-mocks-http": "^1.17.2",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^3.1.4"
   }
 }

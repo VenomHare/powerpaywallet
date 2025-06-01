@@ -6,6 +6,7 @@ export async function middleware(request: NextRequest) {
 
     if (pathname.startsWith("/api/v1")) {
         const token = request.headers.get('authorization')?.replace("Bearer ", "");
+        console.log(token, process.env.BANK_SECRET);
         
         if (!token) {
             return NextResponse.json(
