@@ -8,30 +8,32 @@ dotenv.config();
 const PORT = process.env.WEBHOOK_PORT || 3002;
 
 const app = express();
-app.use(express.json())
+app.use(express.json());
 app.use((req, _, next) => {
-    console.log([req.method, JSON.stringify(req.url), JSON.stringify(req.body)].join(" "));
+    console.log([req.method, req.url, JSON.stringify(req.body)].join(" "));
     next();
 })
 
 
 const v1Router = Router();
-
 v1Router.post("/mock/powerpay/success", mockPowerPayRequestValidation, async (req, res) => {
 
-    const { success } = MockPaymentSchema.safeParse(req.body);
+    console.log(req.body);
+    const { success, data, error } = MockPaymentSchema.safeParse(req.body);
+
 
     if (!success) {
         res.status(411).json({
-            message: "Invalid Parameters"
+            message: "Invalid Parameters",
+            error
         })
         return;
     }
 
     const paymentInformation = {
-        token: req.body.token,
-        userId: req.body.user_identifier,
-        amount: req.body.amount
+        token: data.token,
+        userId: data.user_identifier,
+        amount: data.amount
     }
 
     try {

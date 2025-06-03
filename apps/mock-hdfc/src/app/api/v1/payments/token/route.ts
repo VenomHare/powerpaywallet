@@ -52,7 +52,6 @@ const hostname = process.env.BANK_HOSTNAME || "http://localhost:3003"
  */
 export const POST = async (req: NextRequest) => {
     const { success, data, error } = MockPaymentTokenRequest.safeParse(await req.json());
-    
     if (!success) {
         return NextResponse.json({
             message: "Invalid Parameters",
@@ -67,11 +66,9 @@ export const POST = async (req: NextRequest) => {
         user_identifier: data.user_identifier,
         amount: data.amount,
         status: "processing",
-        redirect_uri: data.redirect_uri
     }
 
     mockPaymentStorage.add(payment);
-    console.log("added", mockPaymentStorage.getAll());
 
     return NextResponse.json({
         token: payment.token,

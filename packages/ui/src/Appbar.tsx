@@ -17,7 +17,7 @@ export const Appbar = ({
     onSignout
 }: AppbarProps) => {
     return <div className="flex w-svw bg-slate-500 px-[10%] py-2 justify-between border-b px-4">
-        <div className="text-3xl font-bold flex flex-col justify-center italic">
+        <div className="text-3xl font-medium flex flex-col justify-center italic">
             PowerPay
         </div>
         <div className="flex flex-col justify-center pt-2">

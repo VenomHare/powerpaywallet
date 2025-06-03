@@ -44,7 +44,6 @@ describe('/api/v1/payments/verify', () => {
             user_identifier: 13,
             amount: 1000,
             status: "processing",
-            redirect_uri: "https://example.com/callback"
         };
         mockPaymentStorage.add(payment);
 

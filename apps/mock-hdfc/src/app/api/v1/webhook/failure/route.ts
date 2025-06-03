@@ -32,4 +32,7 @@ export const GET = async (req: NextRequest) => {
         console.log(err);
     }
     mockPaymentStorage.set({...payment, status:"completed"});
+    return NextResponse.json({
+        message: "Sent"
+    })
 } 

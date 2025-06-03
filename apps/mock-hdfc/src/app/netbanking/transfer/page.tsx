@@ -29,13 +29,18 @@ export default function TransferPage() {
 
     const success = async () => {
         setLoading(true);
-        fetch(`/api/v1/webhook/success?token=${token}`);
+        const req = await fetch(`/api/v1/webhook/success?token=${token}`);
         setLoading(false);
-        router.push("/netbanking/transfer/success");
+        if (req.ok) {
+            router.push("/netbanking/transfer/success");
+        }
+        else{
+            router.push("/netbanking/transfer/fail"); 
+        }
     }
     const failure = async () => {
         setLoading(true);
-        fetch(`/api/v1/webhook/failure?token=${token}`);
+        await fetch(`/api/v1/webhook/failure?token=${token}`);
         setLoading(false);
         router.push("/netbanking/transfer/fail"); 
     }
@@ -59,10 +64,10 @@ export default function TransferPage() {
             <div className="w-full h-fit min-h-20 rounded-xl shadow-xl border border-slate-300 flex flex-col items-center gap-2 p-2 bg-slate-700 text-slate-200">
                 <h2 className="text-xl">Money Transfer</h2>
                 <div className="flex gap-1">
-                    <p className="text-slate-400">Transfer Amount:</p><p className="font-semibold ">{data.amount} INR </p>
+                    <p className="text-slate-400">Transfer Amount:</p><p className="font-semibold "> ₹{data.amount/100}</p>
                 </div>
                 <div className="flex gap-1">
-                    <p className="text-slate-400">Beneficiary Name:</p><p className="font-semibold ">PowerPayWallet </p>
+                    <p className="text-slate-400">Beneficiary Name:</p><p className="font-semibold ">PowerPayWallet</p>
                 </div>
             </div>
             {

@@ -9,7 +9,8 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
     "db:migrate": "cd ./packages/db && pnpm migrate",
-    "db:generate": "cd ./packages/db && pnpm generate"
+    "db:generate": "cd ./packages/db && pnpm generate",
+    "studio": "cd ./packages/db && pnpm studio"
   },
   "devDependencies": {
     "prettier": "^3.5.3",
