@@ -32,9 +32,9 @@ import { mockPaymentStorage } from "@/lib/MockPaymentStorage";
  */
 export const GET = (req: NextRequest) => {
     const token = req.nextUrl.searchParams.get("token");
-    const data = mockPaymentStorage.get(token || "");
     console.log(mockPaymentStorage.getAll());
-    if (data){
+    const data = mockPaymentStorage.get(token || "");
+    if (data && data.status == "processing"){
         return NextResponse.json(data);
     }
     else{

@@ -2,6 +2,7 @@ import Credentials from "next-auth/providers/credentials"
 import bcrypt from "bcrypt";
 import { prisma } from "@powerpaywallet/db/client";
 
+
 export const authOptions = {
     providers: [
         Credentials({
@@ -43,6 +44,12 @@ export const authOptions = {
                         }
                     })
 
+                    await prisma.balance.create({
+                        data: {
+                            userId: user.id,
+                        }
+                    })
+
                     return {
                         id: user.id.toString(),
                         name: user.name,
@@ -66,3 +73,4 @@ export const authOptions = {
         }
     }
 }
+

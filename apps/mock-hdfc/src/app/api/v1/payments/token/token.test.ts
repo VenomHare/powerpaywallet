@@ -32,7 +32,6 @@ describe('/api/v1/payments/token', () => {
         const validPayload = {
             user_identifier: 13,
             amount: 1000,
-            redirect_uri: "https://example.com/callback"
         };
 
         const { req } = createMocks({
@@ -62,7 +61,6 @@ describe('/api/v1/payments/token', () => {
         expect(storedPayments[0]).toMatchObject({
             user_identifier: validPayload.user_identifier,
             amount: validPayload.amount,
-            redirect_uri: validPayload.redirect_uri,
             status: "processing"
         });
     });

@@ -7,7 +7,8 @@
     "lint": "eslint . --max-warnings 0"
   },
   "exports": {
-    "./webhook": "./src/webhook/index.ts"
+    "./webhook": "./src/webhook/index.ts",
+    "./client": "./src/client/index.ts"
   },
   "keywords": [],
   "author": "",

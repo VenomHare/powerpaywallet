@@ -5942,7 +5942,6 @@ export namespace Prisma {
   export type OnRampTransactionWhereUniqueInput = Prisma.AtLeast<{
     id?: number
     token?: string
-    userId?: number
     AND?: OnRampTransactionWhereInput | OnRampTransactionWhereInput[]
     OR?: OnRampTransactionWhereInput[]
     NOT?: OnRampTransactionWhereInput | OnRampTransactionWhereInput[]
@@ -5950,8 +5949,9 @@ export namespace Prisma {
     provider?: StringFilter<"OnRampTransaction"> | string
     amount?: IntFilter<"OnRampTransaction"> | number
     startTime?: DateTimeFilter<"OnRampTransaction"> | Date | string
+    userId?: IntFilter<"OnRampTransaction"> | number
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }, "id" | "token" | "userId">
+  }, "id" | "token">
 
   export type OnRampTransactionOrderByWithAggregationInput = {
     id?: SortOrder
@@ -6138,7 +6138,7 @@ export namespace Prisma {
     token: string
     provider: string
     amount: number
-    startTime: Date | string
+    startTime?: Date | string
     user: UserCreateNestedOneWithoutOnRampTransactionInput
   }
 
@@ -6148,7 +6148,7 @@ export namespace Prisma {
     token: string
     provider: string
     amount: number
-    startTime: Date | string
+    startTime?: Date | string
     userId: number
   }
 
@@ -6177,7 +6177,7 @@ export namespace Prisma {
     token: string
     provider: string
     amount: number
-    startTime: Date | string
+    startTime?: Date | string
     userId: number
   }
 
@@ -6883,7 +6883,7 @@ export namespace Prisma {
     token: string
     provider: string
     amount: number
-    startTime: Date | string
+    startTime?: Date | string
   }
 
   export type OnRampTransactionUncheckedCreateWithoutUserInput = {
@@ -6892,7 +6892,7 @@ export namespace Prisma {
     token: string
     provider: string
     amount: number
-    startTime: Date | string
+    startTime?: Date | string
   }
 
   export type OnRampTransactionCreateOrConnectWithoutUserInput = {
@@ -7072,7 +7072,7 @@ export namespace Prisma {
     token: string
     provider: string
     amount: number
-    startTime: Date | string
+    startTime?: Date | string
   }
 
   export type BalanceUpdateWithoutUserInput = {
