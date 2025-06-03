@@ -8,9 +8,6 @@ import { getTokenURL } from "../../../../../lib/utils";
 import { prisma } from "@powerpaywallet/db/client";
 
 const BANK_SECRET = process.env.BANK_SECRET;
-if (!BANK_SECRET) {
-    throw new Error("[ENV VARS]: BANK SECRET NOT FOUNT");
-}
 
 export const POST = async (req: NextRequest) => {
 
@@ -40,6 +37,10 @@ export const POST = async (req: NextRequest) => {
             const body: MockPaymentTokenSchema = {
                 user_identifier: session?.user.id,
                 amount: data.amount
+            }
+
+            if (!BANK_SECRET) {
+                throw new Error("[ENV VARS]: BANK SECRET NOT FOUNT");
             }
 
             const req = await axios.post(getTokenURL(data.provider), body, {
