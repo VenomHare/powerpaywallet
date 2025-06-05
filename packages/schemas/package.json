@@ -8,7 +8,8 @@
   },
   "exports": {
     "./webhook": "./src/webhook/index.ts",
-    "./client": "./src/client/index.ts"
+    "./client": "./src/client/index.ts",
+    ".": "./src/index.ts"
   },
   "keywords": [],
   "author": "",

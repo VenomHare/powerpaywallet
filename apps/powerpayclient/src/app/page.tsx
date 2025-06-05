@@ -4,22 +4,21 @@
 // import { decrement, increment } from "@powerpaywallet/store/slices";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { Appbar } from "@powerpaywallet/ui/appbar";
+import { Sidebar } from "@powerpaywallet/ui/Sidebar";
+import { useSidebarConfig } from "../hooks/useSidebar";
 
 export default function Home() {
   // const count = useSelector((state: RootState) => state.counter.value);
   // const dispatch = useDispatch();
 
-  const session = useSession();
 
   return (
     <>
-      <Appbar onSignin={signIn} onSignout={signOut} user={session.data?.user} />
-      <div>
-        {
-          session.data?.user ? 
-            <div className="text-3xl bg-purple-400">Hello {session.data.user.name}</div> :
-            <div className="text-3xl bg-purple-400">Hello Client!</div>
-        }
+          <Appbar />
+        <div>
+          {
+              <div className="text-3xl bg-purple-400">Hello Client!</div>
+          }
       </div>
     </>
   );

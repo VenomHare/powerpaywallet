@@ -1,2 +1,12 @@
-@import "tailwindcss"  source("./../../../../packages/ui/src");
-@source "./../app"
+@import "tailwindcss";
+@source "./../../../../packages/ui/src";
+@source "./../app";
+
+@plugin "tailwind-scrollbar";
+
+:root {
+    --primary: var(--color-slate-800);
+    --secondary: var(--color-violet-800);
+    --background: var(--color-slate-800);
+    --foreground: var(--color-slate-200);
+}
