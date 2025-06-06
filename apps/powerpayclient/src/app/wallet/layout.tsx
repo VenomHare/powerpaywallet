@@ -5,6 +5,7 @@ import { Sidebar } from "@powerpaywallet/ui/sidebar";
 import { Appbar } from "@powerpaywallet/ui/appbar";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { Providers } from "../../components/providers";
+import { AlertContainer } from "../../components/alerts";
 
 interface Props {
     children: React.ReactNode

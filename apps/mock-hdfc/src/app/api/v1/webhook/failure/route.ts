@@ -13,14 +13,14 @@ export const GET = async (req: NextRequest) => {
         })
     }
     const url = process.env.FAILURE_WEBHOOK_URL || "";
-    const body : z.infer<typeof MockPaymentSchema> = {
+    const body = {
         amount: payment.amount,
         user_identifier: payment.user_identifier,
         token: payment.token
     }
     try {
         await fetch(url, {
-            method:"POST",
+            method: "POST",
             body: JSON.stringify(body),
             headers:{ 
                 "Authorization": process.env.WEBHOOK_SECRET||""

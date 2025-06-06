@@ -145,9 +145,11 @@ exports.Prisma.BalanceScalarFieldEnum = {
 exports.Prisma.OnRampTransactionScalarFieldEnum = {
   id: 'id',
   onRampStatus: 'onRampStatus',
+  Statement: 'Statement',
   token: 'token',
   provider: 'provider',
   amount: 'amount',
+  transactionType: 'transactionType',
   startTime: 'startTime',
   userId: 'userId'
 };
@@ -175,6 +177,11 @@ exports.OnRampStatus = exports.$Enums.OnRampStatus = {
   Success: 'Success',
   Failure: 'Failure',
   Processing: 'Processing'
+};
+
+exports.TransactionType = exports.$Enums.TransactionType = {
+  Debit: 'Debit',
+  Credit: 'Credit'
 };
 
 exports.Prisma.ModelName = {

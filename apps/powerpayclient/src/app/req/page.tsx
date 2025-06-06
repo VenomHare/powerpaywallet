@@ -1,6 +1,6 @@
 "use client";
 import { Appbar } from "@powerpaywallet/ui/appbar";
-import { signIn, signOut } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { FormEvent, useState } from "react";
 import axios, { AxiosError, AxiosResponse } from "axios";
 
@@ -13,12 +13,13 @@ type Result = {
 }
 
 export default function Req(){
-
+    
     const [url, setURL] = useState("http://localhost:3001/api/");
     const [json, setJson] = useState("");
     const [method, setMethod] = useState<"POST"|"GET">("POST");
     const [result, setResult] = useState<Result>();
-
+    
+    const session = useSession();
 
     const SendReq = async (e: FormEvent) => {
         e.preventDefault();
@@ -47,7 +48,7 @@ export default function Req(){
     }
 
     return(<>
-        <Appbar onSignin={signIn} onSignout={signOut} />
+        <Appbar onSignin={signIn} onSignout={signOut} user={session.data?.user} />
         <div className="w-full flex justify-center">
             <form onSubmit={SendReq} className="flex flex-col w-[90%] md:w-2/3 lg:w-1/2 gap-2">
                 <label htmlFor="url" >URL</label>

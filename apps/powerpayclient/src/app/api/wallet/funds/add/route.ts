@@ -55,7 +55,9 @@ export const POST = async (req: NextRequest) => {
                     provider: data.provider,
                     userId: session.user.id,
                     onRampStatus: "Processing",
-                    amount: data.amount
+                    amount: data.amount,
+                    transactionType: "Credit",
+                    Statement: "Added money to wallet"
                 }
             })
 

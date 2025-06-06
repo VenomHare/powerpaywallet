@@ -1,6 +1,7 @@
 import Credentials from "next-auth/providers/credentials"
 import bcrypt from "bcrypt";
 import { prisma } from "@powerpaywallet/db/client";
+import { NextRequest } from "next/server";
 
 
 export const authOptions = {
@@ -70,7 +71,7 @@ export const authOptions = {
             session.user.id = token.sub;
 
             return session
-        }
+        },
     }
 }
 
