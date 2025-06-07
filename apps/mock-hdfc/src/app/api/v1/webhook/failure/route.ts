@@ -23,7 +23,8 @@ export const GET = async (req: NextRequest) => {
             method: "POST",
             body: JSON.stringify(body),
             headers:{ 
-                "Authorization": process.env.WEBHOOK_SECRET||""
+                "Authorization": process.env.WEBHOOK_SECRET||"",
+                "Content-Type": "application/json"
             }
         })
     }

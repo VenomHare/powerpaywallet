@@ -1,27 +1,42 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+
 export interface Alert {
-    key: number,
+    key: number
     text: string
-    type: 'none' | 'success' | 'error' | 'info'
+    type?: 'none' | 'success' | 'error' | 'info'
 }
 
-const initialState : { alerts: Array<Alert>} = {
-    alerts: []
+export interface AlertsState {
+    alerts: Array<Alert>
+    removedAlerts: Array<Alert>
+}
+
+const initialState: AlertsState = {
+    alerts: [],
+    removedAlerts: []
 }
 
 const alertSlice = createSlice({
     name: 'alerts',
     initialState,
     reducers: {
-        showAlert: (state, action) => { 
-            const key = Date.now();
-            state.alerts.push({...action.payload, key});
-            setTimeout(()=>{
-                state.alerts = state.alerts.filter(a=> a.key !== key);
-            },3000);
-        }
-    }
+        showAlert: (state, action: PayloadAction<Alert>) => {
+            state.alerts.push(action.payload)
+        },
+        removeAlertFromScreen: (state, action: PayloadAction<number>) => {
+            const alert = state.alerts.find(a => action.payload == a.key);
+            if (alert) {
+                state.removedAlerts.push(alert);
+            }
+        },
+        removeAlert: (state, action: PayloadAction<number>) => {
+            state.alerts = state.alerts.filter(a => a.key !== action.payload)
+        },
+        clearScreenAlert: (state, action: PayloadAction<number>) => {
+            state.removedAlerts = state.alerts.filter(a => a.key !== action.payload)
+        },
+    },
 })
 
-export const { showAlert} = alertSlice.actions
+export const { showAlert, removeAlert, removeAlertFromScreen, clearScreenAlert } = alertSlice.actions
 export default alertSlice.reducer

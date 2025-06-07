@@ -17,6 +17,7 @@ export default function Layout({ children }: Props) {
             <Providers>
                 <SubLayout>
                     {children}
+                    <AlertContainer/>
                 </SubLayout>
             </Providers>
         </>

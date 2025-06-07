@@ -35,6 +35,9 @@ export const GET = async (): Promise<NextResponse> => {
         const transaction = await prisma.onRampTransaction.findMany({
             where: {
                 userId: session.user.id
+            },
+            orderBy: {
+                upatedAt: "desc"
             }
         });
 

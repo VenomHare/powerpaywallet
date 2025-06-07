@@ -13,7 +13,7 @@
 
 @theme {
     --color-primary: var(--color-slate-800);
-    --animate-alertin: AlertIn 500ms ease-in-out forwards;
+    --animate-alertin: AlertIn 200ms ease-in-out forwards;
     --animate-alertout: AlertOut 500ms ease-in-out forwards;
 }
 
@@ -31,6 +31,6 @@
         transform: translateY(0%);
     }
     to {
-        transform: translate(0, 100%);
+        transform: translate(0, 1000%);
     }
 }

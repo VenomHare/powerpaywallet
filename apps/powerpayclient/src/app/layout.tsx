@@ -6,6 +6,7 @@ import "./inline.css";
 import { Providers } from "../components/providers";
 import { Appbar } from "@powerpaywallet/ui/appbar";
 import { signIn, signOut, useSession } from "next-auth/react";
+import { AlertContainer } from "../components/alerts";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",

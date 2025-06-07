@@ -1,12 +1,13 @@
 "use client";
 import React, { FormEvent, useEffect, useState } from 'react'
-import { History } from "lucide-react"
+import { History, RefreshCcw } from "lucide-react"
 import { addFundsRequestSchema, BANKSERVERS, Transaction } from '@powerpaywallet/schemas/client';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@powerpaywallet/store';
 import { showAlert, update } from '@powerpaywallet/store/slices';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import axios, { AxiosError } from 'axios';
+import { alert } from '../../components/alerts';
 
 const ADD_MONEY_BUTTONS = [50, 100, 250, 500, 1000]
 
@@ -45,9 +46,22 @@ const WalletPage = () => {
                 `width=${w},height=${h},left=${left},top=${top}`
             );
             appDispatch(update());
+            alert(appDispatch, `Complete the Payment in Popped Up window to procced`, "info", {
+                duration: 10000
+            });
+
         }
         catch (err) {
-            alert(err instanceof AxiosError && JSON.stringify(err.response?.data));
+            if (err instanceof AxiosError) {
+                alert(appDispatch, `${err.response?.data.message}`, "error", {
+                    duration: 3000
+                });
+            }
+            else {
+                alert(appDispatch, `Something Went Wrong`, "error", {
+                    duration: 3000
+                });
+            }
         }
 
     }
@@ -58,7 +72,12 @@ const WalletPage = () => {
 
     return (
         <div className='w-full min-h-[85svh] p-10 flex flex-col gap-5'>
-            <div className="text-4xl h-[20%] w-full font-[Manrope] font-bold">Wallet</div>
+            <div className='w-full flex justify-between px-5'>
+                <h1 className="text-4xl h-[20%] w-full font-[Manrope] font-bold">Wallet</h1>
+                <button onClick={()=>{appDispatch(update())}} className='px-5 rounded-md cursor-pointer flex gap-2 items-center justify-center bg-slate-800 text-slate-100 text-md'>
+                    <RefreshCcw size={20} /> Refresh
+                </button>
+            </div>
             <div className="w-full flex gap-4">
                 <div className="w-1/3 flex flex-col gap-5">
                     <div className="min-h-[10svh] h-auto w-full rounded-xl shadow-lg shadow-slate-400 border border-slate-400 p-5 flex flex-col gap-2">
@@ -153,7 +172,7 @@ const WalletPage = () => {
                                     Looks like you haven't made any transactions yet
                                 </div>
                                 :
-                                <div className="w-full h-full flex flex-col-reverse text-lg text-slate-500 font-[Manrope] gap-2 overflow-auto scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-slate-700 scrollbar-track-slate-300">
+                                <div className="w-full h-full flex flex-col text-lg text-slate-500 font-[Manrope] gap-2 overflow-auto scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-slate-700 scrollbar-track-slate-300">
                                     {
                                         transactions.map((tx, i) => (i <= 10) &&
                                             <OnRampTransaction transaction={tx} key={tx.id} />

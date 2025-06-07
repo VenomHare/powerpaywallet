@@ -69,8 +69,7 @@ export const POST = async (req: NextRequest) => {
             if (err instanceof AxiosError) {
                 return NextResponse.json({
                     "error": "Bad Gateway",
-                    "message": "Bank server did not respond successfully.",
-                    "suggestion": "Please try again later or contact support if the issue persists."
+                    "message": "Bank server did not respond. Please try again later or contact support if the issue persists.",
                 }, {
                     status: 502
                 })

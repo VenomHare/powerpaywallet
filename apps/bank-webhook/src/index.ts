@@ -53,7 +53,8 @@ v1Router.post("/mock/powerpay/success", mockPowerPayRequestValidation, async (re
                     token: paymentInformation.token
                 },
                 data: {
-                    onRampStatus: "Success"
+                    onRampStatus: "Success",
+                    upatedAt: new Date()
                 }
             })
         ]);
@@ -70,7 +71,8 @@ v1Router.post("/mock/powerpay/success", mockPowerPayRequestValidation, async (re
                     token: paymentInformation.token
                 },
                 data: {
-                    onRampStatus: "Failure"
+                    onRampStatus: "Failure",
+                    upatedAt: new Date()
                 }
             });
         }
@@ -100,7 +102,8 @@ v1Router.post("/mock/powerpay/failure", mockPowerPayRequestValidation, async (re
                 token: data.token
             },
             data: {
-                onRampStatus: "Failure"
+                onRampStatus: "Failure",
+                upatedAt: new Date()
             }
         });
         console.log(update);

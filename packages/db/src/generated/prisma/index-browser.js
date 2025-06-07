@@ -151,6 +151,7 @@ exports.Prisma.OnRampTransactionScalarFieldEnum = {
   amount: 'amount',
   transactionType: 'transactionType',
   startTime: 'startTime',
+  upatedAt: 'upatedAt',
   userId: 'userId'
 };
 
