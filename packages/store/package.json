@@ -11,12 +11,14 @@
     "./slices": "./src/slices/index.ts"
   },
   "dependencies": {
-    "@powerpaywallet/typescript-config": "workspace:*",
     "@reduxjs/toolkit": "^2.8.1",
+    "axios": "^1.9.0",
     "react-redux": "^9.2.0"
   },
   "devDependencies": {
     "@powerpaywallet/eslint-config": "workspace:*",
+    "@powerpaywallet/schemas": "workspace:*",
+    "@powerpaywallet/typescript-config": "workspace:*",
     "eslint": "^9.26.0"
   },
   "keywords": [],

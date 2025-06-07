@@ -8,12 +8,14 @@
   },
   "exports": {
     "./webhook": "./src/webhook/index.ts",
-    "./client": "./src/client/index.ts"
+    "./client": "./src/client/index.ts",
+    ".": "./src/index.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@powerpaywallet/db": "workspace:*",
     "zod": "^3.25.36"
   },
   "devDependencies": {

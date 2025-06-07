@@ -55,7 +55,9 @@ export const POST = async (req: NextRequest) => {
                     provider: data.provider,
                     userId: session.user.id,
                     onRampStatus: "Processing",
-                    amount: data.amount
+                    amount: data.amount,
+                    transactionType: "Credit",
+                    Statement: "Added money to wallet"
                 }
             })
 
@@ -67,8 +69,7 @@ export const POST = async (req: NextRequest) => {
             if (err instanceof AxiosError) {
                 return NextResponse.json({
                     "error": "Bad Gateway",
-                    "message": "Bank server did not respond successfully.",
-                    "suggestion": "Please try again later or contact support if the issue persists."
+                    "message": "Bank server did not respond. Please try again later or contact support if the issue persists.",
                 }, {
                     status: 502
                 })

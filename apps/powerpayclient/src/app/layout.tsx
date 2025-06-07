@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Manrope } from 'next/font/google'
 import "./globals.css";
-import { Providers } from "../components/providers";
+import "./inline.css";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -11,6 +12,10 @@ const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
 });
+const ManropeSanSerif = Manrope({
+  variable: "--font-manrope",
+  subsets: ["latin"],
+})
 
 export const metadata: Metadata = {
   title: "PowerPay Wallet",
@@ -22,12 +27,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <Providers>
-          {children}
-        </Providers>
+      <body className={`${geistSans.variable} ${geistMono.variable} ${ManropeSanSerif.variable}`}>
+        {children}
       </body>
     </html>
   );

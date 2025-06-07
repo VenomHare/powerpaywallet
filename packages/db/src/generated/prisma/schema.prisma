@@ -32,22 +32,25 @@ model Merchant {
 }
 
 model Balance {
-  id     Int     @id @default(autoincrement())
-  userId Int     @unique
-  amount Int     @default(0)
-  locked Boolean @default(false)
-  user   User    @relation(fields: [userId], references: [id])
+  id     Int  @id @default(autoincrement())
+  userId Int  @unique
+  amount Int  @default(0)
+  locked Int  @default(0)
+  user   User @relation(fields: [userId], references: [id])
 }
 
 model OnRampTransaction {
-  id           Int          @id @default(autoincrement())
-  onRampStatus OnRampStatus
-  token        String       @unique
-  provider     String
-  amount       Int
-  startTime    DateTime     @default(now())
-  userId       Int
-  user         User         @relation(fields: [userId], references: [id])
+  id              Int             @id @default(autoincrement())
+  onRampStatus    OnRampStatus
+  Statement       String
+  token           String          @unique
+  provider        String
+  amount          Int
+  transactionType TransactionType
+  startTime       DateTime        @default(now())
+  upatedAt        DateTime        @default(now())
+  userId          Int
+  user            User            @relation(fields: [userId], references: [id])
 }
 
 enum AuthType {
@@ -59,4 +62,9 @@ enum OnRampStatus {
   Success
   Failure
   Processing
+}
+
+enum TransactionType {
+  Debit
+  Credit
 }

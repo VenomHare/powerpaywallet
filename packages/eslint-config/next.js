@@ -45,7 +45,8 @@ export const nextJsConfig = [
       // React scope no longer necessary with new JSX transform.
       "react/react-in-jsx-scope": "off",
       "@typescript-eslint/no-explicit-any": "off",
-      "turbo/no-undeclared-env-vars": "error"
+      "turbo/no-undeclared-env-vars": "error",
+      "react/no-unescaped-entities": "off"
     },
   },
 ];

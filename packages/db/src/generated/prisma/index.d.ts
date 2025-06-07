@@ -54,6 +54,14 @@ export const OnRampStatus: {
 
 export type OnRampStatus = (typeof OnRampStatus)[keyof typeof OnRampStatus]
 
+
+export const TransactionType: {
+  Debit: 'Debit',
+  Credit: 'Credit'
+};
+
+export type TransactionType = (typeof TransactionType)[keyof typeof TransactionType]
+
 }
 
 export type AuthType = $Enums.AuthType
@@ -63,6 +71,10 @@ export const AuthType: typeof $Enums.AuthType
 export type OnRampStatus = $Enums.OnRampStatus
 
 export const OnRampStatus: typeof $Enums.OnRampStatus
+
+export type TransactionType = $Enums.TransactionType
+
+export const TransactionType: typeof $Enums.TransactionType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -3375,26 +3387,28 @@ export namespace Prisma {
     id: number | null
     userId: number | null
     amount: number | null
+    locked: number | null
   }
 
   export type BalanceSumAggregateOutputType = {
     id: number | null
     userId: number | null
     amount: number | null
+    locked: number | null
   }
 
   export type BalanceMinAggregateOutputType = {
     id: number | null
     userId: number | null
     amount: number | null
-    locked: boolean | null
+    locked: number | null
   }
 
   export type BalanceMaxAggregateOutputType = {
     id: number | null
     userId: number | null
     amount: number | null
-    locked: boolean | null
+    locked: number | null
   }
 
   export type BalanceCountAggregateOutputType = {
@@ -3410,12 +3424,14 @@ export namespace Prisma {
     id?: true
     userId?: true
     amount?: true
+    locked?: true
   }
 
   export type BalanceSumAggregateInputType = {
     id?: true
     userId?: true
     amount?: true
+    locked?: true
   }
 
   export type BalanceMinAggregateInputType = {
@@ -3530,7 +3546,7 @@ export namespace Prisma {
     id: number
     userId: number
     amount: number
-    locked: boolean
+    locked: number
     _count: BalanceCountAggregateOutputType | null
     _avg: BalanceAvgAggregateOutputType | null
     _sum: BalanceSumAggregateOutputType | null
@@ -3603,7 +3619,7 @@ export namespace Prisma {
       id: number
       userId: number
       amount: number
-      locked: boolean
+      locked: number
     }, ExtArgs["result"]["balance"]>
     composites: {}
   }
@@ -4031,7 +4047,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Balance", 'Int'>
     readonly userId: FieldRef<"Balance", 'Int'>
     readonly amount: FieldRef<"Balance", 'Int'>
-    readonly locked: FieldRef<"Balance", 'Boolean'>
+    readonly locked: FieldRef<"Balance", 'Int'>
   }
     
 
@@ -4473,30 +4489,39 @@ export namespace Prisma {
   export type OnRampTransactionMinAggregateOutputType = {
     id: number | null
     onRampStatus: $Enums.OnRampStatus | null
+    Statement: string | null
     token: string | null
     provider: string | null
     amount: number | null
+    transactionType: $Enums.TransactionType | null
     startTime: Date | null
+    upatedAt: Date | null
     userId: number | null
   }
 
   export type OnRampTransactionMaxAggregateOutputType = {
     id: number | null
     onRampStatus: $Enums.OnRampStatus | null
+    Statement: string | null
     token: string | null
     provider: string | null
     amount: number | null
+    transactionType: $Enums.TransactionType | null
     startTime: Date | null
+    upatedAt: Date | null
     userId: number | null
   }
 
   export type OnRampTransactionCountAggregateOutputType = {
     id: number
     onRampStatus: number
+    Statement: number
     token: number
     provider: number
     amount: number
+    transactionType: number
     startTime: number
+    upatedAt: number
     userId: number
     _all: number
   }
@@ -4517,30 +4542,39 @@ export namespace Prisma {
   export type OnRampTransactionMinAggregateInputType = {
     id?: true
     onRampStatus?: true
+    Statement?: true
     token?: true
     provider?: true
     amount?: true
+    transactionType?: true
     startTime?: true
+    upatedAt?: true
     userId?: true
   }
 
   export type OnRampTransactionMaxAggregateInputType = {
     id?: true
     onRampStatus?: true
+    Statement?: true
     token?: true
     provider?: true
     amount?: true
+    transactionType?: true
     startTime?: true
+    upatedAt?: true
     userId?: true
   }
 
   export type OnRampTransactionCountAggregateInputType = {
     id?: true
     onRampStatus?: true
+    Statement?: true
     token?: true
     provider?: true
     amount?: true
+    transactionType?: true
     startTime?: true
+    upatedAt?: true
     userId?: true
     _all?: true
   }
@@ -4634,10 +4668,13 @@ export namespace Prisma {
   export type OnRampTransactionGroupByOutputType = {
     id: number
     onRampStatus: $Enums.OnRampStatus
+    Statement: string
     token: string
     provider: string
     amount: number
+    transactionType: $Enums.TransactionType
     startTime: Date
+    upatedAt: Date
     userId: number
     _count: OnRampTransactionCountAggregateOutputType | null
     _avg: OnRampTransactionAvgAggregateOutputType | null
@@ -4663,10 +4700,13 @@ export namespace Prisma {
   export type OnRampTransactionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     onRampStatus?: boolean
+    Statement?: boolean
     token?: boolean
     provider?: boolean
     amount?: boolean
+    transactionType?: boolean
     startTime?: boolean
+    upatedAt?: boolean
     userId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["onRampTransaction"]>
@@ -4674,10 +4714,13 @@ export namespace Prisma {
   export type OnRampTransactionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     onRampStatus?: boolean
+    Statement?: boolean
     token?: boolean
     provider?: boolean
     amount?: boolean
+    transactionType?: boolean
     startTime?: boolean
+    upatedAt?: boolean
     userId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["onRampTransaction"]>
@@ -4685,10 +4728,13 @@ export namespace Prisma {
   export type OnRampTransactionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     onRampStatus?: boolean
+    Statement?: boolean
     token?: boolean
     provider?: boolean
     amount?: boolean
+    transactionType?: boolean
     startTime?: boolean
+    upatedAt?: boolean
     userId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["onRampTransaction"]>
@@ -4696,14 +4742,17 @@ export namespace Prisma {
   export type OnRampTransactionSelectScalar = {
     id?: boolean
     onRampStatus?: boolean
+    Statement?: boolean
     token?: boolean
     provider?: boolean
     amount?: boolean
+    transactionType?: boolean
     startTime?: boolean
+    upatedAt?: boolean
     userId?: boolean
   }
 
-  export type OnRampTransactionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "onRampStatus" | "token" | "provider" | "amount" | "startTime" | "userId", ExtArgs["result"]["onRampTransaction"]>
+  export type OnRampTransactionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "onRampStatus" | "Statement" | "token" | "provider" | "amount" | "transactionType" | "startTime" | "upatedAt" | "userId", ExtArgs["result"]["onRampTransaction"]>
   export type OnRampTransactionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -4722,10 +4771,13 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       onRampStatus: $Enums.OnRampStatus
+      Statement: string
       token: string
       provider: string
       amount: number
+      transactionType: $Enums.TransactionType
       startTime: Date
+      upatedAt: Date
       userId: number
     }, ExtArgs["result"]["onRampTransaction"]>
     composites: {}
@@ -5153,10 +5205,13 @@ export namespace Prisma {
   interface OnRampTransactionFieldRefs {
     readonly id: FieldRef<"OnRampTransaction", 'Int'>
     readonly onRampStatus: FieldRef<"OnRampTransaction", 'OnRampStatus'>
+    readonly Statement: FieldRef<"OnRampTransaction", 'String'>
     readonly token: FieldRef<"OnRampTransaction", 'String'>
     readonly provider: FieldRef<"OnRampTransaction", 'String'>
     readonly amount: FieldRef<"OnRampTransaction", 'Int'>
+    readonly transactionType: FieldRef<"OnRampTransaction", 'TransactionType'>
     readonly startTime: FieldRef<"OnRampTransaction", 'DateTime'>
+    readonly upatedAt: FieldRef<"OnRampTransaction", 'DateTime'>
     readonly userId: FieldRef<"OnRampTransaction", 'Int'>
   }
     
@@ -5620,10 +5675,13 @@ export namespace Prisma {
   export const OnRampTransactionScalarFieldEnum: {
     id: 'id',
     onRampStatus: 'onRampStatus',
+    Statement: 'Statement',
     token: 'token',
     provider: 'provider',
     amount: 'amount',
+    transactionType: 'transactionType',
     startTime: 'startTime',
+    upatedAt: 'upatedAt',
     userId: 'userId'
   };
 
@@ -5702,13 +5760,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
-
-
-  /**
    * Reference to a field of type 'OnRampStatus'
    */
   export type EnumOnRampStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OnRampStatus'>
@@ -5719,6 +5770,20 @@ export namespace Prisma {
    * Reference to a field of type 'OnRampStatus[]'
    */
   export type ListEnumOnRampStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OnRampStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'TransactionType'
+   */
+  export type EnumTransactionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TransactionType'>
+    
+
+
+  /**
+   * Reference to a field of type 'TransactionType[]'
+   */
+  export type ListEnumTransactionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TransactionType[]'>
     
 
 
@@ -5869,7 +5934,7 @@ export namespace Prisma {
     id?: IntFilter<"Balance"> | number
     userId?: IntFilter<"Balance"> | number
     amount?: IntFilter<"Balance"> | number
-    locked?: BoolFilter<"Balance"> | boolean
+    locked?: IntFilter<"Balance"> | number
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
@@ -5888,7 +5953,7 @@ export namespace Prisma {
     OR?: BalanceWhereInput[]
     NOT?: BalanceWhereInput | BalanceWhereInput[]
     amount?: IntFilter<"Balance"> | number
-    locked?: BoolFilter<"Balance"> | boolean
+    locked?: IntFilter<"Balance"> | number
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id" | "userId">
 
@@ -5911,7 +5976,7 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"Balance"> | number
     userId?: IntWithAggregatesFilter<"Balance"> | number
     amount?: IntWithAggregatesFilter<"Balance"> | number
-    locked?: BoolWithAggregatesFilter<"Balance"> | boolean
+    locked?: IntWithAggregatesFilter<"Balance"> | number
   }
 
   export type OnRampTransactionWhereInput = {
@@ -5920,10 +5985,13 @@ export namespace Prisma {
     NOT?: OnRampTransactionWhereInput | OnRampTransactionWhereInput[]
     id?: IntFilter<"OnRampTransaction"> | number
     onRampStatus?: EnumOnRampStatusFilter<"OnRampTransaction"> | $Enums.OnRampStatus
+    Statement?: StringFilter<"OnRampTransaction"> | string
     token?: StringFilter<"OnRampTransaction"> | string
     provider?: StringFilter<"OnRampTransaction"> | string
     amount?: IntFilter<"OnRampTransaction"> | number
+    transactionType?: EnumTransactionTypeFilter<"OnRampTransaction"> | $Enums.TransactionType
     startTime?: DateTimeFilter<"OnRampTransaction"> | Date | string
+    upatedAt?: DateTimeFilter<"OnRampTransaction"> | Date | string
     userId?: IntFilter<"OnRampTransaction"> | number
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
@@ -5931,10 +5999,13 @@ export namespace Prisma {
   export type OnRampTransactionOrderByWithRelationInput = {
     id?: SortOrder
     onRampStatus?: SortOrder
+    Statement?: SortOrder
     token?: SortOrder
     provider?: SortOrder
     amount?: SortOrder
+    transactionType?: SortOrder
     startTime?: SortOrder
+    upatedAt?: SortOrder
     userId?: SortOrder
     user?: UserOrderByWithRelationInput
   }
@@ -5946,9 +6017,12 @@ export namespace Prisma {
     OR?: OnRampTransactionWhereInput[]
     NOT?: OnRampTransactionWhereInput | OnRampTransactionWhereInput[]
     onRampStatus?: EnumOnRampStatusFilter<"OnRampTransaction"> | $Enums.OnRampStatus
+    Statement?: StringFilter<"OnRampTransaction"> | string
     provider?: StringFilter<"OnRampTransaction"> | string
     amount?: IntFilter<"OnRampTransaction"> | number
+    transactionType?: EnumTransactionTypeFilter<"OnRampTransaction"> | $Enums.TransactionType
     startTime?: DateTimeFilter<"OnRampTransaction"> | Date | string
+    upatedAt?: DateTimeFilter<"OnRampTransaction"> | Date | string
     userId?: IntFilter<"OnRampTransaction"> | number
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id" | "token">
@@ -5956,10 +6030,13 @@ export namespace Prisma {
   export type OnRampTransactionOrderByWithAggregationInput = {
     id?: SortOrder
     onRampStatus?: SortOrder
+    Statement?: SortOrder
     token?: SortOrder
     provider?: SortOrder
     amount?: SortOrder
+    transactionType?: SortOrder
     startTime?: SortOrder
+    upatedAt?: SortOrder
     userId?: SortOrder
     _count?: OnRampTransactionCountOrderByAggregateInput
     _avg?: OnRampTransactionAvgOrderByAggregateInput
@@ -5974,10 +6051,13 @@ export namespace Prisma {
     NOT?: OnRampTransactionScalarWhereWithAggregatesInput | OnRampTransactionScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"OnRampTransaction"> | number
     onRampStatus?: EnumOnRampStatusWithAggregatesFilter<"OnRampTransaction"> | $Enums.OnRampStatus
+    Statement?: StringWithAggregatesFilter<"OnRampTransaction"> | string
     token?: StringWithAggregatesFilter<"OnRampTransaction"> | string
     provider?: StringWithAggregatesFilter<"OnRampTransaction"> | string
     amount?: IntWithAggregatesFilter<"OnRampTransaction"> | number
+    transactionType?: EnumTransactionTypeWithAggregatesFilter<"OnRampTransaction"> | $Enums.TransactionType
     startTime?: DateTimeWithAggregatesFilter<"OnRampTransaction"> | Date | string
+    upatedAt?: DateTimeWithAggregatesFilter<"OnRampTransaction"> | Date | string
     userId?: IntWithAggregatesFilter<"OnRampTransaction"> | number
   }
 
@@ -6090,7 +6170,7 @@ export namespace Prisma {
 
   export type BalanceCreateInput = {
     amount?: number
-    locked?: boolean
+    locked?: number
     user: UserCreateNestedOneWithoutBalanceInput
   }
 
@@ -6098,12 +6178,12 @@ export namespace Prisma {
     id?: number
     userId: number
     amount?: number
-    locked?: boolean
+    locked?: number
   }
 
   export type BalanceUpdateInput = {
     amount?: IntFieldUpdateOperationsInput | number
-    locked?: BoolFieldUpdateOperationsInput | boolean
+    locked?: IntFieldUpdateOperationsInput | number
     user?: UserUpdateOneRequiredWithoutBalanceNestedInput
   }
 
@@ -6111,91 +6191,112 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     userId?: IntFieldUpdateOperationsInput | number
     amount?: IntFieldUpdateOperationsInput | number
-    locked?: BoolFieldUpdateOperationsInput | boolean
+    locked?: IntFieldUpdateOperationsInput | number
   }
 
   export type BalanceCreateManyInput = {
     id?: number
     userId: number
     amount?: number
-    locked?: boolean
+    locked?: number
   }
 
   export type BalanceUpdateManyMutationInput = {
     amount?: IntFieldUpdateOperationsInput | number
-    locked?: BoolFieldUpdateOperationsInput | boolean
+    locked?: IntFieldUpdateOperationsInput | number
   }
 
   export type BalanceUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     userId?: IntFieldUpdateOperationsInput | number
     amount?: IntFieldUpdateOperationsInput | number
-    locked?: BoolFieldUpdateOperationsInput | boolean
+    locked?: IntFieldUpdateOperationsInput | number
   }
 
   export type OnRampTransactionCreateInput = {
     onRampStatus: $Enums.OnRampStatus
+    Statement: string
     token: string
     provider: string
     amount: number
+    transactionType: $Enums.TransactionType
     startTime?: Date | string
+    upatedAt?: Date | string
     user: UserCreateNestedOneWithoutOnRampTransactionInput
   }
 
   export type OnRampTransactionUncheckedCreateInput = {
     id?: number
     onRampStatus: $Enums.OnRampStatus
+    Statement: string
     token: string
     provider: string
     amount: number
+    transactionType: $Enums.TransactionType
     startTime?: Date | string
+    upatedAt?: Date | string
     userId: number
   }
 
   export type OnRampTransactionUpdateInput = {
     onRampStatus?: EnumOnRampStatusFieldUpdateOperationsInput | $Enums.OnRampStatus
+    Statement?: StringFieldUpdateOperationsInput | string
     token?: StringFieldUpdateOperationsInput | string
     provider?: StringFieldUpdateOperationsInput | string
     amount?: IntFieldUpdateOperationsInput | number
+    transactionType?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    upatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutOnRampTransactionNestedInput
   }
 
   export type OnRampTransactionUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     onRampStatus?: EnumOnRampStatusFieldUpdateOperationsInput | $Enums.OnRampStatus
+    Statement?: StringFieldUpdateOperationsInput | string
     token?: StringFieldUpdateOperationsInput | string
     provider?: StringFieldUpdateOperationsInput | string
     amount?: IntFieldUpdateOperationsInput | number
+    transactionType?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    upatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: IntFieldUpdateOperationsInput | number
   }
 
   export type OnRampTransactionCreateManyInput = {
     id?: number
     onRampStatus: $Enums.OnRampStatus
+    Statement: string
     token: string
     provider: string
     amount: number
+    transactionType: $Enums.TransactionType
     startTime?: Date | string
+    upatedAt?: Date | string
     userId: number
   }
 
   export type OnRampTransactionUpdateManyMutationInput = {
     onRampStatus?: EnumOnRampStatusFieldUpdateOperationsInput | $Enums.OnRampStatus
+    Statement?: StringFieldUpdateOperationsInput | string
     token?: StringFieldUpdateOperationsInput | string
     provider?: StringFieldUpdateOperationsInput | string
     amount?: IntFieldUpdateOperationsInput | number
+    transactionType?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    upatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type OnRampTransactionUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     onRampStatus?: EnumOnRampStatusFieldUpdateOperationsInput | $Enums.OnRampStatus
+    Statement?: StringFieldUpdateOperationsInput | string
     token?: StringFieldUpdateOperationsInput | string
     provider?: StringFieldUpdateOperationsInput | string
     amount?: IntFieldUpdateOperationsInput | number
+    transactionType?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    upatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: IntFieldUpdateOperationsInput | number
   }
 
@@ -6395,11 +6496,6 @@ export namespace Prisma {
     _max?: NestedEnumAuthTypeFilter<$PrismaModel>
   }
 
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
@@ -6416,6 +6512,7 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     amount?: SortOrder
+    locked?: SortOrder
   }
 
   export type BalanceMaxOrderByAggregateInput = {
@@ -6436,14 +6533,7 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     amount?: SortOrder
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
+    locked?: SortOrder
   }
 
   export type EnumOnRampStatusFilter<$PrismaModel = never> = {
@@ -6451,6 +6541,13 @@ export namespace Prisma {
     in?: $Enums.OnRampStatus[] | ListEnumOnRampStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.OnRampStatus[] | ListEnumOnRampStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumOnRampStatusFilter<$PrismaModel> | $Enums.OnRampStatus
+  }
+
+  export type EnumTransactionTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.TransactionType | EnumTransactionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.TransactionType[] | ListEnumTransactionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TransactionType[] | ListEnumTransactionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumTransactionTypeFilter<$PrismaModel> | $Enums.TransactionType
   }
 
   export type DateTimeFilter<$PrismaModel = never> = {
@@ -6467,10 +6564,13 @@ export namespace Prisma {
   export type OnRampTransactionCountOrderByAggregateInput = {
     id?: SortOrder
     onRampStatus?: SortOrder
+    Statement?: SortOrder
     token?: SortOrder
     provider?: SortOrder
     amount?: SortOrder
+    transactionType?: SortOrder
     startTime?: SortOrder
+    upatedAt?: SortOrder
     userId?: SortOrder
   }
 
@@ -6483,20 +6583,26 @@ export namespace Prisma {
   export type OnRampTransactionMaxOrderByAggregateInput = {
     id?: SortOrder
     onRampStatus?: SortOrder
+    Statement?: SortOrder
     token?: SortOrder
     provider?: SortOrder
     amount?: SortOrder
+    transactionType?: SortOrder
     startTime?: SortOrder
+    upatedAt?: SortOrder
     userId?: SortOrder
   }
 
   export type OnRampTransactionMinOrderByAggregateInput = {
     id?: SortOrder
     onRampStatus?: SortOrder
+    Statement?: SortOrder
     token?: SortOrder
     provider?: SortOrder
     amount?: SortOrder
+    transactionType?: SortOrder
     startTime?: SortOrder
+    upatedAt?: SortOrder
     userId?: SortOrder
   }
 
@@ -6514,6 +6620,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumOnRampStatusFilter<$PrismaModel>
     _max?: NestedEnumOnRampStatusFilter<$PrismaModel>
+  }
+
+  export type EnumTransactionTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TransactionType | EnumTransactionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.TransactionType[] | ListEnumTransactionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TransactionType[] | ListEnumTransactionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumTransactionTypeWithAggregatesFilter<$PrismaModel> | $Enums.TransactionType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTransactionTypeFilter<$PrismaModel>
+    _max?: NestedEnumTransactionTypeFilter<$PrismaModel>
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -6640,10 +6756,6 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
-  }
-
   export type UserUpdateOneRequiredWithoutBalanceNestedInput = {
     create?: XOR<UserCreateWithoutBalanceInput, UserUncheckedCreateWithoutBalanceInput>
     connectOrCreate?: UserCreateOrConnectWithoutBalanceInput
@@ -6660,6 +6772,10 @@ export namespace Prisma {
 
   export type EnumOnRampStatusFieldUpdateOperationsInput = {
     set?: $Enums.OnRampStatus
+  }
+
+  export type EnumTransactionTypeFieldUpdateOperationsInput = {
+    set?: $Enums.TransactionType
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -6802,24 +6918,18 @@ export namespace Prisma {
     _max?: NestedEnumAuthTypeFilter<$PrismaModel>
   }
 
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
-  }
-
   export type NestedEnumOnRampStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.OnRampStatus | EnumOnRampStatusFieldRefInput<$PrismaModel>
     in?: $Enums.OnRampStatus[] | ListEnumOnRampStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.OnRampStatus[] | ListEnumOnRampStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumOnRampStatusFilter<$PrismaModel> | $Enums.OnRampStatus
+  }
+
+  export type NestedEnumTransactionTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.TransactionType | EnumTransactionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.TransactionType[] | ListEnumTransactionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TransactionType[] | ListEnumTransactionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumTransactionTypeFilter<$PrismaModel> | $Enums.TransactionType
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -6843,6 +6953,16 @@ export namespace Prisma {
     _max?: NestedEnumOnRampStatusFilter<$PrismaModel>
   }
 
+  export type NestedEnumTransactionTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TransactionType | EnumTransactionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.TransactionType[] | ListEnumTransactionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TransactionType[] | ListEnumTransactionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumTransactionTypeWithAggregatesFilter<$PrismaModel> | $Enums.TransactionType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTransactionTypeFilter<$PrismaModel>
+    _max?: NestedEnumTransactionTypeFilter<$PrismaModel>
+  }
+
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -6859,13 +6979,13 @@ export namespace Prisma {
 
   export type BalanceCreateWithoutUserInput = {
     amount?: number
-    locked?: boolean
+    locked?: number
   }
 
   export type BalanceUncheckedCreateWithoutUserInput = {
     id?: number
     amount?: number
-    locked?: boolean
+    locked?: number
   }
 
   export type BalanceCreateOrConnectWithoutUserInput = {
@@ -6880,19 +7000,25 @@ export namespace Prisma {
 
   export type OnRampTransactionCreateWithoutUserInput = {
     onRampStatus: $Enums.OnRampStatus
+    Statement: string
     token: string
     provider: string
     amount: number
+    transactionType: $Enums.TransactionType
     startTime?: Date | string
+    upatedAt?: Date | string
   }
 
   export type OnRampTransactionUncheckedCreateWithoutUserInput = {
     id?: number
     onRampStatus: $Enums.OnRampStatus
+    Statement: string
     token: string
     provider: string
     amount: number
+    transactionType: $Enums.TransactionType
     startTime?: Date | string
+    upatedAt?: Date | string
   }
 
   export type OnRampTransactionCreateOrConnectWithoutUserInput = {
@@ -6928,7 +7054,7 @@ export namespace Prisma {
     id?: IntFilter<"Balance"> | number
     userId?: IntFilter<"Balance"> | number
     amount?: IntFilter<"Balance"> | number
-    locked?: BoolFilter<"Balance"> | boolean
+    locked?: IntFilter<"Balance"> | number
   }
 
   export type OnRampTransactionUpsertWithWhereUniqueWithoutUserInput = {
@@ -6953,10 +7079,13 @@ export namespace Prisma {
     NOT?: OnRampTransactionScalarWhereInput | OnRampTransactionScalarWhereInput[]
     id?: IntFilter<"OnRampTransaction"> | number
     onRampStatus?: EnumOnRampStatusFilter<"OnRampTransaction"> | $Enums.OnRampStatus
+    Statement?: StringFilter<"OnRampTransaction"> | string
     token?: StringFilter<"OnRampTransaction"> | string
     provider?: StringFilter<"OnRampTransaction"> | string
     amount?: IntFilter<"OnRampTransaction"> | number
+    transactionType?: EnumTransactionTypeFilter<"OnRampTransaction"> | $Enums.TransactionType
     startTime?: DateTimeFilter<"OnRampTransaction"> | Date | string
+    upatedAt?: DateTimeFilter<"OnRampTransaction"> | Date | string
     userId?: IntFilter<"OnRampTransaction"> | number
   }
 
@@ -7063,59 +7192,71 @@ export namespace Prisma {
   export type BalanceCreateManyUserInput = {
     id?: number
     amount?: number
-    locked?: boolean
+    locked?: number
   }
 
   export type OnRampTransactionCreateManyUserInput = {
     id?: number
     onRampStatus: $Enums.OnRampStatus
+    Statement: string
     token: string
     provider: string
     amount: number
+    transactionType: $Enums.TransactionType
     startTime?: Date | string
+    upatedAt?: Date | string
   }
 
   export type BalanceUpdateWithoutUserInput = {
     amount?: IntFieldUpdateOperationsInput | number
-    locked?: BoolFieldUpdateOperationsInput | boolean
+    locked?: IntFieldUpdateOperationsInput | number
   }
 
   export type BalanceUncheckedUpdateWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     amount?: IntFieldUpdateOperationsInput | number
-    locked?: BoolFieldUpdateOperationsInput | boolean
+    locked?: IntFieldUpdateOperationsInput | number
   }
 
   export type BalanceUncheckedUpdateManyWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     amount?: IntFieldUpdateOperationsInput | number
-    locked?: BoolFieldUpdateOperationsInput | boolean
+    locked?: IntFieldUpdateOperationsInput | number
   }
 
   export type OnRampTransactionUpdateWithoutUserInput = {
     onRampStatus?: EnumOnRampStatusFieldUpdateOperationsInput | $Enums.OnRampStatus
+    Statement?: StringFieldUpdateOperationsInput | string
     token?: StringFieldUpdateOperationsInput | string
     provider?: StringFieldUpdateOperationsInput | string
     amount?: IntFieldUpdateOperationsInput | number
+    transactionType?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    upatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type OnRampTransactionUncheckedUpdateWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     onRampStatus?: EnumOnRampStatusFieldUpdateOperationsInput | $Enums.OnRampStatus
+    Statement?: StringFieldUpdateOperationsInput | string
     token?: StringFieldUpdateOperationsInput | string
     provider?: StringFieldUpdateOperationsInput | string
     amount?: IntFieldUpdateOperationsInput | number
+    transactionType?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    upatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type OnRampTransactionUncheckedUpdateManyWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     onRampStatus?: EnumOnRampStatusFieldUpdateOperationsInput | $Enums.OnRampStatus
+    Statement?: StringFieldUpdateOperationsInput | string
     token?: StringFieldUpdateOperationsInput | string
     provider?: StringFieldUpdateOperationsInput | string
     amount?: IntFieldUpdateOperationsInput | number
+    transactionType?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    upatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

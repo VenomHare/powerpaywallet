@@ -1,0 +1,32 @@
+import { Alert, AlertsState } from '@powerpaywallet/schemas/client';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+
+const initialState: AlertsState = {
+    alerts: [],
+    removedAlerts: []
+}
+
+const alertSlice = createSlice({
+    name: 'alerts',
+    initialState,
+    reducers: {
+        showAlert: (state, action: PayloadAction<Alert>) => {
+            state.alerts.push(action.payload)
+        },
+        removeAlertFromScreen: (state, action: PayloadAction<number>) => {
+            const alert = state.alerts.find(a => action.payload == a.key);
+            if (alert) {
+                state.removedAlerts.push(alert);
+            }
+        },
+        removeAlert: (state, action: PayloadAction<number>) => {
+            state.alerts = state.alerts.filter(a => a.key !== action.payload)
+        },
+        clearScreenAlert: (state, action: PayloadAction<number>) => {
+            state.removedAlerts = state.alerts.filter(a => a.key !== action.payload)
+        },
+    },
+})
+
+export const { showAlert, removeAlert, removeAlertFromScreen, clearScreenAlert } = alertSlice.actions
+export default alertSlice.reducer

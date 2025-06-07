@@ -4,6 +4,7 @@
   "private": true,
   "exports": {
     "./appbar": "./src/Appbar.tsx",
+    "./sidebar": "./src/Sidebar.tsx",
     "./*": "./src/*.tsx"
   },
   "scripts": {
@@ -22,10 +23,13 @@
     "typescript": "5.8.2"
   },
   "dependencies": {
+    "@powerpaywallet/schemas": "workspace:*",
+    "@powerpaywallet/store": "workspace:*",
     "@tailwindcss/postcss": "^4.1.6",
     "postcss": "^8.5.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-redux": "^9.2.0",
     "tailwindcss": "^4.1.6"
   }
 }

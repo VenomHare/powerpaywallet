@@ -1,2 +1,36 @@
-@import "tailwindcss"  source("./../../../../packages/ui/src");
-@source "./../app"
+@import "tailwindcss";
+@source "./../../../../packages/ui/src";
+@source "./../app";
+
+@plugin "tailwind-scrollbar";
+
+:root {
+    --primary: var(--color-slate-800);
+    --secondary: var(--color-violet-800);
+    --background: var(--color-slate-800);
+    --foreground: var(--color-slate-200);
+}
+
+@theme {
+    --color-primary: var(--color-slate-800);
+    --animate-alertin: AlertIn 200ms ease-in-out forwards;
+    --animate-alertout: AlertOut 500ms ease-in-out forwards;
+}
+
+@keyframes AlertIn {
+    from {
+        transform: translate(0, 100%);
+    }
+    to {
+        transform: translateY(0%);
+    }
+}
+
+@keyframes AlertOut {
+    from {
+        transform: translateY(0%);
+    }
+    to {
+        transform: translate(0, 1000%);
+    }
+}

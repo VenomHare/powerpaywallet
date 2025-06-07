@@ -53,7 +53,8 @@ v1Router.post("/mock/powerpay/success", mockPowerPayRequestValidation, async (re
                     token: paymentInformation.token
                 },
                 data: {
-                    onRampStatus: "Success"
+                    onRampStatus: "Success",
+                    upatedAt: new Date()
                 }
             })
         ]);
@@ -70,7 +71,8 @@ v1Router.post("/mock/powerpay/success", mockPowerPayRequestValidation, async (re
                     token: paymentInformation.token
                 },
                 data: {
-                    onRampStatus: "Failure"
+                    onRampStatus: "Failure",
+                    upatedAt: new Date()
                 }
             });
         }
@@ -83,7 +85,7 @@ v1Router.post("/mock/powerpay/success", mockPowerPayRequestValidation, async (re
     }
 })
 
-v1Router.post("/mock/powerpay/failure", mockPowerPayRequestValidation, (req, res) => {
+v1Router.post("/mock/powerpay/failure", mockPowerPayRequestValidation, async (req, res) => {
 
     const { success, data } = MockPaymentSchema.safeParse(req.body);
 
@@ -95,14 +97,16 @@ v1Router.post("/mock/powerpay/failure", mockPowerPayRequestValidation, (req, res
     }
 
     try {
-        prisma.onRampTransaction.update({
+        const update = await prisma.onRampTransaction.update({
             where: {
                 token: data.token
             },
             data: {
-                onRampStatus: "Failure"
+                onRampStatus: "Failure",
+                upatedAt: new Date()
             }
         });
+        console.log(update);
         res.json({ message: "recorded" });
     }
     catch (err) {

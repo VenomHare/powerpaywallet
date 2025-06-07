@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 export default function SuccessPage(){
 
-    const [timer, setTimer] = useState(10);
+    const [timer, setTimer] = useState(5);
 
     useEffect(()=>{
         if (timer <= 0) {
