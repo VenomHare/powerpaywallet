@@ -1,7 +1,7 @@
-import { SidebarConfig, SidebarItem } from "@powerpaywallet/schemas"
+import { SidebarConfig } from "@powerpaywallet/schemas"
 import { RootState } from "@powerpaywallet/store"
 import { setActiveCategory } from "@powerpaywallet/store/slices"
-import React, { act } from "react"
+import React from "react"
 import { useDispatch, useSelector } from "react-redux"
 type Props = {
     children: React.ReactNode
@@ -29,11 +29,11 @@ export const Sidebar = ({ children, config }: Props) => {
                                 }
                                 else {
                                     return (
-                                        <div key={i.id} className="text-lg flex flex-col gap-1 items-center cursor-pointer" onClick={() => { active == i.id ? dispatch(setActiveCategory("none")) : dispatch(setActiveCategory(i.id)) }}>
+                                        <div key={i.id} className="text-lg flex flex-col gap-1 items-center cursor-pointer" onClick={() => { if (active == i.id) { dispatch(setActiveCategory("none")) } else { dispatch(setActiveCategory(i.id)) } }}>
                                             <div className="text-xl font-[Manrope]">{i.label}</div>
                                             {
                                                 active === i.id &&
-                                                    <div className="w-full h-[1px] rounded-xl bg-slate-900 my-2"></div>
+                                                <div className="w-full h-[1px] rounded-xl bg-slate-900 my-2"></div>
                                             }
                                             {
                                                 active === i.id &&

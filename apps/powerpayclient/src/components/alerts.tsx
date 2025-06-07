@@ -2,9 +2,8 @@
 import { AppDispatch, RootState } from "@powerpaywallet/store";
 import { clearScreenAlert, removeAlert, removeAlertFromScreen, showAlert } from "@powerpaywallet/store/slices";
 import { CircleCheckBig, Info, TriangleAlert } from "lucide-react"
-import { Duru_Sans } from "next/font/google";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 
 interface AlertConfig {
@@ -27,25 +26,19 @@ export const AlertContainer = () => {
 
     const { alerts, removedAlerts } = useSelector((state: RootState) => state.alerts);
     const dispatch = useAppDispatch();
-    // const [timeOuts, setTimeOuts] = useState<Array<NodeJS.Timeout>>([]);
     
     useEffect(()=>{
         if (removedAlerts.length < 1) return;
         removedAlerts.forEach(alert => {
-            const timeout = setTimeout(()=>{
+            setTimeout(()=>{
                 dispatch(removeAlert(alert.key));
                 dispatch(clearScreenAlert(alert.key));
             }, 1000)
-            // setTimeOuts(prev=>[...prev, timeout]);
         })
 
         return () => {
-            // timeOuts.forEach(t => {
-            //     clearTimeout(t);
-            // })
-            // setTimeOuts([]);
         }
-    },[removedAlerts])
+    },[removedAlerts, dispatch])
 
     return (
         <div className="absolute bottom-0 left-0 z-[100] p-5 w-full h-full flex items-end justify-center overflow-hidden pointer-events-none">
@@ -69,7 +62,6 @@ interface Props {
 
 
 const Alert = ({ text,  removed, type = "none" }: Props) => {
-    console.log(removed);
     return <div className={"w-[90%] md:w-1/3 lg:w-1/4 p-4 rounded-lg shadow-xl shadow-slate-600/50 bg-slate-200 text-slate-500 flex gap-2 items-center "+ (removed ? " animate-alertout" : " animate-alertin")}>
         {
             type == "info" &&

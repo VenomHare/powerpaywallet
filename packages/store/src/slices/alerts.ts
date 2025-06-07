@@ -1,15 +1,5 @@
+import { Alert, AlertsState } from '@powerpaywallet/schemas/client';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-
-export interface Alert {
-    key: number
-    text: string
-    type?: 'none' | 'success' | 'error' | 'info'
-}
-
-export interface AlertsState {
-    alerts: Array<Alert>
-    removedAlerts: Array<Alert>
-}
 
 const initialState: AlertsState = {
     alerts: [],

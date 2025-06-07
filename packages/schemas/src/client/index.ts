@@ -31,3 +31,17 @@ export interface Transaction {
     type: $Enums.TransactionType
     statement: string
 }
+export interface SidebarState {
+    activeCategory: string
+}
+
+export interface Alert {
+    key: number
+    text: string
+    type?: 'none' | 'success' | 'error' | 'info'
+}
+
+export interface AlertsState {
+    alerts: Array<Alert>
+    removedAlerts: Array<Alert>
+}

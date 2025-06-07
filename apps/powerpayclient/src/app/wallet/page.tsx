@@ -2,9 +2,9 @@
 import React, { FormEvent, useEffect, useState } from 'react'
 import { History, RefreshCcw } from "lucide-react"
 import { addFundsRequestSchema, BANKSERVERS, Transaction } from '@powerpaywallet/schemas/client';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '@powerpaywallet/store';
-import { showAlert, update } from '@powerpaywallet/store/slices';
+import { update } from '@powerpaywallet/store/slices';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import axios, { AxiosError } from 'axios';
 import { alert } from '../../components/alerts';
@@ -68,7 +68,7 @@ const WalletPage = () => {
 
     useEffect(() => {
         appDispatch(update())
-    }, []);
+    }, [appDispatch]);
 
     return (
         <div className='w-full min-h-[85svh] p-10 flex flex-col gap-5'>
@@ -123,7 +123,7 @@ const WalletPage = () => {
                                     value={amount}
                                     type="number"
                                     min={50}
-                                    onChange={(e) => { /^\d+(\.\d{0,2})?$/.test(e.target.value) && setAmount(parseInt(e.target.value)) }}
+                                    onChange={(e) => { if (/^\d+(\.\d{0,2})?$/.test(e.target.value)) { setAmount(parseInt(e.target.value)) }}}
                                     className='my-2 border border-slate-500 bg-slate-400/40 p-1 rounded font-semibold font-[Manrope] text-2xl' />
 
                                 <div className="w-full flex gap-1">
@@ -133,7 +133,7 @@ const WalletPage = () => {
                                                 type="button"
                                                 key={val}
                                                 className='bg-slate-500/30 cursor-pointer text-lg w-full font-medium px-3 rounded border'
-                                                onClick={(e) => { setAmount(am => am + val) }}
+                                                onClick={() => { setAmount(am => am + val) }}
                                             >
                                                 +{val}
                                             </button>
