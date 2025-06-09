@@ -8,14 +8,19 @@
     "dev": "tsc && pnpm start",
     "start": "ts-node src/index.ts",
     "reset": "rm -rf node_modules && rm -rf dist",
-    "lint": "eslint . --max-warnings 0"
+    "lint": "eslint . --max-warnings 0",
+    "test": "vitest run",
+    "test:dev": "vitest"
   },
   "devDependencies": {
-    "@powerpaywallet/typescript-config": "workspace:*",
     "@powerpaywallet/eslint-config": "workspace:*",
-    "eslint": "^9.26.0",
+    "@powerpaywallet/typescript-config": "workspace:*",
     "@types/express": "^5.0.2",
-    "typescript": "^5.8.3"
+    "@types/supertest": "^6.0.3",
+    "eslint": "^9.26.0",
+    "supertest": "^7.1.1",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.4"
   },
   "keywords": [],
   "author": "",
