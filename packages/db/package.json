@@ -8,6 +8,7 @@
     "migrate": "prisma migrate dev --skip-generate",
     "deploy": "prisma migrate deploy",
     "studio": "prisma studio",
+    "studio:test": "DATABASE_URL='postgresql://postgres:sacredpassword@localhost:5432/powerpay_test' prisma studio",
     "build": "tsc"
   },
   "exports": {
