@@ -88,7 +88,7 @@ v1Router.post("/mock/powerpay/failure", mockPowerPayRequestValidation, async (re
     }
 
     try {
-        const update = await prisma.onRampTransaction.update({
+        await prisma.onRampTransaction.update({
             where: {
                 token: data.token
             },

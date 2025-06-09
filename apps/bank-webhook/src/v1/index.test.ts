@@ -104,19 +104,11 @@ describe('v1 Router', () => {
                 })
                 .set('Authorization', process.env.WEBHOOK_SECRET||"");
 
-
-            const tnx = await prisma.onRampTransaction.findUnique({
-                where: {
-                    token: transaction.token
-                }
-            })
-
             expect(res.status).toBe(411);
             expect(res.body.message).toBe("Error while processing Webhook Request");
         })
 
         it("should update user's balance", async () => {
-
 
             const res = await request(app)
                 .post("/v1/mock/powerpay/success")
