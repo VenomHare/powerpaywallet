@@ -9,25 +9,31 @@ export const addFundsRequest = z.object({
 export type addFundsRequestSchema = z.infer<typeof addFundsRequest>;
 
 export interface Wallet {
-    status: 
-        | "loading" 
-        | "failed"
-        | "success";
-    balance : { 
+    status:
+    | "loading"
+    | "failed"
+    | "success";
+    balance: {
         locked: number
         available: number
         total: number
     } | undefined,
-    transactions: Transaction[]
+    transactions: Array<Transaction>,
+    walletsSearchResult: Array<WalletsSearchResult>
 }
 
-export type BANKSERVERS = "POWERPAY_MOCKBANK"|"SELECT"
+export interface WalletsSearchResult {
+    number: string,
+    name: string
+}
+
+export type BANKSERVERS = "POWERPAY_MOCKBANK" | "SELECT"
 
 export interface Transaction {
     id: number
     amount: number
     time: Date
-    status: $Enums.OnRampStatus
+    status: $Enums.Status
     type: $Enums.TransactionType
     statement: string
 }
@@ -45,3 +51,26 @@ export interface AlertsState {
     alerts: Array<Alert>
     removedAlerts: Array<Alert>
 }
+
+
+export type SecurityPinPopupActions = "WALLET_MONEY_TRANSFER";
+
+export type SecurityPinPopupAction =
+    |   
+        {
+            type: "WALLET_MONEY_TRANSFER",
+            toNumber: string,
+            toName: string,
+            amount: number
+        }
+    |   
+        {
+            type: "NO_ACTION"
+        }   
+
+
+export const CreateWalletTransferRequest = z.object({
+    phone: z.string().regex(/^\d{10}$/),
+    amount: z.number().min(1),
+    id: z.number(),
+})

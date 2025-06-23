@@ -1,13 +1,14 @@
 "use client";
 import React, { FormEvent, useEffect, useState } from 'react'
-import { History, RefreshCcw } from "lucide-react"
+import { History, LogIn, RefreshCcw } from "lucide-react"
 import { addFundsRequestSchema, BANKSERVERS, Transaction } from '@powerpaywallet/schemas/client';
 import { useSelector } from 'react-redux';
 import { RootState } from '@powerpaywallet/store';
 import { update } from '@powerpaywallet/store/slices';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useAppDispatch } from '../../../hooks/useAppDispatch';
 import axios, { AxiosError } from 'axios';
-import { alert } from '../../components/alerts';
+import { alert } from '../../../components/alerts';
+import { signIn, useSession } from 'next-auth/react';
 
 const ADD_MONEY_BUTTONS = [50, 100, 250, 500, 1000]
 
@@ -18,6 +19,7 @@ const WalletPage = () => {
     const { status, balance, transactions } = useSelector((state: RootState) => state.wallet);
     const appDispatch = useAppDispatch();
     // const dispatch = useDispatch();
+    const session = useSession();
 
     const addMoney = async (e: FormEvent) => {
         e.preventDefault();
@@ -65,6 +67,13 @@ const WalletPage = () => {
         }
 
     }
+
+    useEffect(() => {
+        if (!session){
+            signIn()
+        }
+    }, [])
+    
 
     useEffect(() => {
         appDispatch(update())

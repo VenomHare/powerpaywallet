@@ -15,18 +15,24 @@ datasource db {
 }
 
 model User {
-  id                Int                 @id @default(autoincrement())
-  email             String?             @unique
-  name              String?
-  number            String              @unique
-  password          String
-  Balance           Balance[]
-  OnRampTransaction OnRampTransaction[]
+  id               Int       @id @default(autoincrement())
+  email            String    @unique
+  name             String
+  number           String    @unique
+  password         String
+  securityPin      String
+  failedPinTries   Int       @default(0)
+  lastFailedPinTry DateTime?
+
+  Balance             Balance[]
+  Transactions        Transactions[]
+  IncomingTransaction WalletTransfers[] @relation(name: "IncomingTransaction")
+  OutgoingTransaction WalletTransfers[] @relation(name: "OutgoingTransaction")
 }
 
 model Merchant {
   id        Int      @id @default(autoincrement())
-  name      String?
+  name      String
   email     String   @unique
   auth_type AuthType
 }
@@ -37,12 +43,14 @@ model Balance {
   amount Int  @default(0)
   locked Int  @default(0)
   user   User @relation(fields: [userId], references: [id])
+  
+  @@map("balance")
 }
 
-model OnRampTransaction {
+model Transactions {
   id              Int             @id @default(autoincrement())
-  onRampStatus    OnRampStatus
-  Statement       String
+  status          Status
+  statement       String
   token           String          @unique
   provider        String
   amount          Int
@@ -53,12 +61,24 @@ model OnRampTransaction {
   user            User            @relation(fields: [userId], references: [id])
 }
 
+model WalletTransfers {
+  id        Int      @id @default(autoincrement())
+  from      Int
+  FromUser  User     @relation(name: "OutgoingTransaction", fields: [from], references: [id])
+  to        Int
+  ToUser    User     @relation(name: "IncomingTransaction", fields: [to], references: [id])
+  amount    Int
+  status    Status
+  startedAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
 enum AuthType {
   Google
   Github
 }
 
-enum OnRampStatus {
+enum Status {
   Success
   Failure
   Processing

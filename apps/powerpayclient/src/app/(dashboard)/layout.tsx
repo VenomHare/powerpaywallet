@@ -25,6 +25,7 @@ export default function Layout({ children }: Props) {
 }
 
 const SubLayout = ({children}: Props) => {
+
     const session = useSession();
     const { config } = useSidebarConfig();
 

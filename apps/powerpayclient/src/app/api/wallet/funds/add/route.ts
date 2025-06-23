@@ -19,7 +19,7 @@ export const POST = async (req: NextRequest) => {
             status: 403
         })
     }
-    session.user.id = parseInt(session?.user.id);
+    const userId =  parseInt((session?.user as any).id)
 
     try {
         const body = await req.json();
@@ -35,7 +35,7 @@ export const POST = async (req: NextRequest) => {
 
         try {
             const body: MockPaymentTokenSchema = {
-                user_identifier: session?.user.id,
+                user_identifier: userId,
                 amount: data.amount
             }
 
@@ -49,15 +49,15 @@ export const POST = async (req: NextRequest) => {
                 }
             })
 
-            await prisma.onRampTransaction.create({
+            await prisma.transactions.create({
                 data : {
                     token: req.data.token,
                     provider: data.provider,
-                    userId: session.user.id,
-                    onRampStatus: "Processing",
+                    userId: userId,
+                    status: "Processing",
                     amount: data.amount,
                     transactionType: "Credit",
-                    Statement: "Added money to wallet"
+                    statement: "Added money to wallet"
                 }
             })
 
