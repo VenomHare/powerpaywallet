@@ -24,10 +24,6 @@ const dataRequestHandlers = {
 
 const SecurityPinPopUp = ({ open, setOpen, action, id }: Props) => {
 
-    if (!open) {
-        return (<></>)
-    }
-
     const [pin, setPin] = useState("");
     const [cannceled, setCannceled] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
@@ -36,8 +32,27 @@ const SecurityPinPopUp = ({ open, setOpen, action, id }: Props) => {
     const appDispatch = useAppDispatch();
 
     useEffect(() => {
+        const makeDataRequest = async () => {
+            dispatch(setLoading(true));
+            const handler = dataRequestHandlers[action];
+            try {
+                const data = await handler(id);
+                setActionData(data);
+            }
+            catch {
+                setErrorMessage("Something went wrong!");
+                alert(appDispatch, `Something went wrong`, "error", {
+                    duration: 3000
+                })
+            }
+
+            dispatch(setLoading(false));
+        }
+
+
         makeDataRequest();
-    }, [id, action])
+    }, [id, action, appDispatch, dispatch])
+
 
     const handleAuthorize = async () => {
         try {
@@ -68,21 +83,8 @@ const SecurityPinPopUp = ({ open, setOpen, action, id }: Props) => {
         }
     }
 
-    const makeDataRequest = async () => {
-        dispatch(setLoading(true));
-        const handler = dataRequestHandlers[action];
-        try {
-            const data = await handler(id);
-            setActionData(data);
-        }
-        catch (error) {
-            setErrorMessage("Something went wrong!");
-            alert(appDispatch, `Something went wrong`, "error", {
-                duration: 3000
-            })
-        }
-
-        dispatch(setLoading(false));
+    if (!open) {
+        return (<></>)
     }
 
     return (<>

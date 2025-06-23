@@ -1,5 +1,5 @@
 import Credentials from "next-auth/providers/credentials"
-import bcrypt, { compareSync } from "bcrypt";
+import bcrypt from "bcrypt";
 import { prisma } from "@powerpaywallet/db/client";
 import { AuthOptions } from "next-auth";
 

@@ -1,7 +1,5 @@
 "use client";
 import { FormEvent, useState } from "react"
-import { alert, AlertContainer } from "../../../components/alerts";
-import { useAppDispatch } from "../../../hooks/useAppDispatch";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
@@ -15,8 +13,6 @@ const LoginPage = () => {
     const callbackUrl = searchParams.get("callbackUrl") || "/wallet";
     const error = searchParams.get("error");
     
-    const appDispatch = useAppDispatch();
-
     const handleLogin = async (e: FormEvent) => {
         e.preventDefault();
 

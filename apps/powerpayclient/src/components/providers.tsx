@@ -2,7 +2,7 @@
 
 import { store } from "@powerpaywallet/store";
 import { SessionProvider } from "next-auth/react";
-import React from "react";
+import React, { Suspense } from "react";
 import { Provider } from "react-redux";
 
 interface Props {
@@ -12,9 +12,11 @@ interface Props {
 export function Providers({children}: Props){
     return (<>
         <Provider store={store}>
-            <SessionProvider>
-                {children}
-            </SessionProvider>
+            <Suspense>
+                <SessionProvider>
+                    {children}
+                </SessionProvider>
+            </Suspense>
         </Provider>
     </>)    
 }

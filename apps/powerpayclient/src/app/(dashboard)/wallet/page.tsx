@@ -1,6 +1,6 @@
 "use client";
 import React, { FormEvent, useEffect, useState } from 'react'
-import { History, LogIn, RefreshCcw } from "lucide-react"
+import { History, RefreshCcw } from "lucide-react"
 import { addFundsRequestSchema, BANKSERVERS, Transaction } from '@powerpaywallet/schemas/client';
 import { useSelector } from 'react-redux';
 import { RootState } from '@powerpaywallet/store';
@@ -72,7 +72,7 @@ const WalletPage = () => {
         if (!session){
             signIn()
         }
-    }, [])
+    }, [session])
     
 
     useEffect(() => {

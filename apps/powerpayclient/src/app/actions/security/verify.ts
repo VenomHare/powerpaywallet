@@ -7,12 +7,12 @@ import { SecurityPinPopupActions } from "@powerpaywallet/schemas/client";
 import { handleCancelWalletTransfer, handleWalletTransfer } from "../walletTransfer/handleTransfer";
 
 const SuccessEventHandlers = {
-    NO_ACTION: (id: number) => { return true },
+    NO_ACTION: () => { return true },
     WALLET_MONEY_TRANSFER: handleWalletTransfer
 }
 
 const CancelEventHandlers = {
-    NO_ACTION: (id: number) => { return false },
+    NO_ACTION: () => { return false },
     WALLET_MONEY_TRANSFER: handleCancelWalletTransfer
 }
 

@@ -5,7 +5,7 @@ export default function useTextDebounce(input: string, delay: number) {
     const [text, setText] = useState(input);
 
     useEffect(()=>{
-        let timeout = setTimeout(()=>{
+        const timeout = setTimeout(()=>{
             setText(input);
         }, delay);
 
@@ -13,7 +13,7 @@ export default function useTextDebounce(input: string, delay: number) {
             clearTimeout(timeout);
         }
 
-    },[input])
+    },[input, delay])
 
     return text
 }

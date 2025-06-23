@@ -21,7 +21,7 @@ export const SelectWalletPopup = ({ onClose, isPopupOpen, setData }: Props) => {
 
     useEffect(() => {
         appDispatch(getWalletsByQuery(text));
-    }, [text]);
+    }, [text, appDispatch]);
 
     if (!isPopupOpen) {
         return (<></>)

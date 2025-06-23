@@ -1,12 +1,9 @@
 "use client";
 import { BsPersonFill } from "react-icons/bs"
 import { FormEvent, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "@powerpaywallet/store";
 import { SelectWalletPopup } from "../../../components/select-wallet-popup";
 import { signIn, useSession } from "next-auth/react";
 import { WalletsSearchResult } from "@powerpaywallet/schemas/client";
-import { Cross, X } from "lucide-react";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
 import { alert } from "../../../components/alerts";
 import SecurityPinPopUp from "../../../components/security-pin-popup";
@@ -25,7 +22,6 @@ const TransferPage = () => {
 
     const appDispatch = useAppDispatch();
     const session = useSession();
-    const { balance } = useSelector((state: RootState) => state.wallet);
 
     useEffect(() => {
         if (session.status == "loading") {
