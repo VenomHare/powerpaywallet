@@ -6,11 +6,17 @@ import axios from "axios";
 const initialState: Wallet = {
     status: "loading",
     balance: undefined,
-    transactions: []
+    transactions: [],
+    walletsSearchResult: []
 }
 
 export const update = createAsyncThunk("wallet/update", async () => {
     const req = await axios.get("/api/wallet/update");
+    return req.data;
+})
+
+export const getWalletsByQuery = createAsyncThunk("wallet/getWalletByQuery", async (query: string) => {
+    const req = await axios.get("/api/wallet/get?q="+query);
     return req.data;
 })
 
@@ -34,6 +40,9 @@ const wallet = createSlice({
                     total: action.payload.balance.locked + action.payload.balance.available
                 }
                 state.transactions = action.payload.transactions
+            })
+            .addCase(getWalletsByQuery.fulfilled, (state, action) => {
+                state.walletsSearchResult = action.payload;
             })
     }
 })

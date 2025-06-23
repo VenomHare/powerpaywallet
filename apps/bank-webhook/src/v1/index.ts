@@ -24,10 +24,31 @@ v1Router.post("/mock/powerpay/success", mockPowerPayRequestValidation, async (re
     }
 
     try {
+        const tnx = await prisma.transactions.findUnique({
+            where: {
+                token: paymentInformation.token
+            }
+        })
+        
+        if (!tnx) {
+            res.status(404).json({
+                message: "Transaction Not Found"
+            })
+            return;
+        }
+
+        if (tnx.status !== "Processing") {
+            res.status(409).json({
+                message: "Transaction already Processed",
+                token: paymentInformation.token
+            })
+            return;
+        }
+
         await prisma.$transaction([
             prisma.balance.update({
                 where: {
-                    id: paymentInformation.userId
+                    userId: paymentInformation.userId
                 },
                 data: {
                     amount: {
@@ -35,12 +56,12 @@ v1Router.post("/mock/powerpay/success", mockPowerPayRequestValidation, async (re
                     }
                 }
             }),
-            prisma.onRampTransaction.update({
+            prisma.transactions.update({
                 where: {
                     token: paymentInformation.token
                 },
                 data: {
-                    onRampStatus: "Success",
+                    status: "Success",
                     upatedAt: new Date()
                 }
             })
@@ -57,12 +78,12 @@ v1Router.post("/mock/powerpay/success", mockPowerPayRequestValidation, async (re
         console.log(error);
         // Just try to update payment status or it will automatically fail after 24 hours (from actions)  
         try {
-            prisma.onRampTransaction.update({
+            prisma.transactions.update({
                 where: {
                     token: paymentInformation.token
                 },
                 data: {
-                    onRampStatus: "Failure",
+                    status: "Failure",
                     upatedAt: new Date()
                 }
             });
@@ -88,12 +109,12 @@ v1Router.post("/mock/powerpay/failure", mockPowerPayRequestValidation, async (re
     }
 
     try {
-        await prisma.onRampTransaction.update({
+        await prisma.transactions.update({
             where: {
                 token: data.token
             },
             data: {
-                onRampStatus: "Failure",
+                status: "Failure",
                 upatedAt: new Date()
             }
         });

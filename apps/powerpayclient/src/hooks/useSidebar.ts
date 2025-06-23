@@ -22,6 +22,14 @@ export const useSidebarConfig = () => {
             },
         },
         {
+            type: "item",
+            id: "transfer",
+            label: "Transfer",
+            onClick() {
+                router.push("/transfer")
+            }
+        },
+        {
             type: "category",
             id: "profile",
             label: "Profile",

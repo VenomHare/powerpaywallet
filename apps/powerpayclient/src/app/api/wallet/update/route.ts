@@ -1,12 +1,12 @@
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
-import { authOptions } from "../../../../lib/auth";
 import { prisma } from "@powerpaywallet/db/client";
+import { authOptions } from "../../../../lib/auth";
 
 export const GET = async (): Promise<NextResponse> => {
 
     const session = await getServerSession(authOptions);
-    if (!session) {
+    if (!session || !session.user) {
         return NextResponse.json({ error: 'Unauthorized' }, {
             status: 401,
             headers: {
@@ -16,12 +16,12 @@ export const GET = async (): Promise<NextResponse> => {
     }
 
     try {
+        const id = parseInt((session.user as any).id);
         //type casting string to number
-        session.user.id = parseInt(session.user.id);
 
         const balance = await prisma.balance.findUnique({
             where: {
-                userId: session.user.id
+                userId: id
             }
         });
         if (!balance) {
@@ -32,9 +32,9 @@ export const GET = async (): Promise<NextResponse> => {
                 }
             })
         }
-        const transaction = await prisma.onRampTransaction.findMany({
+        const transaction = await prisma.transactions.findMany({
             where: {
-                userId: session.user.id
+                userId: id
             },
             orderBy: {
                 upatedAt: "desc"
@@ -46,14 +46,14 @@ export const GET = async (): Promise<NextResponse> => {
                 available: balance.amount,
                 locked: balance.locked
             },
-            transactions: transaction.map(t=> ({
+            transactions: transaction.map(t => ({
                 id: t.id,
                 time: t.startTime,
                 amount: t.amount,
-                status: t.onRampStatus,
+                status: t.status,
                 provider: t.provider,
                 type: t.transactionType,
-                statement: t.Statement
+                statement: t.statement
             }))
         }
 

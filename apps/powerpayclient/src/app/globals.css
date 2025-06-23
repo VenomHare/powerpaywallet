@@ -15,6 +15,7 @@
     --color-primary: var(--color-slate-800);
     --animate-alertin: AlertIn 200ms ease-in-out forwards;
     --animate-alertout: AlertOut 500ms ease-in-out forwards;
+    --animate-fadein: fadein 500ms ease forwards;
 }
 
 @keyframes AlertIn {
@@ -32,5 +33,14 @@
     }
     to {
         transform: translate(0, 1000%);
+    }
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
     }
 }

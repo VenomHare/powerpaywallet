@@ -13,7 +13,10 @@ beforeAll(async () => {
     user = await prisma.user.create({
         data: {
             number: "12321312",
-            password: "password"
+            password: "password",
+            securityPin: "1234",
+            email: "abc122@gmail.com",
+            name: "John Doe"
         }
     });
 
@@ -26,15 +29,15 @@ beforeAll(async () => {
     });
 
     // Create initial transaction
-    transaction = await prisma.onRampTransaction.create({
+    transaction = await prisma.transactions.create({
         data: {
             token: "pay_tok_sa2sn21ia1g931",
             userId: user.id,
-            Statement: "Test Transaction",
+            statement: "Test Transaction",
             amount: 4000,
             provider: "POWERPAY_MOCKBANK",
             transactionType: "Credit",
-            onRampStatus: "Processing",
+            status: "Processing",
         }
     });
 });
@@ -42,7 +45,7 @@ beforeAll(async () => {
 afterAll(async () => {
     // Clean up all test data in reverse order
     if (transaction) {
-        await prisma.onRampTransaction.deleteMany({
+        await prisma.transactions.deleteMany({
             where: { userId: user.id }
         });
     }
@@ -68,7 +71,7 @@ describe('v1 Router', () => {
             const res = await request(app)
                 .post("/v1/mock/powerpay/success")
                 .send({})
-                .set('Authorization', process.env.WEBHOOK_SECRET||"");
+                .set('Authorization', process.env.WEBHOOK_SECRET || "");
             expect(res.status).toBe(411);
             expect(res.body.message).toBe("Invalid Parameters");
         });
@@ -81,7 +84,7 @@ describe('v1 Router', () => {
                     user_identifier: user.id,
                     amount: 4000
                 })
-                .set('Authorization', process.env.WEBHOOK_SECRET||"");
+                .set('Authorization', process.env.WEBHOOK_SECRET || "");
 
             const userBalance = await prisma.balance.findFirst({
                 where: {
@@ -102,7 +105,7 @@ describe('v1 Router', () => {
                     user_identifier: 213123,
                     amount: transaction.amount
                 })
-                .set('Authorization', process.env.WEBHOOK_SECRET||"");
+                .set('Authorization', process.env.WEBHOOK_SECRET || "");
 
             expect(res.status).toBe(411);
             expect(res.body.message).toBe("Error while processing Webhook Request");
@@ -117,9 +120,9 @@ describe('v1 Router', () => {
                     user_identifier: user.id,
                     amount: transaction.amount
                 })
-                .set('Authorization', process.env.WEBHOOK_SECRET||"");
+                .set('Authorization', process.env.WEBHOOK_SECRET || "");
 
-            const tnx = await prisma.onRampTransaction.findUnique({
+            const tnx = await prisma.transactions.findUnique({
                 where: {
                     token: transaction.token
                 }
@@ -132,7 +135,7 @@ describe('v1 Router', () => {
             })
             expect(res.status).toBe(200);
             expect(res.body.message).toBe("captured");
-            expect(tnx?.onRampStatus).toBe($Enums.OnRampStatus.Success);
+            expect(tnx?.status).toBe($Enums.Status.Success);
             expect(userBalance?.amount).toBe(transaction.amount);
         })
     })
@@ -141,7 +144,7 @@ describe('v1 Router', () => {
             const res = await request(app)
                 .post("/v1/mock/powerpay/failure")
                 .send({})
-                .set('Authorization', process.env.WEBHOOK_SECRET||"");
+                .set('Authorization', process.env.WEBHOOK_SECRET || "");
 
             expect(res.status).toBe(411);
             expect(res.body.message).toBe("Invalid Parameters");
@@ -155,22 +158,22 @@ describe('v1 Router', () => {
                     user_identifier: user.id,
                     amount: 1000
                 })
-                .set('Authorization', process.env.WEBHOOK_SECRET||"");;
+                .set('Authorization', process.env.WEBHOOK_SECRET || "");;
 
             expect(res.status).toBe(500);
             expect(res.body.message).toBe("Failed to record the failed payment");
         });
 
         it("should successfully mark transaction as failed", async () => {
-            const failureTransaction = await prisma.onRampTransaction.create({
+            const failureTransaction = await prisma.transactions.create({
                 data: {
                     token: "pay_tok_failure_test",
                     userId: user.id,
-                    Statement: "Test Failed Transaction",
+                    statement: "Test Failed Transaction",
                     amount: 5000,
                     provider: "POWERPAY_MOCKBANK",
                     transactionType: "Credit",
-                    onRampStatus: "Processing"
+                    status: "Processing"
                 }
             });
 
@@ -181,10 +184,10 @@ describe('v1 Router', () => {
                     user_identifier: user.id,
                     amount: failureTransaction.amount
                 })
-                .set('Authorization', process.env.WEBHOOK_SECRET||"");
-                
+                .set('Authorization', process.env.WEBHOOK_SECRET || "");
 
-            const updatedTnx = await prisma.onRampTransaction.findUnique({
+
+            const updatedTnx = await prisma.transactions.findUnique({
                 where: {
                     token: failureTransaction.token
                 }
@@ -192,9 +195,9 @@ describe('v1 Router', () => {
 
             expect(res.status).toBe(200);
             expect(res.body.message).toBe("recorded");
-            expect(updatedTnx?.onRampStatus).toBe($Enums.OnRampStatus.Failure);
+            expect(updatedTnx?.status).toBe($Enums.Status.Failure);
 
-            await prisma.onRampTransaction.delete({
+            await prisma.transactions.delete({
                 where: { id: failureTransaction.id }
             });
         });
