@@ -20,7 +20,7 @@ const ProfilePage = () => {
         if (profileData == undefined) {
             appDispatch(updateProfileData())
         }
-    }, [session, profileData])
+    }, [session, profileData, appDispatch])
 
     return (<>
         

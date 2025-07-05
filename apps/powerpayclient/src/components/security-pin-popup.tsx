@@ -1,5 +1,5 @@
 "use client";
-import { SecurityPinPopupAction, SecurityPinPopupActions, SecurityPopUpProps } from "@powerpaywallet/schemas/client"
+import { SecurityPinPopupAction, SecurityPopUpProps } from "@powerpaywallet/schemas/client"
 import { ShieldCheck } from "lucide-react"
 import { useEffect, useState } from "react"
 import { getWalletTransferData } from "../app/actions/security/walletTransfer"
@@ -33,7 +33,7 @@ const SecurityPinPopUp = ({ open, setOpen, action, id, onClose }: SecurityPopUpP
                 const data = await handler(id);
                 setActionData(data);
             }
-            catch (err) {
+            catch {
                 setErrorMessage("Something went wrong!");
                 alert(appDispatch, `Something went wrong`, "error", {
                     duration: 3000

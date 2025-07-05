@@ -1,6 +1,6 @@
 import { SidebarConfig } from "@powerpaywallet/schemas";
 import { setProfileTab } from "@powerpaywallet/store/slices";
-import { ArrowLeftRight, House, PersonStanding, User, Wallet, Wallet2 } from "lucide-react";
+import { ArrowLeftRight, House, User, Wallet } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 
@@ -25,7 +25,7 @@ export const useSidebarConfig = () => {
             onClick() {
                 router.push("/wallet")
             },
-            icon: <Wallet/>
+            icon: <Wallet />
         },
         {
             type: "item",
@@ -34,13 +34,13 @@ export const useSidebarConfig = () => {
             onClick() {
                 router.push("/transfer")
             },
-            icon: <ArrowLeftRight/>
+            icon: <ArrowLeftRight />
         },
         {
             type: "category",
             id: "profile",
             label: "Profile",
-            icon: <User/>,
+            icon: <User />,
             items: [
                 {
                     type: "item",

@@ -40,7 +40,7 @@ const SubLayout = ({ children }: Props) => {
         if (profileData == undefined) {
             appDispatch(updateProfileData());
         }
-    },[])
+    },[profileData, appDispatch])
 
     return (<>
         <Appbar signIn={signIn} signOut={signOut} status={session.status} />
