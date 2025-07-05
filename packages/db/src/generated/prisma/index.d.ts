@@ -19,6 +19,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
 /**
+ * Model Cloudinary_images
+ * 
+ */
+export type Cloudinary_images = $Result.DefaultSelection<Prisma.$Cloudinary_imagesPayload>
+/**
  * Model Merchant
  * 
  */
@@ -215,6 +220,16 @@ export class PrismaClient<
     * ```
     */
   get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.cloudinary_images`: Exposes CRUD operations for the **Cloudinary_images** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Cloudinary_images
+    * const cloudinary_images = await prisma.cloudinary_images.findMany()
+    * ```
+    */
+  get cloudinary_images(): Prisma.Cloudinary_imagesDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.merchant`: Exposes CRUD operations for the **Merchant** model.
@@ -696,6 +711,7 @@ export namespace Prisma {
 
   export const ModelName: {
     User: 'User',
+    Cloudinary_images: 'Cloudinary_images',
     Merchant: 'Merchant',
     Balance: 'Balance',
     Transactions: 'Transactions',
@@ -718,7 +734,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "merchant" | "balance" | "transactions" | "walletTransfers"
+      modelProps: "user" | "cloudinary_images" | "merchant" | "balance" | "transactions" | "walletTransfers"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -793,6 +809,80 @@ export namespace Prisma {
           count: {
             args: Prisma.UserCountArgs<ExtArgs>
             result: $Utils.Optional<UserCountAggregateOutputType> | number
+          }
+        }
+      }
+      Cloudinary_images: {
+        payload: Prisma.$Cloudinary_imagesPayload<ExtArgs>
+        fields: Prisma.Cloudinary_imagesFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.Cloudinary_imagesFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$Cloudinary_imagesPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.Cloudinary_imagesFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$Cloudinary_imagesPayload>
+          }
+          findFirst: {
+            args: Prisma.Cloudinary_imagesFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$Cloudinary_imagesPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.Cloudinary_imagesFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$Cloudinary_imagesPayload>
+          }
+          findMany: {
+            args: Prisma.Cloudinary_imagesFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$Cloudinary_imagesPayload>[]
+          }
+          create: {
+            args: Prisma.Cloudinary_imagesCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$Cloudinary_imagesPayload>
+          }
+          createMany: {
+            args: Prisma.Cloudinary_imagesCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.Cloudinary_imagesCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$Cloudinary_imagesPayload>[]
+          }
+          delete: {
+            args: Prisma.Cloudinary_imagesDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$Cloudinary_imagesPayload>
+          }
+          update: {
+            args: Prisma.Cloudinary_imagesUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$Cloudinary_imagesPayload>
+          }
+          deleteMany: {
+            args: Prisma.Cloudinary_imagesDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.Cloudinary_imagesUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.Cloudinary_imagesUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$Cloudinary_imagesPayload>[]
+          }
+          upsert: {
+            args: Prisma.Cloudinary_imagesUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$Cloudinary_imagesPayload>
+          }
+          aggregate: {
+            args: Prisma.Cloudinary_imagesAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCloudinary_images>
+          }
+          groupBy: {
+            args: Prisma.Cloudinary_imagesGroupByArgs<ExtArgs>
+            result: $Utils.Optional<Cloudinary_imagesGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.Cloudinary_imagesCountArgs<ExtArgs>
+            result: $Utils.Optional<Cloudinary_imagesCountAggregateOutputType> | number
           }
         }
       }
@@ -1177,6 +1267,7 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     user?: UserOmit
+    cloudinary_images?: Cloudinary_imagesOmit
     merchant?: MerchantOmit
     balance?: BalanceOmit
     transactions?: TransactionsOmit
@@ -1363,6 +1454,7 @@ export namespace Prisma {
     securityPin: string | null
     failedPinTries: number | null
     lastFailedPinTry: Date | null
+    pfpPublicId: string | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -1374,6 +1466,7 @@ export namespace Prisma {
     securityPin: string | null
     failedPinTries: number | null
     lastFailedPinTry: Date | null
+    pfpPublicId: string | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -1385,6 +1478,7 @@ export namespace Prisma {
     securityPin: number
     failedPinTries: number
     lastFailedPinTry: number
+    pfpPublicId: number
     _all: number
   }
 
@@ -1408,6 +1502,7 @@ export namespace Prisma {
     securityPin?: true
     failedPinTries?: true
     lastFailedPinTry?: true
+    pfpPublicId?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -1419,6 +1514,7 @@ export namespace Prisma {
     securityPin?: true
     failedPinTries?: true
     lastFailedPinTry?: true
+    pfpPublicId?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -1430,6 +1526,7 @@ export namespace Prisma {
     securityPin?: true
     failedPinTries?: true
     lastFailedPinTry?: true
+    pfpPublicId?: true
     _all?: true
   }
 
@@ -1528,6 +1625,7 @@ export namespace Prisma {
     securityPin: string
     failedPinTries: number
     lastFailedPinTry: Date | null
+    pfpPublicId: string | null
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -1558,6 +1656,8 @@ export namespace Prisma {
     securityPin?: boolean
     failedPinTries?: boolean
     lastFailedPinTry?: boolean
+    pfpPublicId?: boolean
+    pfp?: boolean | User$pfpArgs<ExtArgs>
     Balance?: boolean | User$BalanceArgs<ExtArgs>
     Transactions?: boolean | User$TransactionsArgs<ExtArgs>
     IncomingTransaction?: boolean | User$IncomingTransactionArgs<ExtArgs>
@@ -1574,6 +1674,8 @@ export namespace Prisma {
     securityPin?: boolean
     failedPinTries?: boolean
     lastFailedPinTry?: boolean
+    pfpPublicId?: boolean
+    pfp?: boolean | User$pfpArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1585,6 +1687,8 @@ export namespace Prisma {
     securityPin?: boolean
     failedPinTries?: boolean
     lastFailedPinTry?: boolean
+    pfpPublicId?: boolean
+    pfp?: boolean | User$pfpArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -1596,22 +1700,29 @@ export namespace Prisma {
     securityPin?: boolean
     failedPinTries?: boolean
     lastFailedPinTry?: boolean
+    pfpPublicId?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "number" | "password" | "securityPin" | "failedPinTries" | "lastFailedPinTry", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "number" | "password" | "securityPin" | "failedPinTries" | "lastFailedPinTry" | "pfpPublicId", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    pfp?: boolean | User$pfpArgs<ExtArgs>
     Balance?: boolean | User$BalanceArgs<ExtArgs>
     Transactions?: boolean | User$TransactionsArgs<ExtArgs>
     IncomingTransaction?: boolean | User$IncomingTransactionArgs<ExtArgs>
     OutgoingTransaction?: boolean | User$OutgoingTransactionArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type UserIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    pfp?: boolean | User$pfpArgs<ExtArgs>
+  }
+  export type UserIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    pfp?: boolean | User$pfpArgs<ExtArgs>
+  }
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
+      pfp: Prisma.$Cloudinary_imagesPayload<ExtArgs> | null
       Balance: Prisma.$BalancePayload<ExtArgs>[]
       Transactions: Prisma.$TransactionsPayload<ExtArgs>[]
       IncomingTransaction: Prisma.$WalletTransfersPayload<ExtArgs>[]
@@ -1626,6 +1737,7 @@ export namespace Prisma {
       securityPin: string
       failedPinTries: number
       lastFailedPinTry: Date | null
+      pfpPublicId: string | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -2020,6 +2132,7 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    pfp<T extends User$pfpArgs<ExtArgs> = {}>(args?: Subset<T, User$pfpArgs<ExtArgs>>): Prisma__Cloudinary_imagesClient<$Result.GetResult<Prisma.$Cloudinary_imagesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     Balance<T extends User$BalanceArgs<ExtArgs> = {}>(args?: Subset<T, User$BalanceArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BalancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     Transactions<T extends User$TransactionsArgs<ExtArgs> = {}>(args?: Subset<T, User$TransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransactionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     IncomingTransaction<T extends User$IncomingTransactionArgs<ExtArgs> = {}>(args?: Subset<T, User$IncomingTransactionArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WalletTransfersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2061,6 +2174,7 @@ export namespace Prisma {
     readonly securityPin: FieldRef<"User", 'String'>
     readonly failedPinTries: FieldRef<"User", 'Int'>
     readonly lastFailedPinTry: FieldRef<"User", 'DateTime'>
+    readonly pfpPublicId: FieldRef<"User", 'String'>
   }
     
 
@@ -2310,6 +2424,10 @@ export namespace Prisma {
      */
     data: UserCreateManyInput | UserCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -2380,6 +2498,10 @@ export namespace Prisma {
      * Limit how many Users to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -2446,6 +2568,25 @@ export namespace Prisma {
      * Limit how many Users to delete.
      */
     limit?: number
+  }
+
+  /**
+   * User.pfp
+   */
+  export type User$pfpArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cloudinary_images
+     */
+    select?: Cloudinary_imagesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cloudinary_images
+     */
+    omit?: Cloudinary_imagesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Cloudinary_imagesInclude<ExtArgs> | null
+    where?: Cloudinary_imagesWhereInput
   }
 
   /**
@@ -2560,6 +2701,1030 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Cloudinary_images
+   */
+
+  export type AggregateCloudinary_images = {
+    _count: Cloudinary_imagesCountAggregateOutputType | null
+    _min: Cloudinary_imagesMinAggregateOutputType | null
+    _max: Cloudinary_imagesMaxAggregateOutputType | null
+  }
+
+  export type Cloudinary_imagesMinAggregateOutputType = {
+    public_id: string | null
+    url: string | null
+  }
+
+  export type Cloudinary_imagesMaxAggregateOutputType = {
+    public_id: string | null
+    url: string | null
+  }
+
+  export type Cloudinary_imagesCountAggregateOutputType = {
+    public_id: number
+    url: number
+    _all: number
+  }
+
+
+  export type Cloudinary_imagesMinAggregateInputType = {
+    public_id?: true
+    url?: true
+  }
+
+  export type Cloudinary_imagesMaxAggregateInputType = {
+    public_id?: true
+    url?: true
+  }
+
+  export type Cloudinary_imagesCountAggregateInputType = {
+    public_id?: true
+    url?: true
+    _all?: true
+  }
+
+  export type Cloudinary_imagesAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Cloudinary_images to aggregate.
+     */
+    where?: Cloudinary_imagesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Cloudinary_images to fetch.
+     */
+    orderBy?: Cloudinary_imagesOrderByWithRelationInput | Cloudinary_imagesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: Cloudinary_imagesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Cloudinary_images from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Cloudinary_images.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Cloudinary_images
+    **/
+    _count?: true | Cloudinary_imagesCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Cloudinary_imagesMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Cloudinary_imagesMaxAggregateInputType
+  }
+
+  export type GetCloudinary_imagesAggregateType<T extends Cloudinary_imagesAggregateArgs> = {
+        [P in keyof T & keyof AggregateCloudinary_images]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCloudinary_images[P]>
+      : GetScalarType<T[P], AggregateCloudinary_images[P]>
+  }
+
+
+
+
+  export type Cloudinary_imagesGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: Cloudinary_imagesWhereInput
+    orderBy?: Cloudinary_imagesOrderByWithAggregationInput | Cloudinary_imagesOrderByWithAggregationInput[]
+    by: Cloudinary_imagesScalarFieldEnum[] | Cloudinary_imagesScalarFieldEnum
+    having?: Cloudinary_imagesScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Cloudinary_imagesCountAggregateInputType | true
+    _min?: Cloudinary_imagesMinAggregateInputType
+    _max?: Cloudinary_imagesMaxAggregateInputType
+  }
+
+  export type Cloudinary_imagesGroupByOutputType = {
+    public_id: string
+    url: string
+    _count: Cloudinary_imagesCountAggregateOutputType | null
+    _min: Cloudinary_imagesMinAggregateOutputType | null
+    _max: Cloudinary_imagesMaxAggregateOutputType | null
+  }
+
+  type GetCloudinary_imagesGroupByPayload<T extends Cloudinary_imagesGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<Cloudinary_imagesGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Cloudinary_imagesGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Cloudinary_imagesGroupByOutputType[P]>
+            : GetScalarType<T[P], Cloudinary_imagesGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type Cloudinary_imagesSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    public_id?: boolean
+    url?: boolean
+    User?: boolean | Cloudinary_images$UserArgs<ExtArgs>
+  }, ExtArgs["result"]["cloudinary_images"]>
+
+  export type Cloudinary_imagesSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    public_id?: boolean
+    url?: boolean
+  }, ExtArgs["result"]["cloudinary_images"]>
+
+  export type Cloudinary_imagesSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    public_id?: boolean
+    url?: boolean
+  }, ExtArgs["result"]["cloudinary_images"]>
+
+  export type Cloudinary_imagesSelectScalar = {
+    public_id?: boolean
+    url?: boolean
+  }
+
+  export type Cloudinary_imagesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"public_id" | "url", ExtArgs["result"]["cloudinary_images"]>
+  export type Cloudinary_imagesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    User?: boolean | Cloudinary_images$UserArgs<ExtArgs>
+  }
+  export type Cloudinary_imagesIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type Cloudinary_imagesIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $Cloudinary_imagesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Cloudinary_images"
+    objects: {
+      User: Prisma.$UserPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      public_id: string
+      url: string
+    }, ExtArgs["result"]["cloudinary_images"]>
+    composites: {}
+  }
+
+  type Cloudinary_imagesGetPayload<S extends boolean | null | undefined | Cloudinary_imagesDefaultArgs> = $Result.GetResult<Prisma.$Cloudinary_imagesPayload, S>
+
+  type Cloudinary_imagesCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<Cloudinary_imagesFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: Cloudinary_imagesCountAggregateInputType | true
+    }
+
+  export interface Cloudinary_imagesDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Cloudinary_images'], meta: { name: 'Cloudinary_images' } }
+    /**
+     * Find zero or one Cloudinary_images that matches the filter.
+     * @param {Cloudinary_imagesFindUniqueArgs} args - Arguments to find a Cloudinary_images
+     * @example
+     * // Get one Cloudinary_images
+     * const cloudinary_images = await prisma.cloudinary_images.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends Cloudinary_imagesFindUniqueArgs>(args: SelectSubset<T, Cloudinary_imagesFindUniqueArgs<ExtArgs>>): Prisma__Cloudinary_imagesClient<$Result.GetResult<Prisma.$Cloudinary_imagesPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Cloudinary_images that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {Cloudinary_imagesFindUniqueOrThrowArgs} args - Arguments to find a Cloudinary_images
+     * @example
+     * // Get one Cloudinary_images
+     * const cloudinary_images = await prisma.cloudinary_images.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends Cloudinary_imagesFindUniqueOrThrowArgs>(args: SelectSubset<T, Cloudinary_imagesFindUniqueOrThrowArgs<ExtArgs>>): Prisma__Cloudinary_imagesClient<$Result.GetResult<Prisma.$Cloudinary_imagesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Cloudinary_images that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Cloudinary_imagesFindFirstArgs} args - Arguments to find a Cloudinary_images
+     * @example
+     * // Get one Cloudinary_images
+     * const cloudinary_images = await prisma.cloudinary_images.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends Cloudinary_imagesFindFirstArgs>(args?: SelectSubset<T, Cloudinary_imagesFindFirstArgs<ExtArgs>>): Prisma__Cloudinary_imagesClient<$Result.GetResult<Prisma.$Cloudinary_imagesPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Cloudinary_images that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Cloudinary_imagesFindFirstOrThrowArgs} args - Arguments to find a Cloudinary_images
+     * @example
+     * // Get one Cloudinary_images
+     * const cloudinary_images = await prisma.cloudinary_images.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends Cloudinary_imagesFindFirstOrThrowArgs>(args?: SelectSubset<T, Cloudinary_imagesFindFirstOrThrowArgs<ExtArgs>>): Prisma__Cloudinary_imagesClient<$Result.GetResult<Prisma.$Cloudinary_imagesPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Cloudinary_images that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Cloudinary_imagesFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Cloudinary_images
+     * const cloudinary_images = await prisma.cloudinary_images.findMany()
+     * 
+     * // Get first 10 Cloudinary_images
+     * const cloudinary_images = await prisma.cloudinary_images.findMany({ take: 10 })
+     * 
+     * // Only select the `public_id`
+     * const cloudinary_imagesWithPublic_idOnly = await prisma.cloudinary_images.findMany({ select: { public_id: true } })
+     * 
+     */
+    findMany<T extends Cloudinary_imagesFindManyArgs>(args?: SelectSubset<T, Cloudinary_imagesFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$Cloudinary_imagesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Cloudinary_images.
+     * @param {Cloudinary_imagesCreateArgs} args - Arguments to create a Cloudinary_images.
+     * @example
+     * // Create one Cloudinary_images
+     * const Cloudinary_images = await prisma.cloudinary_images.create({
+     *   data: {
+     *     // ... data to create a Cloudinary_images
+     *   }
+     * })
+     * 
+     */
+    create<T extends Cloudinary_imagesCreateArgs>(args: SelectSubset<T, Cloudinary_imagesCreateArgs<ExtArgs>>): Prisma__Cloudinary_imagesClient<$Result.GetResult<Prisma.$Cloudinary_imagesPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Cloudinary_images.
+     * @param {Cloudinary_imagesCreateManyArgs} args - Arguments to create many Cloudinary_images.
+     * @example
+     * // Create many Cloudinary_images
+     * const cloudinary_images = await prisma.cloudinary_images.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends Cloudinary_imagesCreateManyArgs>(args?: SelectSubset<T, Cloudinary_imagesCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Cloudinary_images and returns the data saved in the database.
+     * @param {Cloudinary_imagesCreateManyAndReturnArgs} args - Arguments to create many Cloudinary_images.
+     * @example
+     * // Create many Cloudinary_images
+     * const cloudinary_images = await prisma.cloudinary_images.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Cloudinary_images and only return the `public_id`
+     * const cloudinary_imagesWithPublic_idOnly = await prisma.cloudinary_images.createManyAndReturn({
+     *   select: { public_id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends Cloudinary_imagesCreateManyAndReturnArgs>(args?: SelectSubset<T, Cloudinary_imagesCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$Cloudinary_imagesPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Cloudinary_images.
+     * @param {Cloudinary_imagesDeleteArgs} args - Arguments to delete one Cloudinary_images.
+     * @example
+     * // Delete one Cloudinary_images
+     * const Cloudinary_images = await prisma.cloudinary_images.delete({
+     *   where: {
+     *     // ... filter to delete one Cloudinary_images
+     *   }
+     * })
+     * 
+     */
+    delete<T extends Cloudinary_imagesDeleteArgs>(args: SelectSubset<T, Cloudinary_imagesDeleteArgs<ExtArgs>>): Prisma__Cloudinary_imagesClient<$Result.GetResult<Prisma.$Cloudinary_imagesPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Cloudinary_images.
+     * @param {Cloudinary_imagesUpdateArgs} args - Arguments to update one Cloudinary_images.
+     * @example
+     * // Update one Cloudinary_images
+     * const cloudinary_images = await prisma.cloudinary_images.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends Cloudinary_imagesUpdateArgs>(args: SelectSubset<T, Cloudinary_imagesUpdateArgs<ExtArgs>>): Prisma__Cloudinary_imagesClient<$Result.GetResult<Prisma.$Cloudinary_imagesPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Cloudinary_images.
+     * @param {Cloudinary_imagesDeleteManyArgs} args - Arguments to filter Cloudinary_images to delete.
+     * @example
+     * // Delete a few Cloudinary_images
+     * const { count } = await prisma.cloudinary_images.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends Cloudinary_imagesDeleteManyArgs>(args?: SelectSubset<T, Cloudinary_imagesDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Cloudinary_images.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Cloudinary_imagesUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Cloudinary_images
+     * const cloudinary_images = await prisma.cloudinary_images.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends Cloudinary_imagesUpdateManyArgs>(args: SelectSubset<T, Cloudinary_imagesUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Cloudinary_images and returns the data updated in the database.
+     * @param {Cloudinary_imagesUpdateManyAndReturnArgs} args - Arguments to update many Cloudinary_images.
+     * @example
+     * // Update many Cloudinary_images
+     * const cloudinary_images = await prisma.cloudinary_images.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Cloudinary_images and only return the `public_id`
+     * const cloudinary_imagesWithPublic_idOnly = await prisma.cloudinary_images.updateManyAndReturn({
+     *   select: { public_id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends Cloudinary_imagesUpdateManyAndReturnArgs>(args: SelectSubset<T, Cloudinary_imagesUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$Cloudinary_imagesPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Cloudinary_images.
+     * @param {Cloudinary_imagesUpsertArgs} args - Arguments to update or create a Cloudinary_images.
+     * @example
+     * // Update or create a Cloudinary_images
+     * const cloudinary_images = await prisma.cloudinary_images.upsert({
+     *   create: {
+     *     // ... data to create a Cloudinary_images
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Cloudinary_images we want to update
+     *   }
+     * })
+     */
+    upsert<T extends Cloudinary_imagesUpsertArgs>(args: SelectSubset<T, Cloudinary_imagesUpsertArgs<ExtArgs>>): Prisma__Cloudinary_imagesClient<$Result.GetResult<Prisma.$Cloudinary_imagesPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Cloudinary_images.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Cloudinary_imagesCountArgs} args - Arguments to filter Cloudinary_images to count.
+     * @example
+     * // Count the number of Cloudinary_images
+     * const count = await prisma.cloudinary_images.count({
+     *   where: {
+     *     // ... the filter for the Cloudinary_images we want to count
+     *   }
+     * })
+    **/
+    count<T extends Cloudinary_imagesCountArgs>(
+      args?: Subset<T, Cloudinary_imagesCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Cloudinary_imagesCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Cloudinary_images.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Cloudinary_imagesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Cloudinary_imagesAggregateArgs>(args: Subset<T, Cloudinary_imagesAggregateArgs>): Prisma.PrismaPromise<GetCloudinary_imagesAggregateType<T>>
+
+    /**
+     * Group by Cloudinary_images.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Cloudinary_imagesGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends Cloudinary_imagesGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: Cloudinary_imagesGroupByArgs['orderBy'] }
+        : { orderBy?: Cloudinary_imagesGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, Cloudinary_imagesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCloudinary_imagesGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Cloudinary_images model
+   */
+  readonly fields: Cloudinary_imagesFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Cloudinary_images.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__Cloudinary_imagesClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    User<T extends Cloudinary_images$UserArgs<ExtArgs> = {}>(args?: Subset<T, Cloudinary_images$UserArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Cloudinary_images model
+   */
+  interface Cloudinary_imagesFieldRefs {
+    readonly public_id: FieldRef<"Cloudinary_images", 'String'>
+    readonly url: FieldRef<"Cloudinary_images", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Cloudinary_images findUnique
+   */
+  export type Cloudinary_imagesFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cloudinary_images
+     */
+    select?: Cloudinary_imagesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cloudinary_images
+     */
+    omit?: Cloudinary_imagesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Cloudinary_imagesInclude<ExtArgs> | null
+    /**
+     * Filter, which Cloudinary_images to fetch.
+     */
+    where: Cloudinary_imagesWhereUniqueInput
+  }
+
+  /**
+   * Cloudinary_images findUniqueOrThrow
+   */
+  export type Cloudinary_imagesFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cloudinary_images
+     */
+    select?: Cloudinary_imagesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cloudinary_images
+     */
+    omit?: Cloudinary_imagesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Cloudinary_imagesInclude<ExtArgs> | null
+    /**
+     * Filter, which Cloudinary_images to fetch.
+     */
+    where: Cloudinary_imagesWhereUniqueInput
+  }
+
+  /**
+   * Cloudinary_images findFirst
+   */
+  export type Cloudinary_imagesFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cloudinary_images
+     */
+    select?: Cloudinary_imagesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cloudinary_images
+     */
+    omit?: Cloudinary_imagesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Cloudinary_imagesInclude<ExtArgs> | null
+    /**
+     * Filter, which Cloudinary_images to fetch.
+     */
+    where?: Cloudinary_imagesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Cloudinary_images to fetch.
+     */
+    orderBy?: Cloudinary_imagesOrderByWithRelationInput | Cloudinary_imagesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Cloudinary_images.
+     */
+    cursor?: Cloudinary_imagesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Cloudinary_images from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Cloudinary_images.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Cloudinary_images.
+     */
+    distinct?: Cloudinary_imagesScalarFieldEnum | Cloudinary_imagesScalarFieldEnum[]
+  }
+
+  /**
+   * Cloudinary_images findFirstOrThrow
+   */
+  export type Cloudinary_imagesFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cloudinary_images
+     */
+    select?: Cloudinary_imagesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cloudinary_images
+     */
+    omit?: Cloudinary_imagesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Cloudinary_imagesInclude<ExtArgs> | null
+    /**
+     * Filter, which Cloudinary_images to fetch.
+     */
+    where?: Cloudinary_imagesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Cloudinary_images to fetch.
+     */
+    orderBy?: Cloudinary_imagesOrderByWithRelationInput | Cloudinary_imagesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Cloudinary_images.
+     */
+    cursor?: Cloudinary_imagesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Cloudinary_images from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Cloudinary_images.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Cloudinary_images.
+     */
+    distinct?: Cloudinary_imagesScalarFieldEnum | Cloudinary_imagesScalarFieldEnum[]
+  }
+
+  /**
+   * Cloudinary_images findMany
+   */
+  export type Cloudinary_imagesFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cloudinary_images
+     */
+    select?: Cloudinary_imagesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cloudinary_images
+     */
+    omit?: Cloudinary_imagesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Cloudinary_imagesInclude<ExtArgs> | null
+    /**
+     * Filter, which Cloudinary_images to fetch.
+     */
+    where?: Cloudinary_imagesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Cloudinary_images to fetch.
+     */
+    orderBy?: Cloudinary_imagesOrderByWithRelationInput | Cloudinary_imagesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Cloudinary_images.
+     */
+    cursor?: Cloudinary_imagesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Cloudinary_images from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Cloudinary_images.
+     */
+    skip?: number
+    distinct?: Cloudinary_imagesScalarFieldEnum | Cloudinary_imagesScalarFieldEnum[]
+  }
+
+  /**
+   * Cloudinary_images create
+   */
+  export type Cloudinary_imagesCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cloudinary_images
+     */
+    select?: Cloudinary_imagesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cloudinary_images
+     */
+    omit?: Cloudinary_imagesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Cloudinary_imagesInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Cloudinary_images.
+     */
+    data: XOR<Cloudinary_imagesCreateInput, Cloudinary_imagesUncheckedCreateInput>
+  }
+
+  /**
+   * Cloudinary_images createMany
+   */
+  export type Cloudinary_imagesCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Cloudinary_images.
+     */
+    data: Cloudinary_imagesCreateManyInput | Cloudinary_imagesCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Cloudinary_images createManyAndReturn
+   */
+  export type Cloudinary_imagesCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cloudinary_images
+     */
+    select?: Cloudinary_imagesSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cloudinary_images
+     */
+    omit?: Cloudinary_imagesOmit<ExtArgs> | null
+    /**
+     * The data used to create many Cloudinary_images.
+     */
+    data: Cloudinary_imagesCreateManyInput | Cloudinary_imagesCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Cloudinary_images update
+   */
+  export type Cloudinary_imagesUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cloudinary_images
+     */
+    select?: Cloudinary_imagesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cloudinary_images
+     */
+    omit?: Cloudinary_imagesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Cloudinary_imagesInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Cloudinary_images.
+     */
+    data: XOR<Cloudinary_imagesUpdateInput, Cloudinary_imagesUncheckedUpdateInput>
+    /**
+     * Choose, which Cloudinary_images to update.
+     */
+    where: Cloudinary_imagesWhereUniqueInput
+  }
+
+  /**
+   * Cloudinary_images updateMany
+   */
+  export type Cloudinary_imagesUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Cloudinary_images.
+     */
+    data: XOR<Cloudinary_imagesUpdateManyMutationInput, Cloudinary_imagesUncheckedUpdateManyInput>
+    /**
+     * Filter which Cloudinary_images to update
+     */
+    where?: Cloudinary_imagesWhereInput
+    /**
+     * Limit how many Cloudinary_images to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Cloudinary_images updateManyAndReturn
+   */
+  export type Cloudinary_imagesUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cloudinary_images
+     */
+    select?: Cloudinary_imagesSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cloudinary_images
+     */
+    omit?: Cloudinary_imagesOmit<ExtArgs> | null
+    /**
+     * The data used to update Cloudinary_images.
+     */
+    data: XOR<Cloudinary_imagesUpdateManyMutationInput, Cloudinary_imagesUncheckedUpdateManyInput>
+    /**
+     * Filter which Cloudinary_images to update
+     */
+    where?: Cloudinary_imagesWhereInput
+    /**
+     * Limit how many Cloudinary_images to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Cloudinary_images upsert
+   */
+  export type Cloudinary_imagesUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cloudinary_images
+     */
+    select?: Cloudinary_imagesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cloudinary_images
+     */
+    omit?: Cloudinary_imagesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Cloudinary_imagesInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Cloudinary_images to update in case it exists.
+     */
+    where: Cloudinary_imagesWhereUniqueInput
+    /**
+     * In case the Cloudinary_images found by the `where` argument doesn't exist, create a new Cloudinary_images with this data.
+     */
+    create: XOR<Cloudinary_imagesCreateInput, Cloudinary_imagesUncheckedCreateInput>
+    /**
+     * In case the Cloudinary_images was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<Cloudinary_imagesUpdateInput, Cloudinary_imagesUncheckedUpdateInput>
+  }
+
+  /**
+   * Cloudinary_images delete
+   */
+  export type Cloudinary_imagesDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cloudinary_images
+     */
+    select?: Cloudinary_imagesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cloudinary_images
+     */
+    omit?: Cloudinary_imagesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Cloudinary_imagesInclude<ExtArgs> | null
+    /**
+     * Filter which Cloudinary_images to delete.
+     */
+    where: Cloudinary_imagesWhereUniqueInput
+  }
+
+  /**
+   * Cloudinary_images deleteMany
+   */
+  export type Cloudinary_imagesDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Cloudinary_images to delete
+     */
+    where?: Cloudinary_imagesWhereInput
+    /**
+     * Limit how many Cloudinary_images to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Cloudinary_images.User
+   */
+  export type Cloudinary_images$UserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * Cloudinary_images without action
+   */
+  export type Cloudinary_imagesDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cloudinary_images
+     */
+    select?: Cloudinary_imagesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cloudinary_images
+     */
+    omit?: Cloudinary_imagesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Cloudinary_imagesInclude<ExtArgs> | null
   }
 
 
@@ -6995,10 +8160,19 @@ export namespace Prisma {
     password: 'password',
     securityPin: 'securityPin',
     failedPinTries: 'failedPinTries',
-    lastFailedPinTry: 'lastFailedPinTry'
+    lastFailedPinTry: 'lastFailedPinTry',
+    pfpPublicId: 'pfpPublicId'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+  export const Cloudinary_imagesScalarFieldEnum: {
+    public_id: 'public_id',
+    url: 'url'
+  };
+
+  export type Cloudinary_imagesScalarFieldEnum = (typeof Cloudinary_imagesScalarFieldEnum)[keyof typeof Cloudinary_imagesScalarFieldEnum]
 
 
   export const MerchantScalarFieldEnum: {
@@ -7192,6 +8366,8 @@ export namespace Prisma {
     securityPin?: StringFilter<"User"> | string
     failedPinTries?: IntFilter<"User"> | number
     lastFailedPinTry?: DateTimeNullableFilter<"User"> | Date | string | null
+    pfpPublicId?: StringNullableFilter<"User"> | string | null
+    pfp?: XOR<Cloudinary_imagesNullableScalarRelationFilter, Cloudinary_imagesWhereInput> | null
     Balance?: BalanceListRelationFilter
     Transactions?: TransactionsListRelationFilter
     IncomingTransaction?: WalletTransfersListRelationFilter
@@ -7207,6 +8383,8 @@ export namespace Prisma {
     securityPin?: SortOrder
     failedPinTries?: SortOrder
     lastFailedPinTry?: SortOrderInput | SortOrder
+    pfpPublicId?: SortOrderInput | SortOrder
+    pfp?: Cloudinary_imagesOrderByWithRelationInput
     Balance?: BalanceOrderByRelationAggregateInput
     Transactions?: TransactionsOrderByRelationAggregateInput
     IncomingTransaction?: WalletTransfersOrderByRelationAggregateInput
@@ -7217,6 +8395,7 @@ export namespace Prisma {
     id?: number
     email?: string
     number?: string
+    pfpPublicId?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
@@ -7225,11 +8404,12 @@ export namespace Prisma {
     securityPin?: StringFilter<"User"> | string
     failedPinTries?: IntFilter<"User"> | number
     lastFailedPinTry?: DateTimeNullableFilter<"User"> | Date | string | null
+    pfp?: XOR<Cloudinary_imagesNullableScalarRelationFilter, Cloudinary_imagesWhereInput> | null
     Balance?: BalanceListRelationFilter
     Transactions?: TransactionsListRelationFilter
     IncomingTransaction?: WalletTransfersListRelationFilter
     OutgoingTransaction?: WalletTransfersListRelationFilter
-  }, "id" | "email" | "number">
+  }, "id" | "email" | "number" | "pfpPublicId">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
@@ -7240,6 +8420,7 @@ export namespace Prisma {
     securityPin?: SortOrder
     failedPinTries?: SortOrder
     lastFailedPinTry?: SortOrderInput | SortOrder
+    pfpPublicId?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -7259,6 +8440,47 @@ export namespace Prisma {
     securityPin?: StringWithAggregatesFilter<"User"> | string
     failedPinTries?: IntWithAggregatesFilter<"User"> | number
     lastFailedPinTry?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    pfpPublicId?: StringNullableWithAggregatesFilter<"User"> | string | null
+  }
+
+  export type Cloudinary_imagesWhereInput = {
+    AND?: Cloudinary_imagesWhereInput | Cloudinary_imagesWhereInput[]
+    OR?: Cloudinary_imagesWhereInput[]
+    NOT?: Cloudinary_imagesWhereInput | Cloudinary_imagesWhereInput[]
+    public_id?: StringFilter<"Cloudinary_images"> | string
+    url?: StringFilter<"Cloudinary_images"> | string
+    User?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }
+
+  export type Cloudinary_imagesOrderByWithRelationInput = {
+    public_id?: SortOrder
+    url?: SortOrder
+    User?: UserOrderByWithRelationInput
+  }
+
+  export type Cloudinary_imagesWhereUniqueInput = Prisma.AtLeast<{
+    public_id?: string
+    AND?: Cloudinary_imagesWhereInput | Cloudinary_imagesWhereInput[]
+    OR?: Cloudinary_imagesWhereInput[]
+    NOT?: Cloudinary_imagesWhereInput | Cloudinary_imagesWhereInput[]
+    url?: StringFilter<"Cloudinary_images"> | string
+    User?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }, "public_id">
+
+  export type Cloudinary_imagesOrderByWithAggregationInput = {
+    public_id?: SortOrder
+    url?: SortOrder
+    _count?: Cloudinary_imagesCountOrderByAggregateInput
+    _max?: Cloudinary_imagesMaxOrderByAggregateInput
+    _min?: Cloudinary_imagesMinOrderByAggregateInput
+  }
+
+  export type Cloudinary_imagesScalarWhereWithAggregatesInput = {
+    AND?: Cloudinary_imagesScalarWhereWithAggregatesInput | Cloudinary_imagesScalarWhereWithAggregatesInput[]
+    OR?: Cloudinary_imagesScalarWhereWithAggregatesInput[]
+    NOT?: Cloudinary_imagesScalarWhereWithAggregatesInput | Cloudinary_imagesScalarWhereWithAggregatesInput[]
+    public_id?: StringWithAggregatesFilter<"Cloudinary_images"> | string
+    url?: StringWithAggregatesFilter<"Cloudinary_images"> | string
   }
 
   export type MerchantWhereInput = {
@@ -7522,6 +8744,7 @@ export namespace Prisma {
     securityPin: string
     failedPinTries?: number
     lastFailedPinTry?: Date | string | null
+    pfp?: Cloudinary_imagesCreateNestedOneWithoutUserInput
     Balance?: BalanceCreateNestedManyWithoutUserInput
     Transactions?: TransactionsCreateNestedManyWithoutUserInput
     IncomingTransaction?: WalletTransfersCreateNestedManyWithoutToUserInput
@@ -7537,6 +8760,7 @@ export namespace Prisma {
     securityPin: string
     failedPinTries?: number
     lastFailedPinTry?: Date | string | null
+    pfpPublicId?: string | null
     Balance?: BalanceUncheckedCreateNestedManyWithoutUserInput
     Transactions?: TransactionsUncheckedCreateNestedManyWithoutUserInput
     IncomingTransaction?: WalletTransfersUncheckedCreateNestedManyWithoutToUserInput
@@ -7551,6 +8775,7 @@ export namespace Prisma {
     securityPin?: StringFieldUpdateOperationsInput | string
     failedPinTries?: IntFieldUpdateOperationsInput | number
     lastFailedPinTry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pfp?: Cloudinary_imagesUpdateOneWithoutUserNestedInput
     Balance?: BalanceUpdateManyWithoutUserNestedInput
     Transactions?: TransactionsUpdateManyWithoutUserNestedInput
     IncomingTransaction?: WalletTransfersUpdateManyWithoutToUserNestedInput
@@ -7566,6 +8791,7 @@ export namespace Prisma {
     securityPin?: StringFieldUpdateOperationsInput | string
     failedPinTries?: IntFieldUpdateOperationsInput | number
     lastFailedPinTry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pfpPublicId?: NullableStringFieldUpdateOperationsInput | string | null
     Balance?: BalanceUncheckedUpdateManyWithoutUserNestedInput
     Transactions?: TransactionsUncheckedUpdateManyWithoutUserNestedInput
     IncomingTransaction?: WalletTransfersUncheckedUpdateManyWithoutToUserNestedInput
@@ -7581,6 +8807,7 @@ export namespace Prisma {
     securityPin: string
     failedPinTries?: number
     lastFailedPinTry?: Date | string | null
+    pfpPublicId?: string | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -7602,6 +8829,46 @@ export namespace Prisma {
     securityPin?: StringFieldUpdateOperationsInput | string
     failedPinTries?: IntFieldUpdateOperationsInput | number
     lastFailedPinTry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pfpPublicId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type Cloudinary_imagesCreateInput = {
+    public_id: string
+    url: string
+    User?: UserCreateNestedOneWithoutPfpInput
+  }
+
+  export type Cloudinary_imagesUncheckedCreateInput = {
+    public_id: string
+    url: string
+    User?: UserUncheckedCreateNestedOneWithoutPfpInput
+  }
+
+  export type Cloudinary_imagesUpdateInput = {
+    public_id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    User?: UserUpdateOneWithoutPfpNestedInput
+  }
+
+  export type Cloudinary_imagesUncheckedUpdateInput = {
+    public_id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    User?: UserUncheckedUpdateOneWithoutPfpNestedInput
+  }
+
+  export type Cloudinary_imagesCreateManyInput = {
+    public_id: string
+    url: string
+  }
+
+  export type Cloudinary_imagesUpdateManyMutationInput = {
+    public_id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type Cloudinary_imagesUncheckedUpdateManyInput = {
+    public_id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
   }
 
   export type MerchantCreateInput = {
@@ -7884,6 +9151,26 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type Cloudinary_imagesNullableScalarRelationFilter = {
+    is?: Cloudinary_imagesWhereInput | null
+    isNot?: Cloudinary_imagesWhereInput | null
+  }
+
   export type BalanceListRelationFilter = {
     every?: BalanceWhereInput
     some?: BalanceWhereInput
@@ -7928,6 +9215,7 @@ export namespace Prisma {
     securityPin?: SortOrder
     failedPinTries?: SortOrder
     lastFailedPinTry?: SortOrder
+    pfpPublicId?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
@@ -7944,6 +9232,7 @@ export namespace Prisma {
     securityPin?: SortOrder
     failedPinTries?: SortOrder
     lastFailedPinTry?: SortOrder
+    pfpPublicId?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -7955,6 +9244,7 @@ export namespace Prisma {
     securityPin?: SortOrder
     failedPinTries?: SortOrder
     lastFailedPinTry?: SortOrder
+    pfpPublicId?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
@@ -8008,6 +9298,44 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type UserNullableScalarRelationFilter = {
+    is?: UserWhereInput | null
+    isNot?: UserWhereInput | null
+  }
+
+  export type Cloudinary_imagesCountOrderByAggregateInput = {
+    public_id?: SortOrder
+    url?: SortOrder
+  }
+
+  export type Cloudinary_imagesMaxOrderByAggregateInput = {
+    public_id?: SortOrder
+    url?: SortOrder
+  }
+
+  export type Cloudinary_imagesMinOrderByAggregateInput = {
+    public_id?: SortOrder
+    url?: SortOrder
   }
 
   export type EnumAuthTypeFilter<$PrismaModel = never> = {
@@ -8250,6 +9578,12 @@ export namespace Prisma {
     amount?: SortOrder
   }
 
+  export type Cloudinary_imagesCreateNestedOneWithoutUserInput = {
+    create?: XOR<Cloudinary_imagesCreateWithoutUserInput, Cloudinary_imagesUncheckedCreateWithoutUserInput>
+    connectOrCreate?: Cloudinary_imagesCreateOrConnectWithoutUserInput
+    connect?: Cloudinary_imagesWhereUniqueInput
+  }
+
   export type BalanceCreateNestedManyWithoutUserInput = {
     create?: XOR<BalanceCreateWithoutUserInput, BalanceUncheckedCreateWithoutUserInput> | BalanceCreateWithoutUserInput[] | BalanceUncheckedCreateWithoutUserInput[]
     connectOrCreate?: BalanceCreateOrConnectWithoutUserInput | BalanceCreateOrConnectWithoutUserInput[]
@@ -8322,6 +9656,16 @@ export namespace Prisma {
     set?: Date | string | null
   }
 
+  export type Cloudinary_imagesUpdateOneWithoutUserNestedInput = {
+    create?: XOR<Cloudinary_imagesCreateWithoutUserInput, Cloudinary_imagesUncheckedCreateWithoutUserInput>
+    connectOrCreate?: Cloudinary_imagesCreateOrConnectWithoutUserInput
+    upsert?: Cloudinary_imagesUpsertWithoutUserInput
+    disconnect?: Cloudinary_imagesWhereInput | boolean
+    delete?: Cloudinary_imagesWhereInput | boolean
+    connect?: Cloudinary_imagesWhereUniqueInput
+    update?: XOR<XOR<Cloudinary_imagesUpdateToOneWithWhereWithoutUserInput, Cloudinary_imagesUpdateWithoutUserInput>, Cloudinary_imagesUncheckedUpdateWithoutUserInput>
+  }
+
   export type BalanceUpdateManyWithoutUserNestedInput = {
     create?: XOR<BalanceCreateWithoutUserInput, BalanceUncheckedCreateWithoutUserInput> | BalanceCreateWithoutUserInput[] | BalanceUncheckedCreateWithoutUserInput[]
     connectOrCreate?: BalanceCreateOrConnectWithoutUserInput | BalanceCreateOrConnectWithoutUserInput[]
@@ -8378,6 +9722,10 @@ export namespace Prisma {
     deleteMany?: WalletTransfersScalarWhereInput | WalletTransfersScalarWhereInput[]
   }
 
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
   export type BalanceUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<BalanceCreateWithoutUserInput, BalanceUncheckedCreateWithoutUserInput> | BalanceCreateWithoutUserInput[] | BalanceUncheckedCreateWithoutUserInput[]
     connectOrCreate?: BalanceCreateOrConnectWithoutUserInput | BalanceCreateOrConnectWithoutUserInput[]
@@ -8432,6 +9780,38 @@ export namespace Prisma {
     update?: WalletTransfersUpdateWithWhereUniqueWithoutFromUserInput | WalletTransfersUpdateWithWhereUniqueWithoutFromUserInput[]
     updateMany?: WalletTransfersUpdateManyWithWhereWithoutFromUserInput | WalletTransfersUpdateManyWithWhereWithoutFromUserInput[]
     deleteMany?: WalletTransfersScalarWhereInput | WalletTransfersScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutPfpInput = {
+    create?: XOR<UserCreateWithoutPfpInput, UserUncheckedCreateWithoutPfpInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPfpInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUncheckedCreateNestedOneWithoutPfpInput = {
+    create?: XOR<UserCreateWithoutPfpInput, UserUncheckedCreateWithoutPfpInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPfpInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneWithoutPfpNestedInput = {
+    create?: XOR<UserCreateWithoutPfpInput, UserUncheckedCreateWithoutPfpInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPfpInput
+    upsert?: UserUpsertWithoutPfpInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPfpInput, UserUpdateWithoutPfpInput>, UserUncheckedUpdateWithoutPfpInput>
+  }
+
+  export type UserUncheckedUpdateOneWithoutPfpNestedInput = {
+    create?: XOR<UserCreateWithoutPfpInput, UserUncheckedCreateWithoutPfpInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPfpInput
+    upsert?: UserUpsertWithoutPfpInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPfpInput, UserUpdateWithoutPfpInput>, UserUncheckedUpdateWithoutPfpInput>
   }
 
   export type EnumAuthTypeFieldUpdateOperationsInput = {
@@ -8542,6 +9922,20 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -8609,6 +10003,23 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumAuthTypeFilter<$PrismaModel = never> = {
@@ -8685,6 +10096,21 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type Cloudinary_imagesCreateWithoutUserInput = {
+    public_id: string
+    url: string
+  }
+
+  export type Cloudinary_imagesUncheckedCreateWithoutUserInput = {
+    public_id: string
+    url: string
+  }
+
+  export type Cloudinary_imagesCreateOrConnectWithoutUserInput = {
+    where: Cloudinary_imagesWhereUniqueInput
+    create: XOR<Cloudinary_imagesCreateWithoutUserInput, Cloudinary_imagesUncheckedCreateWithoutUserInput>
   }
 
   export type BalanceCreateWithoutUserInput = {
@@ -8795,6 +10221,27 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type Cloudinary_imagesUpsertWithoutUserInput = {
+    update: XOR<Cloudinary_imagesUpdateWithoutUserInput, Cloudinary_imagesUncheckedUpdateWithoutUserInput>
+    create: XOR<Cloudinary_imagesCreateWithoutUserInput, Cloudinary_imagesUncheckedCreateWithoutUserInput>
+    where?: Cloudinary_imagesWhereInput
+  }
+
+  export type Cloudinary_imagesUpdateToOneWithWhereWithoutUserInput = {
+    where?: Cloudinary_imagesWhereInput
+    data: XOR<Cloudinary_imagesUpdateWithoutUserInput, Cloudinary_imagesUncheckedUpdateWithoutUserInput>
+  }
+
+  export type Cloudinary_imagesUpdateWithoutUserInput = {
+    public_id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type Cloudinary_imagesUncheckedUpdateWithoutUserInput = {
+    public_id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+  }
+
   export type BalanceUpsertWithWhereUniqueWithoutUserInput = {
     where: BalanceWhereUniqueInput
     update: XOR<BalanceUpdateWithoutUserInput, BalanceUncheckedUpdateWithoutUserInput>
@@ -8898,6 +10345,80 @@ export namespace Prisma {
     data: XOR<WalletTransfersUpdateManyMutationInput, WalletTransfersUncheckedUpdateManyWithoutFromUserInput>
   }
 
+  export type UserCreateWithoutPfpInput = {
+    email: string
+    name: string
+    number: string
+    password: string
+    securityPin: string
+    failedPinTries?: number
+    lastFailedPinTry?: Date | string | null
+    Balance?: BalanceCreateNestedManyWithoutUserInput
+    Transactions?: TransactionsCreateNestedManyWithoutUserInput
+    IncomingTransaction?: WalletTransfersCreateNestedManyWithoutToUserInput
+    OutgoingTransaction?: WalletTransfersCreateNestedManyWithoutFromUserInput
+  }
+
+  export type UserUncheckedCreateWithoutPfpInput = {
+    id?: number
+    email: string
+    name: string
+    number: string
+    password: string
+    securityPin: string
+    failedPinTries?: number
+    lastFailedPinTry?: Date | string | null
+    Balance?: BalanceUncheckedCreateNestedManyWithoutUserInput
+    Transactions?: TransactionsUncheckedCreateNestedManyWithoutUserInput
+    IncomingTransaction?: WalletTransfersUncheckedCreateNestedManyWithoutToUserInput
+    OutgoingTransaction?: WalletTransfersUncheckedCreateNestedManyWithoutFromUserInput
+  }
+
+  export type UserCreateOrConnectWithoutPfpInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPfpInput, UserUncheckedCreateWithoutPfpInput>
+  }
+
+  export type UserUpsertWithoutPfpInput = {
+    update: XOR<UserUpdateWithoutPfpInput, UserUncheckedUpdateWithoutPfpInput>
+    create: XOR<UserCreateWithoutPfpInput, UserUncheckedCreateWithoutPfpInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutPfpInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutPfpInput, UserUncheckedUpdateWithoutPfpInput>
+  }
+
+  export type UserUpdateWithoutPfpInput = {
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    securityPin?: StringFieldUpdateOperationsInput | string
+    failedPinTries?: IntFieldUpdateOperationsInput | number
+    lastFailedPinTry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    Balance?: BalanceUpdateManyWithoutUserNestedInput
+    Transactions?: TransactionsUpdateManyWithoutUserNestedInput
+    IncomingTransaction?: WalletTransfersUpdateManyWithoutToUserNestedInput
+    OutgoingTransaction?: WalletTransfersUpdateManyWithoutFromUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPfpInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    securityPin?: StringFieldUpdateOperationsInput | string
+    failedPinTries?: IntFieldUpdateOperationsInput | number
+    lastFailedPinTry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    Balance?: BalanceUncheckedUpdateManyWithoutUserNestedInput
+    Transactions?: TransactionsUncheckedUpdateManyWithoutUserNestedInput
+    IncomingTransaction?: WalletTransfersUncheckedUpdateManyWithoutToUserNestedInput
+    OutgoingTransaction?: WalletTransfersUncheckedUpdateManyWithoutFromUserNestedInput
+  }
+
   export type UserCreateWithoutBalanceInput = {
     email: string
     name: string
@@ -8906,6 +10427,7 @@ export namespace Prisma {
     securityPin: string
     failedPinTries?: number
     lastFailedPinTry?: Date | string | null
+    pfp?: Cloudinary_imagesCreateNestedOneWithoutUserInput
     Transactions?: TransactionsCreateNestedManyWithoutUserInput
     IncomingTransaction?: WalletTransfersCreateNestedManyWithoutToUserInput
     OutgoingTransaction?: WalletTransfersCreateNestedManyWithoutFromUserInput
@@ -8920,6 +10442,7 @@ export namespace Prisma {
     securityPin: string
     failedPinTries?: number
     lastFailedPinTry?: Date | string | null
+    pfpPublicId?: string | null
     Transactions?: TransactionsUncheckedCreateNestedManyWithoutUserInput
     IncomingTransaction?: WalletTransfersUncheckedCreateNestedManyWithoutToUserInput
     OutgoingTransaction?: WalletTransfersUncheckedCreateNestedManyWithoutFromUserInput
@@ -8949,6 +10472,7 @@ export namespace Prisma {
     securityPin?: StringFieldUpdateOperationsInput | string
     failedPinTries?: IntFieldUpdateOperationsInput | number
     lastFailedPinTry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pfp?: Cloudinary_imagesUpdateOneWithoutUserNestedInput
     Transactions?: TransactionsUpdateManyWithoutUserNestedInput
     IncomingTransaction?: WalletTransfersUpdateManyWithoutToUserNestedInput
     OutgoingTransaction?: WalletTransfersUpdateManyWithoutFromUserNestedInput
@@ -8963,6 +10487,7 @@ export namespace Prisma {
     securityPin?: StringFieldUpdateOperationsInput | string
     failedPinTries?: IntFieldUpdateOperationsInput | number
     lastFailedPinTry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pfpPublicId?: NullableStringFieldUpdateOperationsInput | string | null
     Transactions?: TransactionsUncheckedUpdateManyWithoutUserNestedInput
     IncomingTransaction?: WalletTransfersUncheckedUpdateManyWithoutToUserNestedInput
     OutgoingTransaction?: WalletTransfersUncheckedUpdateManyWithoutFromUserNestedInput
@@ -8976,6 +10501,7 @@ export namespace Prisma {
     securityPin: string
     failedPinTries?: number
     lastFailedPinTry?: Date | string | null
+    pfp?: Cloudinary_imagesCreateNestedOneWithoutUserInput
     Balance?: BalanceCreateNestedManyWithoutUserInput
     IncomingTransaction?: WalletTransfersCreateNestedManyWithoutToUserInput
     OutgoingTransaction?: WalletTransfersCreateNestedManyWithoutFromUserInput
@@ -8990,6 +10516,7 @@ export namespace Prisma {
     securityPin: string
     failedPinTries?: number
     lastFailedPinTry?: Date | string | null
+    pfpPublicId?: string | null
     Balance?: BalanceUncheckedCreateNestedManyWithoutUserInput
     IncomingTransaction?: WalletTransfersUncheckedCreateNestedManyWithoutToUserInput
     OutgoingTransaction?: WalletTransfersUncheckedCreateNestedManyWithoutFromUserInput
@@ -9019,6 +10546,7 @@ export namespace Prisma {
     securityPin?: StringFieldUpdateOperationsInput | string
     failedPinTries?: IntFieldUpdateOperationsInput | number
     lastFailedPinTry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pfp?: Cloudinary_imagesUpdateOneWithoutUserNestedInput
     Balance?: BalanceUpdateManyWithoutUserNestedInput
     IncomingTransaction?: WalletTransfersUpdateManyWithoutToUserNestedInput
     OutgoingTransaction?: WalletTransfersUpdateManyWithoutFromUserNestedInput
@@ -9033,6 +10561,7 @@ export namespace Prisma {
     securityPin?: StringFieldUpdateOperationsInput | string
     failedPinTries?: IntFieldUpdateOperationsInput | number
     lastFailedPinTry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pfpPublicId?: NullableStringFieldUpdateOperationsInput | string | null
     Balance?: BalanceUncheckedUpdateManyWithoutUserNestedInput
     IncomingTransaction?: WalletTransfersUncheckedUpdateManyWithoutToUserNestedInput
     OutgoingTransaction?: WalletTransfersUncheckedUpdateManyWithoutFromUserNestedInput
@@ -9046,6 +10575,7 @@ export namespace Prisma {
     securityPin: string
     failedPinTries?: number
     lastFailedPinTry?: Date | string | null
+    pfp?: Cloudinary_imagesCreateNestedOneWithoutUserInput
     Balance?: BalanceCreateNestedManyWithoutUserInput
     Transactions?: TransactionsCreateNestedManyWithoutUserInput
     IncomingTransaction?: WalletTransfersCreateNestedManyWithoutToUserInput
@@ -9060,6 +10590,7 @@ export namespace Prisma {
     securityPin: string
     failedPinTries?: number
     lastFailedPinTry?: Date | string | null
+    pfpPublicId?: string | null
     Balance?: BalanceUncheckedCreateNestedManyWithoutUserInput
     Transactions?: TransactionsUncheckedCreateNestedManyWithoutUserInput
     IncomingTransaction?: WalletTransfersUncheckedCreateNestedManyWithoutToUserInput
@@ -9078,6 +10609,7 @@ export namespace Prisma {
     securityPin: string
     failedPinTries?: number
     lastFailedPinTry?: Date | string | null
+    pfp?: Cloudinary_imagesCreateNestedOneWithoutUserInput
     Balance?: BalanceCreateNestedManyWithoutUserInput
     Transactions?: TransactionsCreateNestedManyWithoutUserInput
     OutgoingTransaction?: WalletTransfersCreateNestedManyWithoutFromUserInput
@@ -9092,6 +10624,7 @@ export namespace Prisma {
     securityPin: string
     failedPinTries?: number
     lastFailedPinTry?: Date | string | null
+    pfpPublicId?: string | null
     Balance?: BalanceUncheckedCreateNestedManyWithoutUserInput
     Transactions?: TransactionsUncheckedCreateNestedManyWithoutUserInput
     OutgoingTransaction?: WalletTransfersUncheckedCreateNestedManyWithoutFromUserInput
@@ -9121,6 +10654,7 @@ export namespace Prisma {
     securityPin?: StringFieldUpdateOperationsInput | string
     failedPinTries?: IntFieldUpdateOperationsInput | number
     lastFailedPinTry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pfp?: Cloudinary_imagesUpdateOneWithoutUserNestedInput
     Balance?: BalanceUpdateManyWithoutUserNestedInput
     Transactions?: TransactionsUpdateManyWithoutUserNestedInput
     IncomingTransaction?: WalletTransfersUpdateManyWithoutToUserNestedInput
@@ -9135,6 +10669,7 @@ export namespace Prisma {
     securityPin?: StringFieldUpdateOperationsInput | string
     failedPinTries?: IntFieldUpdateOperationsInput | number
     lastFailedPinTry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pfpPublicId?: NullableStringFieldUpdateOperationsInput | string | null
     Balance?: BalanceUncheckedUpdateManyWithoutUserNestedInput
     Transactions?: TransactionsUncheckedUpdateManyWithoutUserNestedInput
     IncomingTransaction?: WalletTransfersUncheckedUpdateManyWithoutToUserNestedInput
@@ -9159,6 +10694,7 @@ export namespace Prisma {
     securityPin?: StringFieldUpdateOperationsInput | string
     failedPinTries?: IntFieldUpdateOperationsInput | number
     lastFailedPinTry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pfp?: Cloudinary_imagesUpdateOneWithoutUserNestedInput
     Balance?: BalanceUpdateManyWithoutUserNestedInput
     Transactions?: TransactionsUpdateManyWithoutUserNestedInput
     OutgoingTransaction?: WalletTransfersUpdateManyWithoutFromUserNestedInput
@@ -9173,6 +10709,7 @@ export namespace Prisma {
     securityPin?: StringFieldUpdateOperationsInput | string
     failedPinTries?: IntFieldUpdateOperationsInput | number
     lastFailedPinTry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pfpPublicId?: NullableStringFieldUpdateOperationsInput | string | null
     Balance?: BalanceUncheckedUpdateManyWithoutUserNestedInput
     Transactions?: TransactionsUncheckedUpdateManyWithoutUserNestedInput
     OutgoingTransaction?: WalletTransfersUncheckedUpdateManyWithoutFromUserNestedInput

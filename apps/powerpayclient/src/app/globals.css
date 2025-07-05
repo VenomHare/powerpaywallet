@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@source "./../../../../packages/ui/src";
+@source "./../../../../packages/ui/src/*";
 @source "./../app";
 
 @plugin "tailwind-scrollbar";
@@ -16,12 +16,35 @@
     --animate-alertin: AlertIn 200ms ease-in-out forwards;
     --animate-alertout: AlertOut 500ms ease-in-out forwards;
     --animate-fadein: fadein 500ms ease forwards;
+    --animate-leftslidein: leftslidein 500ms ease forwards;
+    --text-2xs: 0.625rem;
+    --text-2xs--line-height: 1.5rem;
+    --breakpoint-xs: 475px;
+    --breakpoint-2xs: 375px;
+}
+
+.spinner {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 9px solid;
+    border-color: #dbdcef;
+    border-right-color: #1e293b;
+    animation: spinner-d3wgkg 1s infinite linear;
+    filter: drop-shadow(0 0 2px #dbdcef50);
+}
+
+@keyframes spinner-d3wgkg {
+    to {
+        transform: rotate(1turn);
+    }
 }
 
 @keyframes AlertIn {
     from {
         transform: translate(0, 100%);
     }
+
     to {
         transform: translateY(0%);
     }
@@ -31,6 +54,7 @@
     from {
         transform: translateY(0%);
     }
+
     to {
         transform: translate(0, 1000%);
     }
@@ -40,7 +64,18 @@
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
+    }
+}
+
+@keyframes leftslidein {
+    from {
+        left: -100%;
+    }
+
+    to {
+        left: 0%;
     }
 }

@@ -16,11 +16,12 @@
   "license": "ISC",
   "dependencies": {
     "@powerpaywallet/db": "workspace:*",
+    "@types/react": "^19.1.8",
     "zod": "^3.25.36"
   },
   "devDependencies": {
-    "@powerpaywallet/typescript-config": "workspace:*",
     "@powerpaywallet/eslint-config": "workspace:*",
+    "@powerpaywallet/typescript-config": "workspace:*",
     "eslint": "^9.26.0"
   }
 }

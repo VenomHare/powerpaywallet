@@ -48,7 +48,7 @@ export default function Req(){
     }
 
     return(<>
-        <Appbar onSignin={signIn} onSignout={signOut} user={session.data?.user} />
+        <Appbar signIn={signIn} signOut={signOut} status={session.status} />
         <div className="w-full flex justify-center">
             <form onSubmit={SendReq} className="flex flex-col w-[90%] md:w-2/3 lg:w-1/2 gap-2">
                 <label htmlFor="url" >URL</label>

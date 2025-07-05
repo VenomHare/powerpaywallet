@@ -1,5 +1,5 @@
 "use client";
-import { SecurityPinPopupAction, SecurityPinPopupActions } from "@powerpaywallet/schemas/client"
+import { SecurityPinPopupAction, SecurityPopUpProps } from "@powerpaywallet/schemas/client"
 import { ShieldCheck } from "lucide-react"
 import { useEffect, useState } from "react"
 import { getWalletTransferData } from "../app/actions/security/walletTransfer"
@@ -11,18 +11,11 @@ import { VerifySecurityPin } from "../app/actions/security/verify";
 
 const CANCELLED_TRANSFER_ERROR_CODES = ["470", "572", "461", "462"]
 
-interface Props {
-    open: boolean,
-    setOpen: (open: boolean) => void,
-    action: SecurityPinPopupActions,
-    id: number
-}
-
 const dataRequestHandlers = {
     WALLET_MONEY_TRANSFER: getWalletTransferData
 }
 
-const SecurityPinPopUp = ({ open, setOpen, action, id }: Props) => {
+const SecurityPinPopUp = ({ open, setOpen, action, id, onClose }: SecurityPopUpProps) => {
 
     const [pin, setPin] = useState("");
     const [cannceled, setCannceled] = useState(false);
@@ -33,9 +26,10 @@ const SecurityPinPopUp = ({ open, setOpen, action, id }: Props) => {
 
     useEffect(() => {
         const makeDataRequest = async () => {
-            dispatch(setLoading(true));
             const handler = dataRequestHandlers[action];
             try {
+                dispatch(setLoading(true));
+                if (id == 0) return;
                 const data = await handler(id);
                 setActionData(data);
             }
@@ -45,8 +39,9 @@ const SecurityPinPopUp = ({ open, setOpen, action, id }: Props) => {
                     duration: 3000
                 })
             }
-
-            dispatch(setLoading(false));
+            finally {
+                dispatch(setLoading(false));
+            }
         }
 
 
@@ -56,10 +51,15 @@ const SecurityPinPopUp = ({ open, setOpen, action, id }: Props) => {
 
     const handleAuthorize = async () => {
         try {
-            const { success } = await VerifySecurityPin(pin, id, action);
-            if (success) {
-                setOpen(false);
+            await VerifySecurityPin(pin, id, action);
+
+            if (action == "WALLET_MONEY_TRANSFER") {
+                onClose();
             }
+            setErrorMessage("");
+            setCannceled(false);
+
+            setOpen(false);
         }
         catch (error) {
             const err = error as any;
@@ -122,7 +122,12 @@ const SecurityPinPopUp = ({ open, setOpen, action, id }: Props) => {
                     {
                         cannceled ?
                             <>
-                                <button onClick={() => { setOpen(false) }} className="flex items-center justify-center gap-2 border-1 border-slate-500 cursor-pointer w-full py-2 rounded-md text-slate-200 bg-slate-950 ">
+                                <button onClick={() => { 
+                                    onClose(); 
+                                    setErrorMessage("");
+                                    setCannceled(false);
+                                    setOpen(false) 
+                                }} className="flex items-center justify-center gap-2 border-1 border-slate-500 cursor-pointer w-full py-2 rounded-md text-slate-200 bg-slate-950 ">
                                     Close
                                 </button>
                             </>

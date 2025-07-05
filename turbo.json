@@ -3,18 +3,33 @@
   "ui": "tui",
   "tasks": {
     "build": {
-      "dependsOn": ["^build", "^db:generate"],
-      "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**"]
+      "dependsOn": [
+        "^build",
+        "^db:generate"
+      ],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        ".env*"
+      ],
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**"
+      ]
     },
     "lint": {
-      "dependsOn": ["^lint"]
+      "dependsOn": [
+        "^lint"
+      ]
     },
     "test": {
-      "dependsOn": ["^test"]
+      "dependsOn": [
+        "^test"
+      ]
     },
     "check-types": {
-      "dependsOn": ["^check-types"]
+      "dependsOn": [
+        "^check-types"
+      ]
     },
     "dev": {
       "cache": false,
@@ -25,11 +40,11 @@
     },
     "db:migrate": {
       "cache": false,
-      "persistent": true 
+      "persistent": true
     },
     "db:deploy": {
       "cache": false
-    } 
+    }
   },
   "globalEnv": [
     "DATABASE_URL",
@@ -43,7 +58,11 @@
     "BANK_SECRET",
     "WEBHOOK_SECRET",
     "WEBHOOK_PORT",
-    "POWERPAY_MOCKBANK_TRANSFER_REQ"
+    "POWERPAY_MOCKBANK_TRANSFER_REQ",
+    "NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME",
+    "NEXT_PUBLIC_CLOUDINARY_API_KEY",
+    "CLOUDINARY_API_SECRET",
+    "NEXTAUTH_URL"
   ],
   "globalDependencies": [
     ".env"

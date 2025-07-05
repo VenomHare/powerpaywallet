@@ -29,6 +29,7 @@ export interface WalletsSearchResult {
 
 export type BANKSERVERS = "POWERPAY_MOCKBANK" | "SELECT"
 
+export type PROFILE_TABS = "personal"
 export interface Transaction {
     id: number
     amount: number
@@ -39,6 +40,7 @@ export interface Transaction {
 }
 export interface SidebarState {
     activeCategory: string
+    isOpen: boolean
 }
 
 export interface Alert {
@@ -56,17 +58,17 @@ export interface AlertsState {
 export type SecurityPinPopupActions = "WALLET_MONEY_TRANSFER";
 
 export type SecurityPinPopupAction =
-    |   
-        {
-            type: "WALLET_MONEY_TRANSFER",
-            toNumber: string,
-            toName: string,
-            amount: number
-        }
-    |   
-        {
-            type: "NO_ACTION"
-        }   
+    |
+    {
+        type: "WALLET_MONEY_TRANSFER",
+        toNumber: string,
+        toName: string,
+        amount: number,
+    }
+    |
+    {
+        type: "NO_ACTION"
+    }
 
 
 export const CreateWalletTransferRequest = z.object({
@@ -74,3 +76,26 @@ export const CreateWalletTransferRequest = z.object({
     amount: z.number().min(1),
     id: z.number(),
 })
+
+export interface ProfileData {
+    fullName: string
+    phone: string
+    email: string
+    pfpUrl?: string
+}
+
+export type SecurityPopUpProps =
+    {
+        open: boolean,
+        setOpen: (open: boolean) => void,
+        action: "WALLET_MONEY_TRANSFER",
+        id: number,
+        onClose: () => void
+    }
+
+
+export interface AppbarProps {
+    signOut?: () => void
+    signIn?: () => void
+    status: "loading" | "unauthenticated" | "authenticated"
+}

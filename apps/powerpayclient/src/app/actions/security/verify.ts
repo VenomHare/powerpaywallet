@@ -36,14 +36,7 @@ export const VerifySecurityPin = async (pin: string, id: number, action: Securit
             throw new Error("Error 572: User data not found");
         }
 
-        // Check if the user has timeout or not 
-        if (userData.failedPinTries > 3) {
-            // check that the user has served 24 hours timeout
-            // Could be a better logic for handling fail calls here
-            if (userData.lastFailedPinTry == null) {
-                throw new Error("Error 580: Logical Error: last Pin try not found");
-            }
-
+        if (userData.lastFailedPinTry) {
             if (isOlderThan24Hours(userData.lastFailedPinTry)) {
                 // 24hrs past means reset counter
                 await prisma.user.update({
@@ -56,11 +49,16 @@ export const VerifySecurityPin = async (pin: string, id: number, action: Securit
                 });
                 // Pass the Compairison
             }
-            else {
-                const cancelHandler = CancelEventHandlers[action]
-                await cancelHandler(id);
-                throw new Error("Error 461: You've made 3 incorrect security PIN attempts in a 1 day. For your safety, further attempts are temporarily disabled. Please try again after 24 hours.")
-            }
+        }
+
+        // Check if the user has timeout or not 
+        console.log(userData.failedPinTries);
+        if (userData.failedPinTries > 3) {
+            // Could be a better logic for handling fail calls here
+            const cancelHandler = CancelEventHandlers[action]
+            await cancelHandler(id);
+            throw new Error("Error 461: You've made 3 incorrect security PIN attempts in a 1 day. For your safety, further attempts are temporarily disabled. Please try again after 24 hours.")
+        
         }
 
         const pinCompare = await bcrypt.compare(pin, userData.securityPin);
