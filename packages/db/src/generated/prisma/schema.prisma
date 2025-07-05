@@ -15,19 +15,29 @@ datasource db {
 }
 
 model User {
-  id               Int       @id @default(autoincrement())
-  email            String    @unique
+  id               Int                @id @default(autoincrement())
+  email            String             @unique
   name             String
-  number           String    @unique
+  number           String             @unique
   password         String
   securityPin      String
-  failedPinTries   Int       @default(0)
+  failedPinTries   Int                @default(0)
   lastFailedPinTry DateTime?
+  pfpPublicId      String?            @unique
+  pfp              Cloudinary_images? @relation(fields: [pfpPublicId], references: [public_id])
 
   Balance             Balance[]
   Transactions        Transactions[]
   IncomingTransaction WalletTransfers[] @relation(name: "IncomingTransaction")
   OutgoingTransaction WalletTransfers[] @relation(name: "OutgoingTransaction")
+}
+
+model Cloudinary_images {
+  public_id String @id
+  url       String
+  User      User?
+
+  @@map("cloudinary_images")
 }
 
 model Merchant {

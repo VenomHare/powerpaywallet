@@ -3,17 +3,19 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 
 
-const initialState : SidebarState = {
-    activeCategory: "closed"
+const initialState: SidebarState = {
+    activeCategory: "closed",
+    isOpen: false
 }
 
 const sidebar = createSlice({
     name: "sidebar",
     initialState,
     reducers: {
-        setActiveCategory: (state, action: PayloadAction<string>) => { state.activeCategory = action.payload }
+        setActiveCategory: (state, action: PayloadAction<string>) => { state.activeCategory = action.payload },
+        setOpen: (state, action: PayloadAction<boolean>) => { state.isOpen = action.payload }
     }
 })
 
 export default sidebar.reducer;
-export const { setActiveCategory } = sidebar.actions;
+export const { setActiveCategory, setOpen } = sidebar.actions;

@@ -128,7 +128,13 @@ exports.Prisma.UserScalarFieldEnum = {
   password: 'password',
   securityPin: 'securityPin',
   failedPinTries: 'failedPinTries',
-  lastFailedPinTry: 'lastFailedPinTry'
+  lastFailedPinTry: 'lastFailedPinTry',
+  pfpPublicId: 'pfpPublicId'
+};
+
+exports.Prisma.Cloudinary_imagesScalarFieldEnum = {
+  public_id: 'public_id',
+  url: 'url'
 };
 
 exports.Prisma.MerchantScalarFieldEnum = {
@@ -200,6 +206,7 @@ exports.TransactionType = exports.$Enums.TransactionType = {
 
 exports.Prisma.ModelName = {
   User: 'User',
+  Cloudinary_images: 'Cloudinary_images',
   Merchant: 'Merchant',
   Balance: 'Balance',
   Transactions: 'Transactions',

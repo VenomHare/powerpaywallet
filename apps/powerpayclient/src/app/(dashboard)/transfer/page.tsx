@@ -64,10 +64,23 @@ const TransferPage = () => {
     }
 
     return (<>
-        <SecurityPinPopUp open={securityPopup} setOpen={setSecurityPopup} action={"WALLET_MONEY_TRANSFER"} id={transferId} />
-        <div className="w-full h-full overflow-x-hidden relative">
+        <SecurityPinPopUp
+            open={securityPopup}
+            setOpen={setSecurityPopup}
+            action={"WALLET_MONEY_TRANSFER"}
+            id={transferId}
+            onClose={() => {
+                setAmount(0);
+                setRecieverData({
+                    name: "",
+                    number: ""
+                })
+            }}
+        />
+
+        <div className="w-full h-[92dvh] overflow-x-hidden relative ">
             <SelectWalletPopup isPopupOpen={selectPopup} onClose={() => { setSelectPopup(false) }} setData={setRecieverData} />
-            <div className="w-full h-full flex flex-col items-center justify-center">
+            <div className="w-full h-full flex flex-col items-center justify-center ">
                 <div className="w-full max-w-sm h-fit border-1 border-slate-400/40 shadow-xl shadow-slate-400/40 rounded-lg bg-slate-200 p-4">
                     <form onSubmit={handleTransfer} className="w-full h-fit flex flex-col items-center gap-0">
                         <div className="text-3xl font-semibold font-[Manrope]">
@@ -96,7 +109,10 @@ const TransferPage = () => {
                             <label className="text-md font-semibold font-[Manrope]">Reciever's Name</label>
 
                             <div className="w-full flex items-center gap-4">
-                                <div onClick={() => { setSelectPopup(true) }} className='w-2/3 my-2 text-slate-700 border border-slate-500 bg-slate-400/40 p-2 rounded font-semibold font-[Manrope] text-xl flex items-center gap-2' >
+                                <div
+                                    onClick={() => { setSelectPopup(true) }}
+                                    className='w-2/3 my-2 text-slate-700 border border-slate-500 bg-slate-400/40 p-2 rounded font-semibold font-[Manrope] text-xl flex items-center gap-2'
+                                >
                                     <BsPersonFill />
                                     {
                                         recieverData.name !== "" && <>
@@ -109,7 +125,10 @@ const TransferPage = () => {
                             <label className="text-md font-semibold font-[Manrope]">Reciever's Number</label>
 
                             <div className="w-full flex items-center gap-4">
-                                <div onClick={() => { setSelectPopup(true) }} className='w-2/3 my-2 text-slate-700 border border-slate-500 bg-slate-400/40 p-2 rounded font-semibold font-[Manrope] text-xl flex items-center gap-2' >
+                                <div
+                                    onClick={() => { setSelectPopup(true) }}
+                                    className='w-2/3 my-2 text-slate-700 border border-slate-500 bg-slate-400/40 p-2 rounded font-semibold font-[Manrope] text-xl flex items-center gap-2'
+                                >
                                     <BsPersonFill />
                                     {
                                         recieverData.number !== "" && <>

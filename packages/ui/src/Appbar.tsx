@@ -1,27 +1,69 @@
 'use client';
+import { Menu } from "lucide-react";
 import { Button } from "./button";
 import "./globals.css";
+import { useDispatch, useSelector } from "react-redux";
+import { setOpen } from "@powerpaywallet/store/slices";
+import { RootState } from "@powerpaywallet/store";
+import { AppbarProps } from "@powerpaywallet/schemas/client";
+import { ProfileImage } from "./ProfileImage";
+import { useState } from "react";
 
-interface AppbarProps {
-    user?: {
-        name?: string | null;
-    },
-    // TODO: can u figure out what the type should be here?
-    onSignin?: any,
-    onSignout?: any
-}
 
 export const Appbar = ({
-    user,
-    onSignin,
-    onSignout
+    signIn,
+    signOut,
+    status
 }: AppbarProps) => {
-    return <div className="sticky top-0 left-0 flex w-[100%] h-[8svh] bg-slate-500 px-10 py-2 justify-between border-b px-4">
-        <div className="text-3xl font-bold flex flex-col justify-center italic">
+
+    const dispatch = useDispatch();
+    const { isOpen } = useSelector((state: RootState) => state.sidebar);
+    const { profileData } = useSelector((state: RootState) => state.states);
+    const [profileOptionsPopup, setProfileOptionsPopup] = useState(false);
+
+    const closeOptions = () => {
+        setProfileOptionsPopup(false);
+    }
+
+    return <div className="sticky top-0 left-0 flex w-[100%] min-h-[55px] h-[8svh] bg-slate-500 px-4 sm:px-10 py-2 justify-between border-b ">
+        <div className="text-2xl sm:text-3xl font-bold flex items-center justify-center gap-4 italic">
+            {
+                status !== "loading" &&
+                <div className="sm:hidden" onClick={() => { dispatch(setOpen(!isOpen)) }}><Menu /></div>
+            }
             PowerPay
         </div>
         <div className="flex flex-col justify-center pt-2">
-            <Button onClick={user ? onSignout : onSignin}>{user ? "Logout" : "Login"}</Button>
+
+            {
+                status == "unauthenticated" &&
+                <Button onClick={() => signIn?.()}> Login</Button>
+            }
+
+            {
+                (status == "authenticated" && profileData !== undefined) &&
+                <>
+                    <ProfileImage onClick={()=>{setProfileOptionsPopup(!profileOptionsPopup)}} profileName={profileData?.fullName || ""} url={profileData?.pfpUrl || ""} size="small" />
+                </>
+            }
         </div>
+        {
+            profileOptionsPopup &&
+            <div className="absolute top-[110%] right-[5dvw] sm:right-10 w-[65%] sm:w-60 min-h-20 bg-slate-200 rounded-md shadow-xl shadow-slate-500 border-1 border-slate-400/60 flex flex-col items-center gap-1">
+                <div className="w-full flex items-center justify-between p-2 px-3 font-[Manrope]">
+                    <ProfileImage profileName={profileData?.fullName || ""} url={profileData?.pfpUrl || ""} size="small" />
+                    <div className="flex flex-col items-end justify-around">
+                        <div className="font-medium">{profileData?.fullName}</div>
+                        <div className="font-light text-xs">{profileData?.email}</div>
+                    </div>
+                </div>
+                <div className="bg-slate-400/50 w-full h-[1px]" />
+                <button className="font-[Manrope] font-medium my-1 w-full cursor-pointer text-red-500" onClick={()=>{
+                    closeOptions();
+                    signOut?.();
+                    signIn?.();
+                }}>Logout</button>
+            </div>
+        }
     </div>
 }
