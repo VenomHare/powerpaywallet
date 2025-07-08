@@ -8,6 +8,8 @@ import { useAppDispatch } from "../../../hooks/useAppDispatch";
 import { alert } from "../../../components/alerts";
 import SecurityPinPopUp from "../../../components/security-pin-popup";
 import { createTransfer } from "../../actions/walletTransfer/createTransfer";
+import { WrapFadeTransition } from '../../../components/FadeInPageTransition';
+
 
 const TransferPage = () => {
 
@@ -146,4 +148,4 @@ const TransferPage = () => {
     </>)
 }
 
-export default TransferPage;
+export default WrapFadeTransition(TransferPage);

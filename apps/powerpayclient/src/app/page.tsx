@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <>
         <Provider store={store}>
-          <Appbar status={"loading"} />
+          <Appbar status={"unauthenticated"} />
         </Provider>
         <div>
           {

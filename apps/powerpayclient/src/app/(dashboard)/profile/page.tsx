@@ -5,6 +5,7 @@ import { PersonalDetailsScreeen } from './personal-detail';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@powerpaywallet/store';
 import { updateProfileData } from '@powerpaywallet/store/slices';
+import { WrapFadeTransition } from '../../../components/FadeInPageTransition';
 
 const ProfilePage = () => {
 
@@ -56,4 +57,4 @@ const RenderScreen = () => {
 }
 
 
-export default ProfilePage
+export default WrapFadeTransition(ProfilePage)

@@ -9,6 +9,7 @@ import { useAppDispatch } from '../../../hooks/useAppDispatch';
 import axios, { AxiosError } from 'axios';
 import { alert } from '../../../components/alerts';
 import { signIn, useSession } from 'next-auth/react';
+import { WrapFadeTransition } from '../../../components/FadeInPageTransition';
 
 const ADD_MONEY_BUTTONS = [50, 100, 250, 500, 1000]
 
@@ -265,4 +266,4 @@ const OnRampTransaction = ({ transaction }: { transaction: Transaction }) => {
     </>)
 }
 
-export default WalletPage
+export default WrapFadeTransition(WalletPage);
