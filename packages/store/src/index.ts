@@ -3,13 +3,15 @@ import sidebarReducer from './slices/sidebar'
 import walletReducer from './slices/wallet'
 import alertsReducer from './slices/alerts'
 import statesReducer from './slices/states'
+import bankAccountsReducer from './slices/bankAccounts'
 
 export const store = configureStore({
   reducer: {
     sidebar: sidebarReducer,
     wallet: walletReducer,
     alerts: alertsReducer,
-    states: statesReducer
+    states: statesReducer,
+    bankAccounts: bankAccountsReducer
   } 
 })
 

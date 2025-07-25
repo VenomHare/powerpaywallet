@@ -36,11 +36,11 @@ const SubLayout = ({ children }: Props) => {
     const appDispatch = useDispatch<AppDispatch>();
     const { profileData } = useSelector((state: RootState) => state.states);
 
-    useEffect(()=>{
+    useEffect(() => {
         if (profileData == undefined) {
             appDispatch(updateProfileData());
         }
-    },[profileData, appDispatch])
+    }, [profileData, appDispatch])
 
     return (<>
         <Appbar signIn={signIn} signOut={signOut} status={session.status} />

@@ -20,12 +20,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.10.1
- * Query Engine version: 9b628578b3b7cae625e8c927178f15a170e74a9c
+ * Prisma Client JS version: 6.11.1
+ * Query Engine version: f40f79ec31188888a2e33acda0ecc8fd10a853a9
  */
 Prisma.prismaVersion = {
-  client: "6.10.1",
-  engine: "9b628578b3b7cae625e8c927178f15a170e74a9c"
+  client: "6.11.1",
+  engine: "f40f79ec31188888a2e33acda0ecc8fd10a853a9"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -174,6 +174,26 @@ exports.Prisma.WalletTransfersScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.BankWithdrawalsScalarFieldEnum = {
+  id: 'id',
+  token: 'token',
+  userId: 'userId',
+  accountId: 'accountId',
+  amount: 'amount',
+  status: 'status',
+  updatedAt: 'updatedAt',
+  startedAt: 'startedAt'
+};
+
+exports.Prisma.SavedBankAccountsScalarFieldEnum = {
+  id: 'id',
+  bankCode: 'bankCode',
+  accountNumber: 'accountNumber',
+  holderName: 'holderName',
+  label: 'label',
+  userId: 'userId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -210,7 +230,9 @@ exports.Prisma.ModelName = {
   Merchant: 'Merchant',
   Balance: 'Balance',
   Transactions: 'Transactions',
-  WalletTransfers: 'WalletTransfers'
+  WalletTransfers: 'WalletTransfers',
+  BankWithdrawals: 'BankWithdrawals',
+  SavedBankAccounts: 'SavedBankAccounts'
 };
 
 /**

@@ -5,15 +5,18 @@ import { authOptions } from "../../../lib/auth";
 import { prisma } from "@powerpaywallet/db/client";
 import { SecurityPinPopupActions } from "@powerpaywallet/schemas/client";
 import { handleCancelWalletTransfer, handleWalletTransfer } from "../walletTransfer/handleTransfer";
+import { handleBankWithdrawal, handleCancelBankWithdrawal } from "../bankWithdrawal/handleRequest";
 
 const SuccessEventHandlers = {
     NO_ACTION: () => { return true },
-    WALLET_MONEY_TRANSFER: handleWalletTransfer
+    WALLET_MONEY_TRANSFER: handleWalletTransfer,
+    BANK_WITHDRAWAL: handleBankWithdrawal
 }
 
 const CancelEventHandlers = {
     NO_ACTION: () => { return false },
-    WALLET_MONEY_TRANSFER: handleCancelWalletTransfer
+    WALLET_MONEY_TRANSFER: handleCancelWalletTransfer,
+    BANK_WITHDRAWAL: handleCancelBankWithdrawal
 }
 
 export const VerifySecurityPin = async (pin: string, id: number, action: SecurityPinPopupActions) => {

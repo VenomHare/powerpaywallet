@@ -1,8 +1,6 @@
 import { SidebarState } from "@powerpaywallet/schemas/client";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-
-
 const initialState: SidebarState = {
     activeCategory: "closed",
     isOpen: false

@@ -237,8 +237,8 @@ const OnRampTransaction = ({ transaction }: { transaction: Transaction }) => {
                 </div>
                 <div className="flex gap-4 items-center">
                     {
-                        transaction.status == "Success" &&
-                        <div className='hidden sm:block text-2xs sm:text-sm text-green-600'>Success</div>
+                        // transaction.status == "Success" &&
+                        // <div className='hidden sm:block text-2xs sm:text-sm text-green-600'>Success</div>
                     }
                     {
                         transaction.status == "Processing" &&

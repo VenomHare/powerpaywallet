@@ -8,13 +8,15 @@ export interface States {
     profileTab: PROFILE_TABS,
     editingProfileFieldId: string
     profileData: ProfileData | undefined
+    addAccountInProfilePopup: boolean
 }
 
 const initialState: States = {
     loading: false,
     profileTab: "personal",
     editingProfileFieldId: "none",
-    profileData: undefined
+    profileData: undefined,
+    addAccountInProfilePopup: false
 }
 
 export const updateProfileData = createAsyncThunk("states/get_profile", async () => {
@@ -30,11 +32,14 @@ const StatesSlice = createSlice({
             state.loading = action.payload;
         },
         setProfileTab: (state, action: PayloadAction<PROFILE_TABS>) => {
-            state.profileTab = action.payload
+            state.profileTab = action.payload;
         },
         setEditingFieldId: (state, action: PayloadAction<string>) => {
-            state.editingProfileFieldId = action.payload
-        }
+            state.editingProfileFieldId = action.payload;
+        },
+        setAddAccountInProfilePopup: (state, action : PayloadAction<boolean>) => {
+            state.addAccountInProfilePopup = action.payload;
+        } 
     },
     extraReducers: (builder) => {
         builder
@@ -54,5 +59,5 @@ const StatesSlice = createSlice({
 })
 
 
-export const { setLoading, setProfileTab, setEditingFieldId } = StatesSlice.actions;
+export const { setLoading, setProfileTab, setEditingFieldId, setAddAccountInProfilePopup } = StatesSlice.actions;
 export default StatesSlice.reducer

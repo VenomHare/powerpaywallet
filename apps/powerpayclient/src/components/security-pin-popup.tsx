@@ -8,11 +8,14 @@ import { setLoading } from "@powerpaywallet/store/slices"
 import { useAppDispatch } from "../hooks/useAppDispatch"
 import { alert } from "./alerts"
 import { VerifySecurityPin } from "../app/actions/security/verify";
+import { getWithdrawalRequestData } from "../app/actions/security/withdrawalRequest";
 
 const CANCELLED_TRANSFER_ERROR_CODES = ["470", "572", "461", "462"]
 
 const dataRequestHandlers = {
-    WALLET_MONEY_TRANSFER: getWalletTransferData
+    WALLET_MONEY_TRANSFER: getWalletTransferData,
+    NO_ACTION: () => ({ type: "NO_ACTION" }),
+    BANK_WITHDRAWAL: getWithdrawalRequestData
 }
 
 const SecurityPinPopUp = ({ open, setOpen, action, id, onClose }: SecurityPopUpProps) => {
@@ -44,7 +47,6 @@ const SecurityPinPopUp = ({ open, setOpen, action, id, onClose }: SecurityPopUpP
             }
         }
 
-
         makeDataRequest();
     }, [id, action, appDispatch, dispatch])
 
@@ -53,7 +55,7 @@ const SecurityPinPopUp = ({ open, setOpen, action, id, onClose }: SecurityPopUpP
         try {
             await VerifySecurityPin(pin, id, action);
 
-            if (action == "WALLET_MONEY_TRANSFER") {
+            if (action == "WALLET_MONEY_TRANSFER" || action == "BANK_WITHDRAWAL") {
                 onClose();
             }
             setErrorMessage("");
@@ -95,7 +97,8 @@ const SecurityPinPopUp = ({ open, setOpen, action, id, onClose }: SecurityPopUpP
 
                 {/* Body */}
                 <div className="w-full h-full flex flex-col items-center gap-4 my-5">
-                    {action === "WALLET_MONEY_TRANSFER" && <SecurityInfo actionData={actionData} />}
+                    {action === "WALLET_MONEY_TRANSFER" && <MoneyTransferInfo actionData={actionData} />}
+                    {action === "BANK_WITHDRAWAL" && <BankWithdrawInfo actionData={actionData}/>}
                     {
                         !cannceled && <>
                             <div className="w-full flex flex-col items-center gap-2">
@@ -122,11 +125,11 @@ const SecurityPinPopUp = ({ open, setOpen, action, id, onClose }: SecurityPopUpP
                     {
                         cannceled ?
                             <>
-                                <button onClick={() => { 
-                                    onClose(); 
+                                <button onClick={() => {
+                                    onClose();
                                     setErrorMessage("");
                                     setCannceled(false);
-                                    setOpen(false) 
+                                    setOpen(false)
                                 }} className="flex items-center justify-center gap-2 border-1 border-slate-500 cursor-pointer w-full py-2 rounded-md text-slate-200 bg-slate-950 ">
                                     Close
                                 </button>
@@ -144,17 +147,32 @@ const SecurityPinPopUp = ({ open, setOpen, action, id, onClose }: SecurityPopUpP
     </>)
 }
 
-const SecurityInfo = ({ actionData }: { actionData: SecurityPinPopupAction }) => {
+const MoneyTransferInfo = ({ actionData }: { actionData: SecurityPinPopupAction }) => {
     if (actionData.type === "WALLET_MONEY_TRANSFER") {
         return (<div className="w-full bg-slate-400 rounded p-2 my-2 flex flex-col items-center font-[Manrope]">
             <h4 className="font-semibold text-lg">Money Transfer</h4>
             <p className="font-semibold"><span className="text-slate-800 font-light">Beneficiary Name: </span>{actionData.toName}</p>
             <div className="w-full flex items-center justify-evenly">
                 <p className="font-semibold"><span className="text-slate-800 font-light">To: </span>+91 {actionData.toNumber}</p>
-                <p className="font-semibold"><span className="text-slate-800 font-light">Amount: </span>{actionData.amount} INR</p>
+                <p className="font-semibold"><span className="text-slate-800 font-light">Amount: </span>₹{actionData.amount} </p>
             </div>
         </div>
         )
+    }
+    else {
+        return (<></>)
+    }
+}
+
+const BankWithdrawInfo = ({ actionData }: { actionData: SecurityPinPopupAction }) => {
+
+    if (actionData.type == "BANK_WITHDRAWAL") {
+        return (<div className="w-full bg-slate-400 rounded p-2 my-2 flex flex-col items-center font-[Manrope]">
+            <h4 className="font-semibold text-lg">Withdrawal Request</h4>
+            <p className="font-semibold"><span className="text-slate-800 font-light">Account Number: </span>{actionData.accountNumber}</p>
+            <p className="font-semibold"><span className="text-slate-800 font-light">Amount: </span>₹{actionData.amount/100}</p>
+
+        </div>)
     }
     else {
         return (<></>)

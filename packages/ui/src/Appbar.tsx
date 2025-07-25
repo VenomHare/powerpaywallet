@@ -22,10 +22,10 @@ export const Appbar = ({
     const [profileOptionsPopup, setProfileOptionsPopup] = useState(false);
 
     const closeOptions = () => {
-        setProfileOptionsPopup(false);
+        setProfileOptionsPopup(false)
     }
 
-    return <div className="sticky top-0 left-0 flex w-[100%] min-h-[55px] h-[8svh] bg-slate-500 px-4 sm:px-10 py-2 justify-between border-b ">
+    return <div className="sticky z-[101] top-0 left-0 flex w-[100%] min-h-[55px] h-[8svh] bg-slate-500 px-4 sm:px-10 py-2 justify-between border-b ">
         <div className="text-2xl sm:text-3xl font-bold flex items-center justify-center gap-4 italic">
             {
                 status !== "loading" &&
@@ -33,7 +33,7 @@ export const Appbar = ({
             }
             PowerPay
         </div>
-        <div className="flex flex-col justify-center pt-2">
+        <div className="flex flex-col justify-center pt-2 ">
 
             {
                 status == "unauthenticated" &&
@@ -49,7 +49,7 @@ export const Appbar = ({
         </div>
         {
             profileOptionsPopup &&
-            <div className="absolute top-[110%] right-[5dvw] sm:right-10 w-[65%] sm:w-60 min-h-20 bg-slate-200 rounded-md shadow-xl shadow-slate-500 border-1 border-slate-400/60 flex flex-col items-center gap-1">
+            <div className="z-[100] absolute top-[110%] right-[5dvw] sm:right-10 w-[65%] sm:w-60 min-h-20 bg-slate-200 rounded-md shadow-xl shadow-slate-500 border border-slate-400/60 flex flex-col items-center gap-1">
                 <div className="w-full flex items-center justify-between p-2 px-3 font-[Manrope]">
                     <ProfileImage profileName={profileData?.fullName || ""} url={profileData?.pfpUrl || ""} size="small" />
                     <div className="flex flex-col items-end justify-around">

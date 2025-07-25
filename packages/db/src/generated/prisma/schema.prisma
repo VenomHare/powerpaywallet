@@ -28,8 +28,10 @@ model User {
 
   Balance             Balance[]
   Transactions        Transactions[]
-  IncomingTransaction WalletTransfers[] @relation(name: "IncomingTransaction")
-  OutgoingTransaction WalletTransfers[] @relation(name: "OutgoingTransaction")
+  IncomingTransaction WalletTransfers[]   @relation(name: "IncomingTransaction")
+  OutgoingTransaction WalletTransfers[]   @relation(name: "OutgoingTransaction")
+  SavedBankAccounts   SavedBankAccounts[]
+  BankWithdrawals     BankWithdrawals[]
 }
 
 model Cloudinary_images {
@@ -81,6 +83,31 @@ model WalletTransfers {
   status    Status
   startedAt DateTime @default(now())
   updatedAt DateTime @default(now())
+}
+
+model BankWithdrawals {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique
+  userId    Int
+  accountId Int
+  amount    Int
+  status    Status   @default(Processing)
+  updatedAt DateTime @default(now())
+  startedAt DateTime @default(now())
+
+  account SavedBankAccounts @relation(fields: [accountId], references: [id])
+  user    User              @relation(fields: [userId], references: [id])
+}
+
+model SavedBankAccounts {
+  id            Int               @id @default(autoincrement())
+  bankCode      String
+  accountNumber String
+  holderName    String
+  label         String
+  userId        Int
+  User          User              @relation(fields: [userId], references: [id])
+  Withdrawals   BankWithdrawals[]
 }
 
 enum AuthType {

@@ -29,7 +29,7 @@ export interface WalletsSearchResult {
 
 export type BANKSERVERS = "POWERPAY_MOCKBANK" | "SELECT"
 
-export type PROFILE_TABS = "personal"
+export type PROFILE_TABS = "personal" | "bankaccounts"
 export interface Transaction {
     id: number
     amount: number
@@ -55,7 +55,7 @@ export interface AlertsState {
 }
 
 
-export type SecurityPinPopupActions = "WALLET_MONEY_TRANSFER";
+export type SecurityPinPopupActions = "WALLET_MONEY_TRANSFER" | "BANK_WITHDRAWAL";
 
 export type SecurityPinPopupAction =
     |
@@ -68,6 +68,12 @@ export type SecurityPinPopupAction =
     |
     {
         type: "NO_ACTION"
+    }
+    |
+    {
+        type: "BANK_WITHDRAWAL",
+        accountNumber: string,
+        amount: number
     }
 
 
@@ -88,7 +94,7 @@ export type SecurityPopUpProps =
     {
         open: boolean,
         setOpen: (open: boolean) => void,
-        action: "WALLET_MONEY_TRANSFER",
+        action: SecurityPinPopupActions,
         id: number,
         onClose: () => void
     }
@@ -98,4 +104,13 @@ export interface AppbarProps {
     signOut?: () => void
     signIn?: () => void
     status: "loading" | "unauthenticated" | "authenticated"
+}
+
+export type WITHDRAWAL_OPTIONS = "BANK"
+
+export type SavedBankAccount = {
+	holderName: string,
+	accountNumber: string,
+	bankCode: string,
+	label: string,
 }

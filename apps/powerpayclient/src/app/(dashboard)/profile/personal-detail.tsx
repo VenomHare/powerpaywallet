@@ -1,6 +1,6 @@
 import { Button } from '@powerpaywallet/ui/button'
 import React from 'react'
-import { EditableField } from './edit-field';
+import { EditableField } from './components/edit-field';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@powerpaywallet/store';
 import { updateField } from '../../actions/profile/update';
@@ -87,7 +87,7 @@ export const PersonalDetailsScreeen = () => {
     }
 
     return (<>
-        <div id="pfp" className='w-full flex gap-2 flex-col-reverse 2xs:flex-row'>
+        <div id="pfp" className='w-full flex gap-2 flex-col-reverse 2xs:flex-row animate-fadein'>
             <ProfileImage url={profileData?.pfpUrl} profileName={profileData?.fullName || ""} className='bg-slate-500/50 rounded-xl flex items-center justify-center' />
             <div className='w-fit flex flex-col items-start justify-around '>
                 <p className='font-semibold text-xl'>Update your Profile Image</p>

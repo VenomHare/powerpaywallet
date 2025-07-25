@@ -11,11 +11,12 @@ interface ButtonProps {
   children: ReactNode;
   onClick: () => void;
   variant?: keyof typeof ButtonVariants;
-  className?: string
+  className?: string;
+  type?: "submit"|"button"
 }
-export const Button = ({ onClick, children, variant = "default", className = ""}: ButtonProps) => {
+export const Button = ({ onClick, children, variant = "default", className = "", type = "button"}: ButtonProps) => {
   return (
-    <button onClick={onClick} type="button" className={ButtonVariants[variant] + " cursor-pointer focus:outline-none focus:ring-4 font-medium rounded-lg text-xs sm:text-sm px-3 sm:px-5 py-2 sm:py-2.5 " + className}>
+    <button onClick={onClick} type={type} className={ButtonVariants[variant] + " cursor-pointer focus:outline-none focus:ring-4 font-medium rounded-lg text-xs sm:text-sm px-3 sm:px-5 py-2 sm:py-2.5 " + className}>
       {children}
     </button>
   );

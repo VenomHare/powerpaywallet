@@ -8,7 +8,6 @@ v1Router.post("/mock/powerpay/success", mockPowerPayRequestValidation, async (re
 
     const { success, data, error } = MockPaymentSchema.safeParse(req.body);
 
-
     if (!success) {
         res.status(411).json({
             message: "Invalid Parameters",
