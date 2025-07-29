@@ -138,6 +138,7 @@ export const AddAccountPopupForProfilePage = () => {
                             autoComplete="off"
                             value={label}
                             onChange={(e) => { setLabel(e.target.value) }}
+                            maxLength={80}
                             required
                         />
                     </div>

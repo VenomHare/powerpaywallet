@@ -207,10 +207,10 @@ const WalletPage = () => {
 const OnRampTransaction = ({ transaction }: { transaction: Transaction }) => {
     const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     return (<>
-        <div className='min-h-[7dvh] h-fit rounded border-[1px] border-slate-400/20 shadow p-2 shrink-0' key={transaction.id}>
+        <div className={`min-h-[7dvh] h-fit rounded border-[1px] border-slate-400/20 shadow p-2 shrink-0 ${transaction.status == "Failure" && " bg-red-400/10"}`} key={transaction.id}>
             <div className="flex justify-between w-full h-full">
                 <div className="flex flex-col w-2/3 sm:w-1/2 md:w-auto">
-                    <div className={"text-slate-950 font-medium text-sm md:text-lg" + ` ${transaction.status == "Failure" && "line-through"}`}>
+                    <div className={"text-slate-950 font-medium text-sm md:text-lg"}>
                         {/* rozamddcovhovnkabodhuycf2x95ty */}
                         {transaction.statement.length > 30 ? transaction.statement.slice(0, 30) + ".." : transaction.statement}
                     </div>
@@ -249,7 +249,7 @@ const OnRampTransaction = ({ transaction }: { transaction: Transaction }) => {
                         <div className='hidden sm:block text-2xs sm:text-sm text-red-600'>Failed</div>
                     }
                     <div className="flex flex-col items-end">
-                        <div className={"text-slate-950 font-medium text-sm sm:text-lg " + ` ${transaction.status == "Failure" && "line-through"}`}> {transaction.type == "Credit" ? "+" : "-"} {transaction.amount / 100} INR</div>
+                        <div className={"text-slate-950 font-medium text-sm sm:text-lg "}> {transaction.type == "Credit" ? "+" : "-"} {transaction.amount / 100} INR</div>
                         <div className="text-2xs sm:text-xs md:text-sm text-slate-500 text-right">{new Date(transaction.time).toLocaleString("en-IN", {
                             timeZone: userTimeZone,
                             year: 'numeric',

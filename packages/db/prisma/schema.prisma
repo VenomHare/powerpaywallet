@@ -42,12 +42,6 @@ model Cloudinary_images {
   @@map("cloudinary_images")
 }
 
-model Merchant {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  auth_type AuthType
-}
 
 model Balance {
   id     Int  @id @default(autoincrement())
@@ -86,12 +80,16 @@ model WalletTransfers {
 }
 
 model BankWithdrawals {
-  id        Int    @id @default(autoincrement())
-  token     String @unique
-  userId    Int
-  accountId Int
-  amount    Int
-  status    Status   @default(Processing)
+  id         Int              @id @default(autoincrement())
+  token      String?          @unique
+  userId     Int
+  accountId  Int
+  amount     Int
+  net_amount Int
+  fee        Int
+  gateway    WithdrawalOption
+
+  status    ActionStatus   @default(APPROVAL_PENDING)
   updatedAt DateTime @default(now())
   startedAt DateTime @default(now())
 
@@ -106,14 +104,12 @@ model SavedBankAccounts {
   holderName    String
   label         String
   userId        Int
+  isDeleted     Boolean           @default(false)
   User          User              @relation(fields: [userId], references: [id])
   Withdrawals   BankWithdrawals[]
 }
 
-enum AuthType {
-  Google
-  Github
-}
+
 
 enum Status {
   Success
@@ -121,7 +117,19 @@ enum Status {
   Processing
 }
 
+enum ActionStatus {
+  APPROVAL_PENDING
+  NOT_APPROVED
+  Processing
+  Failure
+  Success
+}
+
 enum TransactionType {
   Debit
   Credit
+}
+
+enum WithdrawalOption {
+  bank_transfer
 }

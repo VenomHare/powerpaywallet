@@ -10,7 +10,7 @@ import { alert } from "./alerts"
 import { VerifySecurityPin } from "../app/actions/security/verify";
 import { getWithdrawalRequestData } from "../app/actions/security/withdrawalRequest";
 
-const CANCELLED_TRANSFER_ERROR_CODES = ["470", "572", "461", "462"]
+const CANCELLED_TRANSFER_ERROR_CODES = ["461", "462", "470", "479", "572"]
 
 const dataRequestHandlers = {
     WALLET_MONEY_TRANSFER: getWalletTransferData,
@@ -98,7 +98,7 @@ const SecurityPinPopUp = ({ open, setOpen, action, id, onClose }: SecurityPopUpP
                 {/* Body */}
                 <div className="w-full h-full flex flex-col items-center gap-4 my-5">
                     {action === "WALLET_MONEY_TRANSFER" && <MoneyTransferInfo actionData={actionData} />}
-                    {action === "BANK_WITHDRAWAL" && <BankWithdrawInfo actionData={actionData}/>}
+                    {action === "BANK_WITHDRAWAL" && <BankWithdrawInfo actionData={actionData} />}
                     {
                         !cannceled && <>
                             <div className="w-full flex flex-col items-center gap-2">
@@ -170,7 +170,7 @@ const BankWithdrawInfo = ({ actionData }: { actionData: SecurityPinPopupAction }
         return (<div className="w-full bg-slate-400 rounded p-2 my-2 flex flex-col items-center font-[Manrope]">
             <h4 className="font-semibold text-lg">Withdrawal Request</h4>
             <p className="font-semibold"><span className="text-slate-800 font-light">Account Number: </span>{actionData.accountNumber}</p>
-            <p className="font-semibold"><span className="text-slate-800 font-light">Amount: </span>₹{actionData.amount/100}</p>
+            <p className="font-semibold"><span className="text-slate-800 font-light">Amount: </span>₹{actionData.amount / 100}</p>
 
         </div>)
     }

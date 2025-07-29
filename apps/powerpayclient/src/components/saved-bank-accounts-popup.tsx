@@ -197,6 +197,7 @@ export const SavedBankAccountsPopup = ({ onSelect, onClose }: Props) => {
 									id="label"
 									autoComplete="off"
 									value={label}
+                            		maxLength={80}
 									onChange={(e) => { setLabel(e.target.value) }}
 									required
 								/>

@@ -113,4 +113,15 @@ export type SavedBankAccount = {
 	accountNumber: string,
 	bankCode: string,
 	label: string,
+    id: number
 }
+
+
+export const BankTransferRequestSchema = z.object({
+    account_number: z.string(),
+    ifsc_code: z.string(),
+    holder_name: z.string(),
+    amount: z.number()
+})
+
+export type BankTransferRequest = z.infer<typeof BankTransferRequestSchema>;

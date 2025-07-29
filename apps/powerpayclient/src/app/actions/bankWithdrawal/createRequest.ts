@@ -14,7 +14,10 @@ export const createWithdrawalRequest = async (account: SavedBankAccount, amount:
         const userId = parseInt((session.user as any).id);
 
         const accountData = await prisma.savedBankAccounts.findFirst({
-            where: account,
+            where: {
+                ...account,
+                isDeleted: false
+            },
             select: {
                 id: true
             }
@@ -24,29 +27,34 @@ export const createWithdrawalRequest = async (account: SavedBankAccount, amount:
             throw new Error("Error 572: Request Data Not Found")
         }
 
-        const token = generateRequestToken(16);
+        let tnxId = NaN;
 
-        const request = await prisma.bankWithdrawals.create({
-            data: {
-                accountId: accountData.id,
-                userId,
-                token,
-                amount,
-            }
+        await prisma.$transaction(async (tnx) => {
+            const fee = amount * 0.0075;
+            const net_amount = amount - fee;
+
+            const createReq = await tnx.bankWithdrawals.create({
+                data: {
+                    accountId: accountData.id,
+                    userId,
+                    amount,
+                    fee,
+                    net_amount,
+                    gateway: "bank_transfer",
+                },
+                select: {
+                    id: true
+                }
+            })
+
+            tnxId = createReq.id
         })
 
-        return request.id 
+        return tnxId
+
     }
     catch (error) {
         console.log(error);
         throw error
     }
-}
-function generateRequestToken(length = 24) {
-    const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    let token = 'BWD_';
-    for (let i = 0; i < length; i++) {
-        token += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return token;
 }

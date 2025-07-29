@@ -19,4 +19,16 @@ export type MockPayment = {
     user_identifier: number,
 }
 
-export type MockPaymentStore = Array<MockPayment>;
+export type MockPaymentStore = MockPayment[];
+
+
+export type MockTransfer = {
+    status : "processing"|"failed"|"completed",
+    token : string,
+    account_number: string,
+    ifsc_code: string,
+    holder_name: string,
+    amount: number
+}
+
+export type MockTransferStore = MockTransfer[]

@@ -27,7 +27,7 @@ export const getWithdrawalRequestData = async (id: number) => {
             throw new Error("Error 572: Data not Found");
         }
 
-        if (data.status !== "Processing") {
+        if (data.status !== "APPROVAL_PENDING") {
             throw new Error("Error 479: Transfer Already Processed")
         }
 

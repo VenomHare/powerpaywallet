@@ -75,12 +75,30 @@ export const Status: {
 export type Status = (typeof Status)[keyof typeof Status]
 
 
+export const ActionStatus: {
+  APPROVAL_PENDING: 'APPROVAL_PENDING',
+  NOT_APPROVED: 'NOT_APPROVED',
+  Processing: 'Processing',
+  Failure: 'Failure',
+  Success: 'Success'
+};
+
+export type ActionStatus = (typeof ActionStatus)[keyof typeof ActionStatus]
+
+
 export const TransactionType: {
   Debit: 'Debit',
   Credit: 'Credit'
 };
 
 export type TransactionType = (typeof TransactionType)[keyof typeof TransactionType]
+
+
+export const WithdrawalOption: {
+  bank_transfer: 'bank_transfer'
+};
+
+export type WithdrawalOption = (typeof WithdrawalOption)[keyof typeof WithdrawalOption]
 
 }
 
@@ -92,9 +110,17 @@ export type Status = $Enums.Status
 
 export const Status: typeof $Enums.Status
 
+export type ActionStatus = $Enums.ActionStatus
+
+export const ActionStatus: typeof $Enums.ActionStatus
+
 export type TransactionType = $Enums.TransactionType
 
 export const TransactionType: typeof $Enums.TransactionType
+
+export type WithdrawalOption = $Enums.WithdrawalOption
+
+export const WithdrawalOption: typeof $Enums.WithdrawalOption
 
 /**
  * ##  Prisma Client ʲˢ
@@ -358,8 +384,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.11.1
-   * Query Engine version: f40f79ec31188888a2e33acda0ecc8fd10a853a9
+   * Prisma Client JS version: 6.12.0
+   * Query Engine version: 8047c96bbd92db98a2abc7c9323ce77c02c89dbc
    */
   export type PrismaVersion = {
     client: string
@@ -8442,6 +8468,8 @@ export namespace Prisma {
     userId: number | null
     accountId: number | null
     amount: number | null
+    net_amount: number | null
+    fee: number | null
   }
 
   export type BankWithdrawalsSumAggregateOutputType = {
@@ -8449,6 +8477,8 @@ export namespace Prisma {
     userId: number | null
     accountId: number | null
     amount: number | null
+    net_amount: number | null
+    fee: number | null
   }
 
   export type BankWithdrawalsMinAggregateOutputType = {
@@ -8457,7 +8487,10 @@ export namespace Prisma {
     userId: number | null
     accountId: number | null
     amount: number | null
-    status: $Enums.Status | null
+    net_amount: number | null
+    fee: number | null
+    gateway: $Enums.WithdrawalOption | null
+    status: $Enums.ActionStatus | null
     updatedAt: Date | null
     startedAt: Date | null
   }
@@ -8468,7 +8501,10 @@ export namespace Prisma {
     userId: number | null
     accountId: number | null
     amount: number | null
-    status: $Enums.Status | null
+    net_amount: number | null
+    fee: number | null
+    gateway: $Enums.WithdrawalOption | null
+    status: $Enums.ActionStatus | null
     updatedAt: Date | null
     startedAt: Date | null
   }
@@ -8479,6 +8515,9 @@ export namespace Prisma {
     userId: number
     accountId: number
     amount: number
+    net_amount: number
+    fee: number
+    gateway: number
     status: number
     updatedAt: number
     startedAt: number
@@ -8491,6 +8530,8 @@ export namespace Prisma {
     userId?: true
     accountId?: true
     amount?: true
+    net_amount?: true
+    fee?: true
   }
 
   export type BankWithdrawalsSumAggregateInputType = {
@@ -8498,6 +8539,8 @@ export namespace Prisma {
     userId?: true
     accountId?: true
     amount?: true
+    net_amount?: true
+    fee?: true
   }
 
   export type BankWithdrawalsMinAggregateInputType = {
@@ -8506,6 +8549,9 @@ export namespace Prisma {
     userId?: true
     accountId?: true
     amount?: true
+    net_amount?: true
+    fee?: true
+    gateway?: true
     status?: true
     updatedAt?: true
     startedAt?: true
@@ -8517,6 +8563,9 @@ export namespace Prisma {
     userId?: true
     accountId?: true
     amount?: true
+    net_amount?: true
+    fee?: true
+    gateway?: true
     status?: true
     updatedAt?: true
     startedAt?: true
@@ -8528,6 +8577,9 @@ export namespace Prisma {
     userId?: true
     accountId?: true
     amount?: true
+    net_amount?: true
+    fee?: true
+    gateway?: true
     status?: true
     updatedAt?: true
     startedAt?: true
@@ -8622,11 +8674,14 @@ export namespace Prisma {
 
   export type BankWithdrawalsGroupByOutputType = {
     id: number
-    token: string
+    token: string | null
     userId: number
     accountId: number
     amount: number
-    status: $Enums.Status
+    net_amount: number
+    fee: number
+    gateway: $Enums.WithdrawalOption
+    status: $Enums.ActionStatus
     updatedAt: Date
     startedAt: Date
     _count: BankWithdrawalsCountAggregateOutputType | null
@@ -8656,6 +8711,9 @@ export namespace Prisma {
     userId?: boolean
     accountId?: boolean
     amount?: boolean
+    net_amount?: boolean
+    fee?: boolean
+    gateway?: boolean
     status?: boolean
     updatedAt?: boolean
     startedAt?: boolean
@@ -8669,6 +8727,9 @@ export namespace Prisma {
     userId?: boolean
     accountId?: boolean
     amount?: boolean
+    net_amount?: boolean
+    fee?: boolean
+    gateway?: boolean
     status?: boolean
     updatedAt?: boolean
     startedAt?: boolean
@@ -8682,6 +8743,9 @@ export namespace Prisma {
     userId?: boolean
     accountId?: boolean
     amount?: boolean
+    net_amount?: boolean
+    fee?: boolean
+    gateway?: boolean
     status?: boolean
     updatedAt?: boolean
     startedAt?: boolean
@@ -8695,12 +8759,15 @@ export namespace Prisma {
     userId?: boolean
     accountId?: boolean
     amount?: boolean
+    net_amount?: boolean
+    fee?: boolean
+    gateway?: boolean
     status?: boolean
     updatedAt?: boolean
     startedAt?: boolean
   }
 
-  export type BankWithdrawalsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "token" | "userId" | "accountId" | "amount" | "status" | "updatedAt" | "startedAt", ExtArgs["result"]["bankWithdrawals"]>
+  export type BankWithdrawalsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "token" | "userId" | "accountId" | "amount" | "net_amount" | "fee" | "gateway" | "status" | "updatedAt" | "startedAt", ExtArgs["result"]["bankWithdrawals"]>
   export type BankWithdrawalsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     account?: boolean | SavedBankAccountsDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -8722,11 +8789,14 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
-      token: string
+      token: string | null
       userId: number
       accountId: number
       amount: number
-      status: $Enums.Status
+      net_amount: number
+      fee: number
+      gateway: $Enums.WithdrawalOption
+      status: $Enums.ActionStatus
       updatedAt: Date
       startedAt: Date
     }, ExtArgs["result"]["bankWithdrawals"]>
@@ -9159,7 +9229,10 @@ export namespace Prisma {
     readonly userId: FieldRef<"BankWithdrawals", 'Int'>
     readonly accountId: FieldRef<"BankWithdrawals", 'Int'>
     readonly amount: FieldRef<"BankWithdrawals", 'Int'>
-    readonly status: FieldRef<"BankWithdrawals", 'Status'>
+    readonly net_amount: FieldRef<"BankWithdrawals", 'Int'>
+    readonly fee: FieldRef<"BankWithdrawals", 'Int'>
+    readonly gateway: FieldRef<"BankWithdrawals", 'WithdrawalOption'>
+    readonly status: FieldRef<"BankWithdrawals", 'ActionStatus'>
     readonly updatedAt: FieldRef<"BankWithdrawals", 'DateTime'>
     readonly startedAt: FieldRef<"BankWithdrawals", 'DateTime'>
   }
@@ -9605,6 +9678,7 @@ export namespace Prisma {
     holderName: string | null
     label: string | null
     userId: number | null
+    isDeleted: boolean | null
   }
 
   export type SavedBankAccountsMaxAggregateOutputType = {
@@ -9614,6 +9688,7 @@ export namespace Prisma {
     holderName: string | null
     label: string | null
     userId: number | null
+    isDeleted: boolean | null
   }
 
   export type SavedBankAccountsCountAggregateOutputType = {
@@ -9623,6 +9698,7 @@ export namespace Prisma {
     holderName: number
     label: number
     userId: number
+    isDeleted: number
     _all: number
   }
 
@@ -9644,6 +9720,7 @@ export namespace Prisma {
     holderName?: true
     label?: true
     userId?: true
+    isDeleted?: true
   }
 
   export type SavedBankAccountsMaxAggregateInputType = {
@@ -9653,6 +9730,7 @@ export namespace Prisma {
     holderName?: true
     label?: true
     userId?: true
+    isDeleted?: true
   }
 
   export type SavedBankAccountsCountAggregateInputType = {
@@ -9662,6 +9740,7 @@ export namespace Prisma {
     holderName?: true
     label?: true
     userId?: true
+    isDeleted?: true
     _all?: true
   }
 
@@ -9758,6 +9837,7 @@ export namespace Prisma {
     holderName: string
     label: string
     userId: number
+    isDeleted: boolean
     _count: SavedBankAccountsCountAggregateOutputType | null
     _avg: SavedBankAccountsAvgAggregateOutputType | null
     _sum: SavedBankAccountsSumAggregateOutputType | null
@@ -9786,6 +9866,7 @@ export namespace Prisma {
     holderName?: boolean
     label?: boolean
     userId?: boolean
+    isDeleted?: boolean
     User?: boolean | UserDefaultArgs<ExtArgs>
     Withdrawals?: boolean | SavedBankAccounts$WithdrawalsArgs<ExtArgs>
     _count?: boolean | SavedBankAccountsCountOutputTypeDefaultArgs<ExtArgs>
@@ -9798,6 +9879,7 @@ export namespace Prisma {
     holderName?: boolean
     label?: boolean
     userId?: boolean
+    isDeleted?: boolean
     User?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["savedBankAccounts"]>
 
@@ -9808,6 +9890,7 @@ export namespace Prisma {
     holderName?: boolean
     label?: boolean
     userId?: boolean
+    isDeleted?: boolean
     User?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["savedBankAccounts"]>
 
@@ -9818,9 +9901,10 @@ export namespace Prisma {
     holderName?: boolean
     label?: boolean
     userId?: boolean
+    isDeleted?: boolean
   }
 
-  export type SavedBankAccountsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "bankCode" | "accountNumber" | "holderName" | "label" | "userId", ExtArgs["result"]["savedBankAccounts"]>
+  export type SavedBankAccountsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "bankCode" | "accountNumber" | "holderName" | "label" | "userId" | "isDeleted", ExtArgs["result"]["savedBankAccounts"]>
   export type SavedBankAccountsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     User?: boolean | UserDefaultArgs<ExtArgs>
     Withdrawals?: boolean | SavedBankAccounts$WithdrawalsArgs<ExtArgs>
@@ -9846,6 +9930,7 @@ export namespace Prisma {
       holderName: string
       label: string
       userId: number
+      isDeleted: boolean
     }, ExtArgs["result"]["savedBankAccounts"]>
     composites: {}
   }
@@ -10277,6 +10362,7 @@ export namespace Prisma {
     readonly holderName: FieldRef<"SavedBankAccounts", 'String'>
     readonly label: FieldRef<"SavedBankAccounts", 'String'>
     readonly userId: FieldRef<"SavedBankAccounts", 'Int'>
+    readonly isDeleted: FieldRef<"SavedBankAccounts", 'Boolean'>
   }
     
 
@@ -10807,6 +10893,9 @@ export namespace Prisma {
     userId: 'userId',
     accountId: 'accountId',
     amount: 'amount',
+    net_amount: 'net_amount',
+    fee: 'fee',
+    gateway: 'gateway',
     status: 'status',
     updatedAt: 'updatedAt',
     startedAt: 'startedAt'
@@ -10821,7 +10910,8 @@ export namespace Prisma {
     accountNumber: 'accountNumber',
     holderName: 'holderName',
     label: 'label',
-    userId: 'userId'
+    userId: 'userId',
+    isDeleted: 'isDeleted'
   };
 
   export type SavedBankAccountsScalarFieldEnum = (typeof SavedBankAccountsScalarFieldEnum)[keyof typeof SavedBankAccountsScalarFieldEnum]
@@ -10937,6 +11027,41 @@ export namespace Prisma {
    * Reference to a field of type 'TransactionType[]'
    */
   export type ListEnumTransactionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TransactionType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'WithdrawalOption'
+   */
+  export type EnumWithdrawalOptionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WithdrawalOption'>
+    
+
+
+  /**
+   * Reference to a field of type 'WithdrawalOption[]'
+   */
+  export type ListEnumWithdrawalOptionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WithdrawalOption[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ActionStatus'
+   */
+  export type EnumActionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ActionStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'ActionStatus[]'
+   */
+  export type ListEnumActionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ActionStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -11350,11 +11475,14 @@ export namespace Prisma {
     OR?: BankWithdrawalsWhereInput[]
     NOT?: BankWithdrawalsWhereInput | BankWithdrawalsWhereInput[]
     id?: IntFilter<"BankWithdrawals"> | number
-    token?: StringFilter<"BankWithdrawals"> | string
+    token?: StringNullableFilter<"BankWithdrawals"> | string | null
     userId?: IntFilter<"BankWithdrawals"> | number
     accountId?: IntFilter<"BankWithdrawals"> | number
     amount?: IntFilter<"BankWithdrawals"> | number
-    status?: EnumStatusFilter<"BankWithdrawals"> | $Enums.Status
+    net_amount?: IntFilter<"BankWithdrawals"> | number
+    fee?: IntFilter<"BankWithdrawals"> | number
+    gateway?: EnumWithdrawalOptionFilter<"BankWithdrawals"> | $Enums.WithdrawalOption
+    status?: EnumActionStatusFilter<"BankWithdrawals"> | $Enums.ActionStatus
     updatedAt?: DateTimeFilter<"BankWithdrawals"> | Date | string
     startedAt?: DateTimeFilter<"BankWithdrawals"> | Date | string
     account?: XOR<SavedBankAccountsScalarRelationFilter, SavedBankAccountsWhereInput>
@@ -11363,10 +11491,13 @@ export namespace Prisma {
 
   export type BankWithdrawalsOrderByWithRelationInput = {
     id?: SortOrder
-    token?: SortOrder
+    token?: SortOrderInput | SortOrder
     userId?: SortOrder
     accountId?: SortOrder
     amount?: SortOrder
+    net_amount?: SortOrder
+    fee?: SortOrder
+    gateway?: SortOrder
     status?: SortOrder
     updatedAt?: SortOrder
     startedAt?: SortOrder
@@ -11383,7 +11514,10 @@ export namespace Prisma {
     userId?: IntFilter<"BankWithdrawals"> | number
     accountId?: IntFilter<"BankWithdrawals"> | number
     amount?: IntFilter<"BankWithdrawals"> | number
-    status?: EnumStatusFilter<"BankWithdrawals"> | $Enums.Status
+    net_amount?: IntFilter<"BankWithdrawals"> | number
+    fee?: IntFilter<"BankWithdrawals"> | number
+    gateway?: EnumWithdrawalOptionFilter<"BankWithdrawals"> | $Enums.WithdrawalOption
+    status?: EnumActionStatusFilter<"BankWithdrawals"> | $Enums.ActionStatus
     updatedAt?: DateTimeFilter<"BankWithdrawals"> | Date | string
     startedAt?: DateTimeFilter<"BankWithdrawals"> | Date | string
     account?: XOR<SavedBankAccountsScalarRelationFilter, SavedBankAccountsWhereInput>
@@ -11392,10 +11526,13 @@ export namespace Prisma {
 
   export type BankWithdrawalsOrderByWithAggregationInput = {
     id?: SortOrder
-    token?: SortOrder
+    token?: SortOrderInput | SortOrder
     userId?: SortOrder
     accountId?: SortOrder
     amount?: SortOrder
+    net_amount?: SortOrder
+    fee?: SortOrder
+    gateway?: SortOrder
     status?: SortOrder
     updatedAt?: SortOrder
     startedAt?: SortOrder
@@ -11411,11 +11548,14 @@ export namespace Prisma {
     OR?: BankWithdrawalsScalarWhereWithAggregatesInput[]
     NOT?: BankWithdrawalsScalarWhereWithAggregatesInput | BankWithdrawalsScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"BankWithdrawals"> | number
-    token?: StringWithAggregatesFilter<"BankWithdrawals"> | string
+    token?: StringNullableWithAggregatesFilter<"BankWithdrawals"> | string | null
     userId?: IntWithAggregatesFilter<"BankWithdrawals"> | number
     accountId?: IntWithAggregatesFilter<"BankWithdrawals"> | number
     amount?: IntWithAggregatesFilter<"BankWithdrawals"> | number
-    status?: EnumStatusWithAggregatesFilter<"BankWithdrawals"> | $Enums.Status
+    net_amount?: IntWithAggregatesFilter<"BankWithdrawals"> | number
+    fee?: IntWithAggregatesFilter<"BankWithdrawals"> | number
+    gateway?: EnumWithdrawalOptionWithAggregatesFilter<"BankWithdrawals"> | $Enums.WithdrawalOption
+    status?: EnumActionStatusWithAggregatesFilter<"BankWithdrawals"> | $Enums.ActionStatus
     updatedAt?: DateTimeWithAggregatesFilter<"BankWithdrawals"> | Date | string
     startedAt?: DateTimeWithAggregatesFilter<"BankWithdrawals"> | Date | string
   }
@@ -11430,6 +11570,7 @@ export namespace Prisma {
     holderName?: StringFilter<"SavedBankAccounts"> | string
     label?: StringFilter<"SavedBankAccounts"> | string
     userId?: IntFilter<"SavedBankAccounts"> | number
+    isDeleted?: BoolFilter<"SavedBankAccounts"> | boolean
     User?: XOR<UserScalarRelationFilter, UserWhereInput>
     Withdrawals?: BankWithdrawalsListRelationFilter
   }
@@ -11441,6 +11582,7 @@ export namespace Prisma {
     holderName?: SortOrder
     label?: SortOrder
     userId?: SortOrder
+    isDeleted?: SortOrder
     User?: UserOrderByWithRelationInput
     Withdrawals?: BankWithdrawalsOrderByRelationAggregateInput
   }
@@ -11455,6 +11597,7 @@ export namespace Prisma {
     holderName?: StringFilter<"SavedBankAccounts"> | string
     label?: StringFilter<"SavedBankAccounts"> | string
     userId?: IntFilter<"SavedBankAccounts"> | number
+    isDeleted?: BoolFilter<"SavedBankAccounts"> | boolean
     User?: XOR<UserScalarRelationFilter, UserWhereInput>
     Withdrawals?: BankWithdrawalsListRelationFilter
   }, "id">
@@ -11466,6 +11609,7 @@ export namespace Prisma {
     holderName?: SortOrder
     label?: SortOrder
     userId?: SortOrder
+    isDeleted?: SortOrder
     _count?: SavedBankAccountsCountOrderByAggregateInput
     _avg?: SavedBankAccountsAvgOrderByAggregateInput
     _max?: SavedBankAccountsMaxOrderByAggregateInput
@@ -11483,6 +11627,7 @@ export namespace Prisma {
     holderName?: StringWithAggregatesFilter<"SavedBankAccounts"> | string
     label?: StringWithAggregatesFilter<"SavedBankAccounts"> | string
     userId?: IntWithAggregatesFilter<"SavedBankAccounts"> | number
+    isDeleted?: BoolWithAggregatesFilter<"SavedBankAccounts"> | boolean
   }
 
   export type UserCreateInput = {
@@ -11872,9 +12017,12 @@ export namespace Prisma {
   }
 
   export type BankWithdrawalsCreateInput = {
-    token: string
+    token?: string | null
     amount: number
-    status?: $Enums.Status
+    net_amount: number
+    fee: number
+    gateway: $Enums.WithdrawalOption
+    status?: $Enums.ActionStatus
     updatedAt?: Date | string
     startedAt?: Date | string
     account: SavedBankAccountsCreateNestedOneWithoutWithdrawalsInput
@@ -11883,19 +12031,25 @@ export namespace Prisma {
 
   export type BankWithdrawalsUncheckedCreateInput = {
     id?: number
-    token: string
+    token?: string | null
     userId: number
     accountId: number
     amount: number
-    status?: $Enums.Status
+    net_amount: number
+    fee: number
+    gateway: $Enums.WithdrawalOption
+    status?: $Enums.ActionStatus
     updatedAt?: Date | string
     startedAt?: Date | string
   }
 
   export type BankWithdrawalsUpdateInput = {
-    token?: StringFieldUpdateOperationsInput | string
+    token?: NullableStringFieldUpdateOperationsInput | string | null
     amount?: IntFieldUpdateOperationsInput | number
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    net_amount?: IntFieldUpdateOperationsInput | number
+    fee?: IntFieldUpdateOperationsInput | number
+    gateway?: EnumWithdrawalOptionFieldUpdateOperationsInput | $Enums.WithdrawalOption
+    status?: EnumActionStatusFieldUpdateOperationsInput | $Enums.ActionStatus
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     account?: SavedBankAccountsUpdateOneRequiredWithoutWithdrawalsNestedInput
@@ -11904,41 +12058,53 @@ export namespace Prisma {
 
   export type BankWithdrawalsUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
-    token?: StringFieldUpdateOperationsInput | string
+    token?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: IntFieldUpdateOperationsInput | number
     accountId?: IntFieldUpdateOperationsInput | number
     amount?: IntFieldUpdateOperationsInput | number
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    net_amount?: IntFieldUpdateOperationsInput | number
+    fee?: IntFieldUpdateOperationsInput | number
+    gateway?: EnumWithdrawalOptionFieldUpdateOperationsInput | $Enums.WithdrawalOption
+    status?: EnumActionStatusFieldUpdateOperationsInput | $Enums.ActionStatus
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BankWithdrawalsCreateManyInput = {
     id?: number
-    token: string
+    token?: string | null
     userId: number
     accountId: number
     amount: number
-    status?: $Enums.Status
+    net_amount: number
+    fee: number
+    gateway: $Enums.WithdrawalOption
+    status?: $Enums.ActionStatus
     updatedAt?: Date | string
     startedAt?: Date | string
   }
 
   export type BankWithdrawalsUpdateManyMutationInput = {
-    token?: StringFieldUpdateOperationsInput | string
+    token?: NullableStringFieldUpdateOperationsInput | string | null
     amount?: IntFieldUpdateOperationsInput | number
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    net_amount?: IntFieldUpdateOperationsInput | number
+    fee?: IntFieldUpdateOperationsInput | number
+    gateway?: EnumWithdrawalOptionFieldUpdateOperationsInput | $Enums.WithdrawalOption
+    status?: EnumActionStatusFieldUpdateOperationsInput | $Enums.ActionStatus
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BankWithdrawalsUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
-    token?: StringFieldUpdateOperationsInput | string
+    token?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: IntFieldUpdateOperationsInput | number
     accountId?: IntFieldUpdateOperationsInput | number
     amount?: IntFieldUpdateOperationsInput | number
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    net_amount?: IntFieldUpdateOperationsInput | number
+    fee?: IntFieldUpdateOperationsInput | number
+    gateway?: EnumWithdrawalOptionFieldUpdateOperationsInput | $Enums.WithdrawalOption
+    status?: EnumActionStatusFieldUpdateOperationsInput | $Enums.ActionStatus
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -11948,6 +12114,7 @@ export namespace Prisma {
     accountNumber: string
     holderName: string
     label: string
+    isDeleted?: boolean
     User: UserCreateNestedOneWithoutSavedBankAccountsInput
     Withdrawals?: BankWithdrawalsCreateNestedManyWithoutAccountInput
   }
@@ -11959,6 +12126,7 @@ export namespace Prisma {
     holderName: string
     label: string
     userId: number
+    isDeleted?: boolean
     Withdrawals?: BankWithdrawalsUncheckedCreateNestedManyWithoutAccountInput
   }
 
@@ -11967,6 +12135,7 @@ export namespace Prisma {
     accountNumber?: StringFieldUpdateOperationsInput | string
     holderName?: StringFieldUpdateOperationsInput | string
     label?: StringFieldUpdateOperationsInput | string
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     User?: UserUpdateOneRequiredWithoutSavedBankAccountsNestedInput
     Withdrawals?: BankWithdrawalsUpdateManyWithoutAccountNestedInput
   }
@@ -11978,6 +12147,7 @@ export namespace Prisma {
     holderName?: StringFieldUpdateOperationsInput | string
     label?: StringFieldUpdateOperationsInput | string
     userId?: IntFieldUpdateOperationsInput | number
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     Withdrawals?: BankWithdrawalsUncheckedUpdateManyWithoutAccountNestedInput
   }
 
@@ -11988,6 +12158,7 @@ export namespace Prisma {
     holderName: string
     label: string
     userId: number
+    isDeleted?: boolean
   }
 
   export type SavedBankAccountsUpdateManyMutationInput = {
@@ -11995,6 +12166,7 @@ export namespace Prisma {
     accountNumber?: StringFieldUpdateOperationsInput | string
     holderName?: StringFieldUpdateOperationsInput | string
     label?: StringFieldUpdateOperationsInput | string
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type SavedBankAccountsUncheckedUpdateManyInput = {
@@ -12004,6 +12176,7 @@ export namespace Prisma {
     holderName?: StringFieldUpdateOperationsInput | string
     label?: StringFieldUpdateOperationsInput | string
     userId?: IntFieldUpdateOperationsInput | number
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -12490,6 +12663,20 @@ export namespace Prisma {
     amount?: SortOrder
   }
 
+  export type EnumWithdrawalOptionFilter<$PrismaModel = never> = {
+    equals?: $Enums.WithdrawalOption | EnumWithdrawalOptionFieldRefInput<$PrismaModel>
+    in?: $Enums.WithdrawalOption[] | ListEnumWithdrawalOptionFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WithdrawalOption[] | ListEnumWithdrawalOptionFieldRefInput<$PrismaModel>
+    not?: NestedEnumWithdrawalOptionFilter<$PrismaModel> | $Enums.WithdrawalOption
+  }
+
+  export type EnumActionStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ActionStatus | EnumActionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ActionStatus[] | ListEnumActionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ActionStatus[] | ListEnumActionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumActionStatusFilter<$PrismaModel> | $Enums.ActionStatus
+  }
+
   export type SavedBankAccountsScalarRelationFilter = {
     is?: SavedBankAccountsWhereInput
     isNot?: SavedBankAccountsWhereInput
@@ -12501,6 +12688,9 @@ export namespace Prisma {
     userId?: SortOrder
     accountId?: SortOrder
     amount?: SortOrder
+    net_amount?: SortOrder
+    fee?: SortOrder
+    gateway?: SortOrder
     status?: SortOrder
     updatedAt?: SortOrder
     startedAt?: SortOrder
@@ -12511,6 +12701,8 @@ export namespace Prisma {
     userId?: SortOrder
     accountId?: SortOrder
     amount?: SortOrder
+    net_amount?: SortOrder
+    fee?: SortOrder
   }
 
   export type BankWithdrawalsMaxOrderByAggregateInput = {
@@ -12519,6 +12711,9 @@ export namespace Prisma {
     userId?: SortOrder
     accountId?: SortOrder
     amount?: SortOrder
+    net_amount?: SortOrder
+    fee?: SortOrder
+    gateway?: SortOrder
     status?: SortOrder
     updatedAt?: SortOrder
     startedAt?: SortOrder
@@ -12530,6 +12725,9 @@ export namespace Prisma {
     userId?: SortOrder
     accountId?: SortOrder
     amount?: SortOrder
+    net_amount?: SortOrder
+    fee?: SortOrder
+    gateway?: SortOrder
     status?: SortOrder
     updatedAt?: SortOrder
     startedAt?: SortOrder
@@ -12540,6 +12738,33 @@ export namespace Prisma {
     userId?: SortOrder
     accountId?: SortOrder
     amount?: SortOrder
+    net_amount?: SortOrder
+    fee?: SortOrder
+  }
+
+  export type EnumWithdrawalOptionWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.WithdrawalOption | EnumWithdrawalOptionFieldRefInput<$PrismaModel>
+    in?: $Enums.WithdrawalOption[] | ListEnumWithdrawalOptionFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WithdrawalOption[] | ListEnumWithdrawalOptionFieldRefInput<$PrismaModel>
+    not?: NestedEnumWithdrawalOptionWithAggregatesFilter<$PrismaModel> | $Enums.WithdrawalOption
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumWithdrawalOptionFilter<$PrismaModel>
+    _max?: NestedEnumWithdrawalOptionFilter<$PrismaModel>
+  }
+
+  export type EnumActionStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ActionStatus | EnumActionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ActionStatus[] | ListEnumActionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ActionStatus[] | ListEnumActionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumActionStatusWithAggregatesFilter<$PrismaModel> | $Enums.ActionStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumActionStatusFilter<$PrismaModel>
+    _max?: NestedEnumActionStatusFilter<$PrismaModel>
+  }
+
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type SavedBankAccountsCountOrderByAggregateInput = {
@@ -12549,6 +12774,7 @@ export namespace Prisma {
     holderName?: SortOrder
     label?: SortOrder
     userId?: SortOrder
+    isDeleted?: SortOrder
   }
 
   export type SavedBankAccountsAvgOrderByAggregateInput = {
@@ -12563,6 +12789,7 @@ export namespace Prisma {
     holderName?: SortOrder
     label?: SortOrder
     userId?: SortOrder
+    isDeleted?: SortOrder
   }
 
   export type SavedBankAccountsMinOrderByAggregateInput = {
@@ -12572,11 +12799,20 @@ export namespace Prisma {
     holderName?: SortOrder
     label?: SortOrder
     userId?: SortOrder
+    isDeleted?: SortOrder
   }
 
   export type SavedBankAccountsSumOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type Cloudinary_imagesCreateNestedOneWithoutUserInput = {
@@ -12983,6 +13219,14 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type EnumWithdrawalOptionFieldUpdateOperationsInput = {
+    set?: $Enums.WithdrawalOption
+  }
+
+  export type EnumActionStatusFieldUpdateOperationsInput = {
+    set?: $Enums.ActionStatus
+  }
+
   export type SavedBankAccountsUpdateOneRequiredWithoutWithdrawalsNestedInput = {
     create?: XOR<SavedBankAccountsCreateWithoutWithdrawalsInput, SavedBankAccountsUncheckedCreateWithoutWithdrawalsInput>
     connectOrCreate?: SavedBankAccountsCreateOrConnectWithoutWithdrawalsInput
@@ -13017,6 +13261,10 @@ export namespace Prisma {
     connectOrCreate?: BankWithdrawalsCreateOrConnectWithoutAccountInput | BankWithdrawalsCreateOrConnectWithoutAccountInput[]
     createMany?: BankWithdrawalsCreateManyAccountInputEnvelope
     connect?: BankWithdrawalsWhereUniqueInput | BankWithdrawalsWhereUniqueInput[]
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
   export type UserUpdateOneRequiredWithoutSavedBankAccountsNestedInput = {
@@ -13267,6 +13515,53 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedEnumWithdrawalOptionFilter<$PrismaModel = never> = {
+    equals?: $Enums.WithdrawalOption | EnumWithdrawalOptionFieldRefInput<$PrismaModel>
+    in?: $Enums.WithdrawalOption[] | ListEnumWithdrawalOptionFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WithdrawalOption[] | ListEnumWithdrawalOptionFieldRefInput<$PrismaModel>
+    not?: NestedEnumWithdrawalOptionFilter<$PrismaModel> | $Enums.WithdrawalOption
+  }
+
+  export type NestedEnumActionStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ActionStatus | EnumActionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ActionStatus[] | ListEnumActionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ActionStatus[] | ListEnumActionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumActionStatusFilter<$PrismaModel> | $Enums.ActionStatus
+  }
+
+  export type NestedEnumWithdrawalOptionWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.WithdrawalOption | EnumWithdrawalOptionFieldRefInput<$PrismaModel>
+    in?: $Enums.WithdrawalOption[] | ListEnumWithdrawalOptionFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WithdrawalOption[] | ListEnumWithdrawalOptionFieldRefInput<$PrismaModel>
+    not?: NestedEnumWithdrawalOptionWithAggregatesFilter<$PrismaModel> | $Enums.WithdrawalOption
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumWithdrawalOptionFilter<$PrismaModel>
+    _max?: NestedEnumWithdrawalOptionFilter<$PrismaModel>
+  }
+
+  export type NestedEnumActionStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ActionStatus | EnumActionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ActionStatus[] | ListEnumActionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ActionStatus[] | ListEnumActionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumActionStatusWithAggregatesFilter<$PrismaModel> | $Enums.ActionStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumActionStatusFilter<$PrismaModel>
+    _max?: NestedEnumActionStatusFilter<$PrismaModel>
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type Cloudinary_imagesCreateWithoutUserInput = {
     public_id: string
     url: string
@@ -13395,6 +13690,7 @@ export namespace Prisma {
     accountNumber: string
     holderName: string
     label: string
+    isDeleted?: boolean
     Withdrawals?: BankWithdrawalsCreateNestedManyWithoutAccountInput
   }
 
@@ -13404,6 +13700,7 @@ export namespace Prisma {
     accountNumber: string
     holderName: string
     label: string
+    isDeleted?: boolean
     Withdrawals?: BankWithdrawalsUncheckedCreateNestedManyWithoutAccountInput
   }
 
@@ -13418,9 +13715,12 @@ export namespace Prisma {
   }
 
   export type BankWithdrawalsCreateWithoutUserInput = {
-    token: string
+    token?: string | null
     amount: number
-    status?: $Enums.Status
+    net_amount: number
+    fee: number
+    gateway: $Enums.WithdrawalOption
+    status?: $Enums.ActionStatus
     updatedAt?: Date | string
     startedAt?: Date | string
     account: SavedBankAccountsCreateNestedOneWithoutWithdrawalsInput
@@ -13428,10 +13728,13 @@ export namespace Prisma {
 
   export type BankWithdrawalsUncheckedCreateWithoutUserInput = {
     id?: number
-    token: string
+    token?: string | null
     accountId: number
     amount: number
-    status?: $Enums.Status
+    net_amount: number
+    fee: number
+    gateway: $Enums.WithdrawalOption
+    status?: $Enums.ActionStatus
     updatedAt?: Date | string
     startedAt?: Date | string
   }
@@ -13596,6 +13899,7 @@ export namespace Prisma {
     holderName?: StringFilter<"SavedBankAccounts"> | string
     label?: StringFilter<"SavedBankAccounts"> | string
     userId?: IntFilter<"SavedBankAccounts"> | number
+    isDeleted?: BoolFilter<"SavedBankAccounts"> | boolean
   }
 
   export type BankWithdrawalsUpsertWithWhereUniqueWithoutUserInput = {
@@ -13619,11 +13923,14 @@ export namespace Prisma {
     OR?: BankWithdrawalsScalarWhereInput[]
     NOT?: BankWithdrawalsScalarWhereInput | BankWithdrawalsScalarWhereInput[]
     id?: IntFilter<"BankWithdrawals"> | number
-    token?: StringFilter<"BankWithdrawals"> | string
+    token?: StringNullableFilter<"BankWithdrawals"> | string | null
     userId?: IntFilter<"BankWithdrawals"> | number
     accountId?: IntFilter<"BankWithdrawals"> | number
     amount?: IntFilter<"BankWithdrawals"> | number
-    status?: EnumStatusFilter<"BankWithdrawals"> | $Enums.Status
+    net_amount?: IntFilter<"BankWithdrawals"> | number
+    fee?: IntFilter<"BankWithdrawals"> | number
+    gateway?: EnumWithdrawalOptionFilter<"BankWithdrawals"> | $Enums.WithdrawalOption
+    status?: EnumActionStatusFilter<"BankWithdrawals"> | $Enums.ActionStatus
     updatedAt?: DateTimeFilter<"BankWithdrawals"> | Date | string
     startedAt?: DateTimeFilter<"BankWithdrawals"> | Date | string
   }
@@ -14043,6 +14350,7 @@ export namespace Prisma {
     accountNumber: string
     holderName: string
     label: string
+    isDeleted?: boolean
     User: UserCreateNestedOneWithoutSavedBankAccountsInput
   }
 
@@ -14053,6 +14361,7 @@ export namespace Prisma {
     holderName: string
     label: string
     userId: number
+    isDeleted?: boolean
   }
 
   export type SavedBankAccountsCreateOrConnectWithoutWithdrawalsInput = {
@@ -14114,6 +14423,7 @@ export namespace Prisma {
     accountNumber?: StringFieldUpdateOperationsInput | string
     holderName?: StringFieldUpdateOperationsInput | string
     label?: StringFieldUpdateOperationsInput | string
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     User?: UserUpdateOneRequiredWithoutSavedBankAccountsNestedInput
   }
 
@@ -14124,6 +14434,7 @@ export namespace Prisma {
     holderName?: StringFieldUpdateOperationsInput | string
     label?: StringFieldUpdateOperationsInput | string
     userId?: IntFieldUpdateOperationsInput | number
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserUpsertWithoutBankWithdrawalsInput = {
@@ -14209,9 +14520,12 @@ export namespace Prisma {
   }
 
   export type BankWithdrawalsCreateWithoutAccountInput = {
-    token: string
+    token?: string | null
     amount: number
-    status?: $Enums.Status
+    net_amount: number
+    fee: number
+    gateway: $Enums.WithdrawalOption
+    status?: $Enums.ActionStatus
     updatedAt?: Date | string
     startedAt?: Date | string
     user: UserCreateNestedOneWithoutBankWithdrawalsInput
@@ -14219,10 +14533,13 @@ export namespace Prisma {
 
   export type BankWithdrawalsUncheckedCreateWithoutAccountInput = {
     id?: number
-    token: string
+    token?: string | null
     userId: number
     amount: number
-    status?: $Enums.Status
+    net_amount: number
+    fee: number
+    gateway: $Enums.WithdrawalOption
+    status?: $Enums.ActionStatus
     updatedAt?: Date | string
     startedAt?: Date | string
   }
@@ -14339,14 +14656,18 @@ export namespace Prisma {
     accountNumber: string
     holderName: string
     label: string
+    isDeleted?: boolean
   }
 
   export type BankWithdrawalsCreateManyUserInput = {
     id?: number
-    token: string
+    token?: string | null
     accountId: number
     amount: number
-    status?: $Enums.Status
+    net_amount: number
+    fee: number
+    gateway: $Enums.WithdrawalOption
+    status?: $Enums.ActionStatus
     updatedAt?: Date | string
     startedAt?: Date | string
   }
@@ -14460,6 +14781,7 @@ export namespace Prisma {
     accountNumber?: StringFieldUpdateOperationsInput | string
     holderName?: StringFieldUpdateOperationsInput | string
     label?: StringFieldUpdateOperationsInput | string
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     Withdrawals?: BankWithdrawalsUpdateManyWithoutAccountNestedInput
   }
 
@@ -14469,6 +14791,7 @@ export namespace Prisma {
     accountNumber?: StringFieldUpdateOperationsInput | string
     holderName?: StringFieldUpdateOperationsInput | string
     label?: StringFieldUpdateOperationsInput | string
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     Withdrawals?: BankWithdrawalsUncheckedUpdateManyWithoutAccountNestedInput
   }
 
@@ -14478,12 +14801,16 @@ export namespace Prisma {
     accountNumber?: StringFieldUpdateOperationsInput | string
     holderName?: StringFieldUpdateOperationsInput | string
     label?: StringFieldUpdateOperationsInput | string
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type BankWithdrawalsUpdateWithoutUserInput = {
-    token?: StringFieldUpdateOperationsInput | string
+    token?: NullableStringFieldUpdateOperationsInput | string | null
     amount?: IntFieldUpdateOperationsInput | number
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    net_amount?: IntFieldUpdateOperationsInput | number
+    fee?: IntFieldUpdateOperationsInput | number
+    gateway?: EnumWithdrawalOptionFieldUpdateOperationsInput | $Enums.WithdrawalOption
+    status?: EnumActionStatusFieldUpdateOperationsInput | $Enums.ActionStatus
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     account?: SavedBankAccountsUpdateOneRequiredWithoutWithdrawalsNestedInput
@@ -14491,38 +14818,50 @@ export namespace Prisma {
 
   export type BankWithdrawalsUncheckedUpdateWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
-    token?: StringFieldUpdateOperationsInput | string
+    token?: NullableStringFieldUpdateOperationsInput | string | null
     accountId?: IntFieldUpdateOperationsInput | number
     amount?: IntFieldUpdateOperationsInput | number
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    net_amount?: IntFieldUpdateOperationsInput | number
+    fee?: IntFieldUpdateOperationsInput | number
+    gateway?: EnumWithdrawalOptionFieldUpdateOperationsInput | $Enums.WithdrawalOption
+    status?: EnumActionStatusFieldUpdateOperationsInput | $Enums.ActionStatus
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BankWithdrawalsUncheckedUpdateManyWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
-    token?: StringFieldUpdateOperationsInput | string
+    token?: NullableStringFieldUpdateOperationsInput | string | null
     accountId?: IntFieldUpdateOperationsInput | number
     amount?: IntFieldUpdateOperationsInput | number
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    net_amount?: IntFieldUpdateOperationsInput | number
+    fee?: IntFieldUpdateOperationsInput | number
+    gateway?: EnumWithdrawalOptionFieldUpdateOperationsInput | $Enums.WithdrawalOption
+    status?: EnumActionStatusFieldUpdateOperationsInput | $Enums.ActionStatus
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BankWithdrawalsCreateManyAccountInput = {
     id?: number
-    token: string
+    token?: string | null
     userId: number
     amount: number
-    status?: $Enums.Status
+    net_amount: number
+    fee: number
+    gateway: $Enums.WithdrawalOption
+    status?: $Enums.ActionStatus
     updatedAt?: Date | string
     startedAt?: Date | string
   }
 
   export type BankWithdrawalsUpdateWithoutAccountInput = {
-    token?: StringFieldUpdateOperationsInput | string
+    token?: NullableStringFieldUpdateOperationsInput | string | null
     amount?: IntFieldUpdateOperationsInput | number
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    net_amount?: IntFieldUpdateOperationsInput | number
+    fee?: IntFieldUpdateOperationsInput | number
+    gateway?: EnumWithdrawalOptionFieldUpdateOperationsInput | $Enums.WithdrawalOption
+    status?: EnumActionStatusFieldUpdateOperationsInput | $Enums.ActionStatus
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutBankWithdrawalsNestedInput
@@ -14530,20 +14869,26 @@ export namespace Prisma {
 
   export type BankWithdrawalsUncheckedUpdateWithoutAccountInput = {
     id?: IntFieldUpdateOperationsInput | number
-    token?: StringFieldUpdateOperationsInput | string
+    token?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: IntFieldUpdateOperationsInput | number
     amount?: IntFieldUpdateOperationsInput | number
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    net_amount?: IntFieldUpdateOperationsInput | number
+    fee?: IntFieldUpdateOperationsInput | number
+    gateway?: EnumWithdrawalOptionFieldUpdateOperationsInput | $Enums.WithdrawalOption
+    status?: EnumActionStatusFieldUpdateOperationsInput | $Enums.ActionStatus
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BankWithdrawalsUncheckedUpdateManyWithoutAccountInput = {
     id?: IntFieldUpdateOperationsInput | number
-    token?: StringFieldUpdateOperationsInput | string
+    token?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: IntFieldUpdateOperationsInput | number
     amount?: IntFieldUpdateOperationsInput | number
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    net_amount?: IntFieldUpdateOperationsInput | number
+    fee?: IntFieldUpdateOperationsInput | number
+    gateway?: EnumWithdrawalOptionFieldUpdateOperationsInput | $Enums.WithdrawalOption
+    status?: EnumActionStatusFieldUpdateOperationsInput | $Enums.ActionStatus
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     startedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

@@ -139,23 +139,23 @@ const WithdrawPage = () => {
 							</div>
 						}
 
-						<div className="flex flex-col " onClick={OpenSelectAccountPopup}>
+						<div className="flex flex-col cursor-pointer" onClick={OpenSelectAccountPopup}>
 							<label htmlFor="bank_acc_name">Account Holder's Name</label>
-							<div id="bank_acc_name" className="border border-slate-400 shadow-md shadow-slate-400 bg-slate-200 w-full sm:w-2/3 p-2 rounded">
+							<div id="bank_acc_name" className="border border-slate-400 shadow-md shadow-slate-400 bg-slate-300 w-full sm:w-2/3 p-2 rounded">
 								{selectedAccount == undefined ? <p className="text-slate-400"> Select Bank Account </p> : selectedAccount.holderName}
 							</div>
 						</div>
 
-						<div className="flex flex-col " onClick={OpenSelectAccountPopup}>
+						<div className="flex flex-col cursor-pointer" onClick={OpenSelectAccountPopup}>
 							<label htmlFor="bank_acc_no">Account Number</label>
-							<div id="bank_acc_no" className="border border-slate-400 shadow-md shadow-slate-400 bg-slate-200 w-full sm:w-2/3 p-2 rounded">
+							<div id="bank_acc_no" className="border border-slate-400 shadow-md shadow-slate-400 bg-slate-300 w-full sm:w-2/3 p-2 rounded">
 								{selectedAccount == undefined ? <p className="text-slate-400"> Select Bank Account </p> : selectedAccount.accountNumber}
 							</div>
 						</div>
 
-						<div className="flex flex-col " onClick={OpenSelectAccountPopup}>
+						<div className="flex flex-col cursor-pointer" onClick={OpenSelectAccountPopup}>
 							<label htmlFor="bank_acc_code"> Bank IFSC Code</label>
-							<div id="bank_acc_code" className="border border-slate-400 shadow-md shadow-slate-400 bg-slate-200 w-full sm:w-2/3 p-2 rounded">
+							<div id="bank_acc_code" className="border border-slate-400 shadow-md shadow-slate-400 bg-slate-300 w-full sm:w-2/3 p-2 rounded">
 								{selectedAccount == undefined ? <p className="text-slate-400"> Select Bank Account </p> : selectedAccount.bankCode}
 							</div>
 						</div>

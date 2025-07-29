@@ -28,7 +28,7 @@ v1Router.post("/mock/powerpay/success", mockPowerPayRequestValidation, async (re
                 token: paymentInformation.token
             }
         })
-        
+
         if (!tnx) {
             res.status(404).json({
                 message: "Transaction Not Found"
@@ -87,8 +87,8 @@ v1Router.post("/mock/powerpay/success", mockPowerPayRequestValidation, async (re
                 }
             });
         }
-        catch{
-        // If its Database Error it will fail here as well
+        catch {
+            // If its Database Error it will fail here as well
         }
         res.status(411).json({
             message: "Error while processing Webhook Request"
@@ -126,5 +126,130 @@ v1Router.post("/mock/powerpay/failure", mockPowerPayRequestValidation, async (re
 
 })
 
+v1Router.post("/mock/transfer/success", mockPowerPayRequestValidation, async (req, res) => {
+    try {
+        const { token } = req.body;
 
-export default v1Router
+        if (token == undefined || typeof token !== "string") {
+            res.status(411).json({
+                message: "Invalid Parameters",
+            })
+            return
+        }
+        try {
+            await prisma.$transaction(async (tnx) => {
+                const withdrawalData = await tnx.bankWithdrawals.findUnique({ where: { token } });
+                if (withdrawalData == undefined) {
+                    throw new Error("NOT_FOUND");
+                }
+                await tnx.transactions.update({
+                    where: {
+                        token
+                    },
+                    data: {
+                        status: "Success",
+                        upatedAt: new Date()
+                    }
+                })
+                await tnx.bankWithdrawals.update({
+                    where: { token },
+                    data: {
+                        status: "Success",
+                        updatedAt: new Date()
+                    }
+                });
+
+            })
+
+            res.json({
+                message: "recorded"
+            })
+        }
+        catch (error: any) {
+            if (error.message == "NOT_FOUND") {
+                res.status(404).json({
+                    message: "Transfer Not Found"
+                })
+                return;
+            }
+            else {
+                throw error
+            }
+        }
+    }
+    catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Failed to record the failed transfer" })
+    }
+})
+
+v1Router.post("/mock/transfer/failure", mockPowerPayRequestValidation, async (req, res) => {
+    try {
+        const { token } = req.body;
+
+        if (token == undefined || typeof token !== "string") {
+            res.status(411).json({
+                message: "Invalid Parameters",
+            })
+            return
+        }
+        try {
+
+            await prisma.$transaction(async (tnx) => {
+                const withdrawalData = await tnx.bankWithdrawals.findUnique({ where: { token } });
+                if (withdrawalData == undefined) {
+                    throw new Error("NOT_FOUND");
+                }
+                await tnx.balance.update({
+                    where: {
+                        id: withdrawalData.userId
+                    },
+                    data: {
+                        amount: {
+                            increment: withdrawalData.amount
+                        }
+                    }
+                })
+                await tnx.transactions.update({
+                    where: {
+                        token
+                    },
+                    data: {
+                        status: "Failure",
+                        upatedAt: new Date()
+                    }
+                })
+                await tnx.bankWithdrawals.update({
+                    where: { token },
+                    data: {
+                        status: "Failure",
+                        updatedAt: new Date()
+                    }
+                });
+
+            })
+
+            res.json({
+                message: "recorded"
+            })
+        }
+        catch (error: any) {
+            if (error.message == "NOT_FOUND") {
+                res.status(404).json({
+                    message: "Transfer Not Found"
+                })
+                return;
+            }
+            else {
+                throw error
+            }
+        }
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Failed to record the failed transfer" })
+    }
+})
+
+
+export default v1Router;

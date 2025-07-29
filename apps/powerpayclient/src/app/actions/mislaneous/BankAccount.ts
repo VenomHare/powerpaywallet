@@ -2,7 +2,6 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../../lib/auth";
 import { prisma } from "@powerpaywallet/db/client";
-import { SavedBankAccount } from "@powerpaywallet/schemas/client";
 
 export const SaveBankAccount = async (accountNumber: string, bankCode: string, holderName: string, label: string) => {
     try {
@@ -42,7 +41,8 @@ export const getSavedBankAccounts = async () => {
 
         const data = await prisma.savedBankAccounts.findMany({
             where: {
-                userId
+                userId,
+                isDeleted: false
             },
         });
 
