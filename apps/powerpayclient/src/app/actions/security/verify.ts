@@ -93,7 +93,7 @@ export const VerifySecurityPin = async (pin: string, id: number, action: Securit
             const data = await prisma.user.update({
                 where: { id: userId },
                 data: {
-                    lastFailedPinTry: new Date(),
+                    lastFailedPinTry: new Date().toISOString(),
                     failedPinTries: {
                         increment: 1
                     },

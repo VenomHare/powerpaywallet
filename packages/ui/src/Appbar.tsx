@@ -7,7 +7,7 @@ import { setOpen } from "@powerpaywallet/store/slices";
 import { RootState } from "@powerpaywallet/store";
 import { AppbarProps } from "@powerpaywallet/schemas/client";
 import { ProfileImage } from "./ProfileImage";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 
 export const Appbar = ({
@@ -20,7 +20,7 @@ export const Appbar = ({
     const { isOpen } = useSelector((state: RootState) => state.sidebar);
     const { profileData } = useSelector((state: RootState) => state.states);
     const [profileOptionsPopup, setProfileOptionsPopup] = useState(false);
-
+  
     const closeOptions = () => {
         setProfileOptionsPopup(false)
     }
@@ -43,13 +43,13 @@ export const Appbar = ({
             {
                 (status == "authenticated" && profileData !== undefined) &&
                 <>
-                    <ProfileImage onClick={()=>{setProfileOptionsPopup(!profileOptionsPopup)}} profileName={profileData?.fullName || ""} url={profileData?.pfpUrl || ""} size="small" />
+                    <ProfileImage onClick={() => { setProfileOptionsPopup(!profileOptionsPopup) }} profileName={profileData?.fullName || ""} url={profileData?.pfpUrl || ""} size="small" />
                 </>
             }
         </div>
         {
             profileOptionsPopup &&
-            <div className="z-[100] absolute top-[110%] right-[5dvw] sm:right-10 w-[65%] sm:w-60 min-h-20 bg-slate-200 rounded-md shadow-xl shadow-slate-500 border border-slate-400/60 flex flex-col items-center gap-1">
+            <div  className="z-[100] absolute top-[110%] right-[5dvw] sm:right-10 w-[65%] sm:w-60 min-h-20 bg-slate-200 rounded-md shadow-xl shadow-slate-500 border border-slate-400/60 flex flex-col items-center gap-1">
                 <div className="w-full flex items-center justify-between p-2 px-3 font-[Manrope]">
                     <ProfileImage profileName={profileData?.fullName || ""} url={profileData?.pfpUrl || ""} size="small" />
                     <div className="flex flex-col items-end justify-around">
@@ -58,7 +58,7 @@ export const Appbar = ({
                     </div>
                 </div>
                 <div className="bg-slate-400/50 w-full h-[1px]" />
-                <button className="font-[Manrope] font-medium my-1 w-full cursor-pointer text-red-500" onClick={()=>{
+                <button className="font-[Manrope] font-medium my-1 w-full cursor-pointer text-red-500" onClick={() => {
                     closeOptions();
                     signOut?.();
                     signIn?.();

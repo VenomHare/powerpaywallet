@@ -42,13 +42,6 @@ model Cloudinary_images {
   @@map("cloudinary_images")
 }
 
-model Merchant {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  auth_type AuthType
-}
-
 model Balance {
   id     Int  @id @default(autoincrement())
   userId Int  @unique
@@ -113,11 +106,6 @@ model SavedBankAccounts {
   isDeleted     Boolean           @default(false)
   User          User              @relation(fields: [userId], references: [id])
   Withdrawals   BankWithdrawals[]
-}
-
-enum AuthType {
-  Google
-  Github
 }
 
 enum Status {

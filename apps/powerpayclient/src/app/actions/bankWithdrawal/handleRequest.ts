@@ -55,6 +55,9 @@ export const handleBankWithdrawal = async (id: number) => {
                 data: {
                     amount: {
                         decrement: transferData.amount
+                    },
+                    locked: {
+                        increment: transferData.amount
                     }
                 }
             })
@@ -76,7 +79,7 @@ export const handleBankWithdrawal = async (id: number) => {
                     id
                 },
                 data: {
-                    updatedAt: new Date(),
+                    updatedAt: new Date().toISOString(),
                     token,
                     status: "Processing"
                 }
@@ -102,7 +105,7 @@ export const handleCancelBankWithdrawal = async (id: number) => {
             await tnx.bankWithdrawals.update({
                 where: { id },
                 data :{
-                    updatedAt: new Date(),
+                    updatedAt: new Date().toISOString(),
                     status: "NOT_APPROVED"
                 }
             })

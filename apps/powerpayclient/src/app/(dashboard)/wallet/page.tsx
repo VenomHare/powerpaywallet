@@ -10,6 +10,7 @@ import axios, { AxiosError } from 'axios';
 import { alert } from '../../../components/alerts';
 import { signIn, useSession } from 'next-auth/react';
 import { WrapFadeTransition } from '../../../components/FadeInPageTransition';
+import { TransactionBlock } from '../../../components/Transaction';
 
 const ADD_MONEY_BUTTONS = [50, 100, 250, 500, 1000]
 
@@ -97,16 +98,16 @@ const WalletPage = () => {
                             (balance !== undefined && status == "success") && <>
                                 <div className="flex items-center justify-between mt-5 pb-2 mx-4 border-b-1 border-slate-400">
                                     <div className="text-sm sm:text-lg font-medium font-[Manrope]">Available Balance: </div>
-                                    <div className="text-md sm:text-lg font-semibold font-[Manrope]">{balance.available / 100} INR</div>
+                                    <div className="text-md sm:text-lg font-semibold font-[Manrope]">₹{balance.available / 100}</div>
                                 </div>
 
                                 <div className="flex items-center justify-between mt-2 pb-2 mx-4 border-b-1 border-slate-400">
                                     <div className="text-sm sm:text-lg font-medium font-[Manrope]">Locked Balance: </div>
-                                    <div className="text-md sm:text-lg font-semibold font-[Manrope]">{balance.locked / 100} INR</div>
+                                    <div className="text-md sm:text-lg font-semibold font-[Manrope]">₹{balance.locked / 100}</div>
                                 </div>
                                 <div className="flex items-center justify-between mt-5 px-2">
                                     <div className="text-lg sm:text-xl font-medium font-[Manrope]">Total Balance: </div>
-                                    <div className="text-2xl sm:text-3xl font-semibold font-[Manrope]">{balance.total / 100} INR</div>
+                                    <div className="text-2xl sm:text-3xl font-semibold font-[Manrope]">₹{balance.total / 100}</div>
                                 </div>
                             </>
                         }
@@ -185,7 +186,7 @@ const WalletPage = () => {
                                 <div className="w-full h-full flex flex-col text-lg pe-1 text-slate-500 font-[Manrope] gap-2 overflow-auto scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-slate-700 scrollbar-track-slate-300">
                                     {
                                         transactions.map((tx, i) => (i < 10) &&
-                                            <OnRampTransaction transaction={tx} key={tx.id} />
+                                            <TransactionBlock type={'tnx'} transaction={tx} key={tx.id} />
                                         )
                                     }
                                     {
@@ -203,67 +204,5 @@ const WalletPage = () => {
     )
 }
 
-
-const OnRampTransaction = ({ transaction }: { transaction: Transaction }) => {
-    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    return (<>
-        <div className={`min-h-[7dvh] h-fit rounded border-[1px] border-slate-400/20 shadow p-2 shrink-0 ${transaction.status == "Failure" && " bg-red-400/10"}`} key={transaction.id}>
-            <div className="flex justify-between w-full h-full">
-                <div className="flex flex-col w-2/3 sm:w-1/2 md:w-auto">
-                    <div className={"text-slate-950 font-medium text-sm md:text-lg"}>
-                        {/* rozamddcovhovnkabodhuycf2x95ty */}
-                        {transaction.statement.length > 30 ? transaction.statement.slice(0, 30) + ".." : transaction.statement}
-                    </div>
-                    <div className="flex gap-2 items-center">
-                        <div className='text-sm text-slate-500 '>
-                            #{transaction.id}
-                        </div>
-                        <div className='block sm:hidden'>
-                            {
-                                transaction.status == "Success" &&
-                                <div className='text-2xs sm:text-sm text-green-600'>Success</div>
-                            }
-                            {
-                                transaction.status == "Processing" &&
-                                <div className='text-2xs sm:text-sm text-yellow-600'>Processing</div>
-                            }
-                            {
-                                transaction.status == "Failure" &&
-                                <div className='text-2xs sm:text-sm text-red-600'>Failed</div>
-                            }
-                        </div>
-
-                    </div>
-                </div>
-                <div className="flex gap-4 items-center">
-                    {
-                        // transaction.status == "Success" &&
-                        // <div className='hidden sm:block text-2xs sm:text-sm text-green-600'>Success</div>
-                    }
-                    {
-                        transaction.status == "Processing" &&
-                        <div className='hidden sm:block text-2xs sm:text-sm text-yellow-600'>Processing</div>
-                    }
-                    {
-                        transaction.status == "Failure" &&
-                        <div className='hidden sm:block text-2xs sm:text-sm text-red-600'>Failed</div>
-                    }
-                    <div className="flex flex-col items-end">
-                        <div className={"text-slate-950 font-medium text-sm sm:text-lg "}> {transaction.type == "Credit" ? "+" : "-"} {transaction.amount / 100} INR</div>
-                        <div className="text-2xs sm:text-xs md:text-sm text-slate-500 text-right">{new Date(transaction.time).toLocaleString("en-IN", {
-                            timeZone: userTimeZone,
-                            year: 'numeric',
-                            month: 'short',
-                            day: '2-digit',
-                            hour: '2-digit',
-                            minute: '2-digit',
-                            hour12: true,
-                        })}</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </>)
-}
 
 export default WrapFadeTransition(WalletPage);

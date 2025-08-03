@@ -45,9 +45,7 @@ export const POST = async (req: NextRequest) => {
 
         //In Real Bank API it will verify ids and tokens and then process the transfer accordingly
         //Sine this is just mock bank api we process it right away and send a request to webhook (if error then refund money to user and if success change status of transaction)
-
-        setTimeout(async () => {
-
+        scheduleTask(token, async () => {
             try {
                 // Keeping a 1/10 chance of a transfer failing
                 if (Math.random() < 0.9) {
@@ -61,7 +59,7 @@ export const POST = async (req: NextRequest) => {
                 console.log(err);
                 sendRequest(TRANSFER_FAILURE_WEBHOOK_URL, token);
             }
-        }, 5000);
+        });
 
         return NextResponse.json({
             token
@@ -98,4 +96,19 @@ async function sendRequest(url: string, token: string) {
             "Content-Type": "application/json"
         }
     })
+}
+
+//delay logic
+const scheduled = new Set();
+
+function scheduleTask(id: string, fn: () => void) {
+    if (scheduled.has(id)) return;
+
+    scheduled.add(id);
+
+    const delay = Math.floor(Math.random() * 2 + 1) * 60 * 1000;
+    setTimeout(() => {
+        fn();
+        scheduled.delete(id);
+    }, delay);
 }

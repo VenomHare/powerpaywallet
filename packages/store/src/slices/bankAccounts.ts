@@ -17,7 +17,8 @@ const initialState: BankAccountsState = {
 }
 
 export const updateSavedBankAccounts = createAsyncThunk("bank_accounts/refresh_saved", async (updateAccounts: ()=>Promise<SavedBankAccount[]>) => {
-	return await updateAccounts();
+	const data = await updateAccounts();
+	return data;
 })	
 
 const BankAccountsSlice = createSlice({

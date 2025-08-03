@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { $Enums } from "@powerpaywallet/db"
+import { $Enums, Prisma } from "@powerpaywallet/db"
 
 export const addFundsRequest = z.object({
     amount: z.number().describe("Amount for Transaction in paise ie 40Rs = 4000(40.00)"),
@@ -107,6 +107,21 @@ export interface AppbarProps {
 }
 
 export type WITHDRAWAL_OPTIONS = "BANK"
+
+export interface WithdrawalTransaction {
+    id: number
+    userId: number
+    amount: number
+    net_amount: number
+    fee: number
+    accountId: number
+    account: SavedBankAccount
+    gateway: $Enums.WithdrawalOption
+    status: $Enums.ActionStatus
+    startedAt: string
+    updatedAt: string
+}
+
 
 export type SavedBankAccount = {
 	holderName: string,

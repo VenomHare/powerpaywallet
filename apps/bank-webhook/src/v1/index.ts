@@ -61,7 +61,7 @@ v1Router.post("/mock/powerpay/success", mockPowerPayRequestValidation, async (re
                 },
                 data: {
                     status: "Success",
-                    upatedAt: new Date()
+                    upatedAt: new Date().toISOString()
                 }
             })
         ]);
@@ -83,7 +83,7 @@ v1Router.post("/mock/powerpay/success", mockPowerPayRequestValidation, async (re
                 },
                 data: {
                     status: "Failure",
-                    upatedAt: new Date()
+                    upatedAt: new Date().toISOString()
                 }
             });
         }
@@ -114,7 +114,7 @@ v1Router.post("/mock/powerpay/failure", mockPowerPayRequestValidation, async (re
             },
             data: {
                 status: "Failure",
-                upatedAt: new Date()
+                upatedAt: new Date().toISOString()
             }
         });
         res.json({ message: "recorded" });
@@ -142,20 +142,33 @@ v1Router.post("/mock/transfer/success", mockPowerPayRequestValidation, async (re
                 if (withdrawalData == undefined) {
                     throw new Error("NOT_FOUND");
                 }
+                await tnx.$queryRaw`SELECT * FROM balance WHERE "userId" = ${withdrawalData.userId} FOR UPDATE`;
+
+                await tnx.balance.update({
+                    where: {
+                        userId: withdrawalData.userId
+                    },
+                    data: {
+                        locked: {
+                            decrement: withdrawalData.amount
+                        }
+                    }
+                })
+
                 await tnx.transactions.update({
                     where: {
                         token
                     },
                     data: {
                         status: "Success",
-                        upatedAt: new Date()
+                        upatedAt: new Date().toISOString()
                     }
                 })
                 await tnx.bankWithdrawals.update({
                     where: { token },
                     data: {
                         status: "Success",
-                        updatedAt: new Date()
+                        updatedAt: new Date().toISOString()
                     }
                 });
 
@@ -198,8 +211,11 @@ v1Router.post("/mock/transfer/failure", mockPowerPayRequestValidation, async (re
             await prisma.$transaction(async (tnx) => {
                 const withdrawalData = await tnx.bankWithdrawals.findUnique({ where: { token } });
                 if (withdrawalData == undefined) {
+                    console.log("Withdrawal Data not found");
                     throw new Error("NOT_FOUND");
                 }
+                await tnx.$queryRaw`SELECT * FROM balance WHERE "userId" = ${withdrawalData.userId} FOR UPDATE`;
+
                 await tnx.balance.update({
                     where: {
                         id: withdrawalData.userId
@@ -207,23 +223,40 @@ v1Router.post("/mock/transfer/failure", mockPowerPayRequestValidation, async (re
                     data: {
                         amount: {
                             increment: withdrawalData.amount
+                        },
+                        locked: {
+                            decrement: withdrawalData.amount
                         }
                     }
                 })
+
                 await tnx.transactions.update({
                     where: {
                         token
                     },
                     data: {
                         status: "Failure",
-                        upatedAt: new Date()
+                        upatedAt: new Date().toISOString()
                     }
                 })
+
+                await tnx.transactions.create({
+                    data: {
+                        status: "Success",
+                        userId: withdrawalData.userId,
+                        statement: `Refund for Request wtb_${withdrawalData.id}`,
+                        token: `rfd_wtb_${withdrawalData.id}`,
+                        provider: "POWERPAY_MOCKBANK",
+                        amount: withdrawalData.amount,
+                        transactionType: "Credit",
+                    }
+                });
+
                 await tnx.bankWithdrawals.update({
                     where: { token },
                     data: {
                         status: "Failure",
-                        updatedAt: new Date()
+                        updatedAt: new Date().toISOString()
                     }
                 });
 

@@ -1,4 +1,4 @@
-import { ProfileData, PROFILE_TABS } from "@powerpaywallet/schemas/client";
+import { ProfileData, PROFILE_TABS, WithdrawalTransaction } from "@powerpaywallet/schemas/client";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -9,6 +9,7 @@ export interface States {
     editingProfileFieldId: string
     profileData: ProfileData | undefined
     addAccountInProfilePopup: boolean
+    withdrawalRequests: WithdrawalTransaction[]
 }
 
 const initialState: States = {
@@ -16,13 +17,20 @@ const initialState: States = {
     profileTab: "personal",
     editingProfileFieldId: "none",
     profileData: undefined,
-    addAccountInProfilePopup: false
+    addAccountInProfilePopup: false,
+    withdrawalRequests: []
 }
 
 export const updateProfileData = createAsyncThunk("states/get_profile", async () => {
     const response = await axios.get("/api/profile");
     return response.data
 });
+
+export const updateWithrawalRequests = createAsyncThunk("states/get_wtb_requests", async (getFn: () => Promise<WithdrawalTransaction[]>) => {
+    const data = await getFn();
+    return data;
+});
+
 
 const StatesSlice = createSlice({
     name: "states",
@@ -37,9 +45,9 @@ const StatesSlice = createSlice({
         setEditingFieldId: (state, action: PayloadAction<string>) => {
             state.editingProfileFieldId = action.payload;
         },
-        setAddAccountInProfilePopup: (state, action : PayloadAction<boolean>) => {
+        setAddAccountInProfilePopup: (state, action: PayloadAction<boolean>) => {
             state.addAccountInProfilePopup = action.payload;
-        } 
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -49,9 +57,18 @@ const StatesSlice = createSlice({
             .addCase(updateProfileData.fulfilled, (state, action: PayloadAction<ProfileData>) => {
                 state.loading = false
                 state.profileData = action.payload
-
             })
             .addCase(updateProfileData.rejected, (state) => {
+                state.loading = false
+            })
+            .addCase(updateWithrawalRequests.fulfilled, (state, action: PayloadAction<WithdrawalTransaction[]>) => {
+                state.withdrawalRequests = action.payload;
+                state.loading = false;
+            })
+            .addCase(updateWithrawalRequests.pending, (state) => {
+                state.loading = true
+            })
+            .addCase(updateWithrawalRequests.rejected, (state) => {
                 state.loading = false
             })
     }

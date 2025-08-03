@@ -137,13 +137,6 @@ exports.Prisma.Cloudinary_imagesScalarFieldEnum = {
   url: 'url'
 };
 
-exports.Prisma.MerchantScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  email: 'email',
-  auth_type: 'auth_type'
-};
-
 exports.Prisma.BalanceScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -212,11 +205,6 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-exports.AuthType = exports.$Enums.AuthType = {
-  Google: 'Google',
-  Github: 'Github'
-};
-
 exports.Status = exports.$Enums.Status = {
   Success: 'Success',
   Failure: 'Failure',
@@ -243,7 +231,6 @@ exports.ActionStatus = exports.$Enums.ActionStatus = {
 exports.Prisma.ModelName = {
   User: 'User',
   Cloudinary_images: 'Cloudinary_images',
-  Merchant: 'Merchant',
   Balance: 'Balance',
   Transactions: 'Transactions',
   WalletTransfers: 'WalletTransfers',

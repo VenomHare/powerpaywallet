@@ -4,6 +4,7 @@ import walletReducer from './slices/wallet'
 import alertsReducer from './slices/alerts'
 import statesReducer from './slices/states'
 import bankAccountsReducer from './slices/bankAccounts'
+import transactionReducer from './slices/transactions'
 
 export const store = configureStore({
   reducer: {
@@ -11,7 +12,8 @@ export const store = configureStore({
     wallet: walletReducer,
     alerts: alertsReducer,
     states: statesReducer,
-    bankAccounts: bankAccountsReducer
+    bankAccounts: bankAccountsReducer,
+    transactions: transactionReducer
   } 
 })
 
