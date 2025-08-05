@@ -38,7 +38,8 @@ export const GET = async (): Promise<NextResponse> => {
             },
             orderBy: {
                 upatedAt: "desc"
-            }
+            },
+            take: 10
         });
 
         const response = {

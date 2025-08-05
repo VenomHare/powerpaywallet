@@ -15,6 +15,7 @@ import SecurityPinPopUp from "../../../components/security-pin-popup";
 import { createWithdrawalRequest } from "../../actions/bankWithdrawal/createRequest";
 import { getWithdrawalRequests } from "../../actions/bankWithdrawal/getWithdrawalRequests";
 import { TransactionBlock } from "../../../components/Transaction";
+import Image from "next/image";
 
 const WithdrawPage = () => {
 
@@ -32,7 +33,7 @@ const WithdrawPage = () => {
 	const appDispatch = useAppDispatch();
 	const dispatch = useDispatch();
 
-	
+
 
 	useEffect(() => {
 
@@ -44,11 +45,11 @@ const WithdrawPage = () => {
 			appDispatch(update());
 		}
 
-		
 		if (withdrawalRequests.length == 0 && !dataRequestSent) {
 			appDispatch(updateWithrawalRequests(getWithdrawalRequests));
 			setDataRequestSent(true);
 		}
+
 
 	}, [balance, appDispatch, session.status, withdrawalRequests])
 
@@ -116,17 +117,26 @@ const WithdrawPage = () => {
 				<div className="w-full lg:w-3/5 xl:w-2/3 h-fit md:h-[75dvh] p-3 sm:p-6  rounded-xl shadow-xl shadow-slate-400 border border-slate-400 flex flex-col gap-2">
 					<h3 className="text-lg sm:text-2xl font-semibold font-[Manrope]">Withdrawal History</h3>
 					<hr className='text-slate-400' />
-					<div className="w-full max-h-full overflow-y-auto overflow-x-hidden flex flex-col gap-2 p-2 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-slate-700 scrollbar-track-slate-300">
-						{
-							withdrawalRequests.map((req) =>
-								<TransactionBlock
-									key={req.id}
-									type={"wtb"}
-									transaction={req}
-								/>
-							)
-						}
-					</div>
+					{
+						withdrawalRequests.length == 0 ?
+							<div className="w-full h-full flex flex-col items-center justify-center text-lg text-slate-500 font-[Manrope] text-center text-balance gap-4">
+								<Image src={"/not_found.png"} alt='Not Found' width={256} height={256} />
+								{/* <History size={65} className='text-slate-400' /> */}
+								Looks like you haven't made any withdrawals yet
+							</div>
+							:
+							<div className="w-full max-h-full overflow-y-auto overflow-x-hidden flex flex-col gap-2 p-2 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-slate-700 scrollbar-track-slate-300">
+								{
+									withdrawalRequests.map((req) =>
+										<TransactionBlock
+											key={req.id}
+											type={"wtb"}
+											transaction={req}
+										/>
+									)
+								}
+							</div>
+					}
 
 				</div>
 

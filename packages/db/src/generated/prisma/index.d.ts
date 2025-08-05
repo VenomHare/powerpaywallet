@@ -121,7 +121,7 @@ export const WithdrawalOption: typeof $Enums.WithdrawalOption
  */
 export class PrismaClient<
   ClientOptions extends Prisma.PrismaClientOptions = Prisma.PrismaClientOptions,
-  U = 'log' extends keyof ClientOptions ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<ClientOptions['log']> : never : never,
+  const U = 'log' extends keyof ClientOptions ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<ClientOptions['log']> : never : never,
   ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
 > {
   [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['other'] }
@@ -357,8 +357,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.12.0
-   * Query Engine version: 8047c96bbd92db98a2abc7c9323ce77c02c89dbc
+   * Prisma Client JS version: 6.13.0
+   * Query Engine version: 361e86d0ea4987e9f53a565309b3eed797a6bcbd
    */
   export type PrismaVersion = {
     client: string
@@ -1329,16 +1329,24 @@ export namespace Prisma {
     /**
      * @example
      * ```
-     * // Defaults to stdout
+     * // Shorthand for `emit: 'stdout'`
      * log: ['query', 'info', 'warn', 'error']
      * 
-     * // Emit as events
+     * // Emit as events only
      * log: [
-     *   { emit: 'stdout', level: 'query' },
-     *   { emit: 'stdout', level: 'info' },
-     *   { emit: 'stdout', level: 'warn' }
-     *   { emit: 'stdout', level: 'error' }
+     *   { emit: 'event', level: 'query' },
+     *   { emit: 'event', level: 'info' },
+     *   { emit: 'event', level: 'warn' }
+     *   { emit: 'event', level: 'error' }
      * ]
+     * 
+     * / Emit as events and log to stdout
+     * og: [
+     *  { emit: 'stdout', level: 'query' },
+     *  { emit: 'stdout', level: 'info' },
+     *  { emit: 'stdout', level: 'warn' }
+     *  { emit: 'stdout', level: 'error' }
+     * 
      * ```
      * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/logging#the-log-option).
      */
@@ -1386,10 +1394,15 @@ export namespace Prisma {
     emit: 'stdout' | 'event'
   }
 
-  export type GetLogType<T extends LogLevel | LogDefinition> = T extends LogDefinition ? T['emit'] extends 'event' ? T['level'] : never : never
-  export type GetEvents<T extends any> = T extends Array<LogLevel | LogDefinition> ?
-    GetLogType<T[0]> | GetLogType<T[1]> | GetLogType<T[2]> | GetLogType<T[3]>
-    : never
+  export type CheckIsLogLevel<T> = T extends LogLevel ? T : never;
+
+  export type GetLogType<T> = CheckIsLogLevel<
+    T extends LogDefinition ? T['level'] : T
+  >;
+
+  export type GetEvents<T extends any[]> = T extends Array<LogLevel | LogDefinition>
+    ? GetLogType<T[number]>
+    : never;
 
   export type QueryEvent = {
     timestamp: Date
@@ -1606,6 +1619,8 @@ export namespace Prisma {
     number: string | null
     password: string | null
     securityPin: string | null
+    createdAt: Date | null
+    lastSessionAt: Date | null
     failedPinTries: number | null
     lastFailedPinTry: Date | null
     pfpPublicId: string | null
@@ -1618,6 +1633,8 @@ export namespace Prisma {
     number: string | null
     password: string | null
     securityPin: string | null
+    createdAt: Date | null
+    lastSessionAt: Date | null
     failedPinTries: number | null
     lastFailedPinTry: Date | null
     pfpPublicId: string | null
@@ -1630,6 +1647,8 @@ export namespace Prisma {
     number: number
     password: number
     securityPin: number
+    createdAt: number
+    lastSessionAt: number
     failedPinTries: number
     lastFailedPinTry: number
     pfpPublicId: number
@@ -1654,6 +1673,8 @@ export namespace Prisma {
     number?: true
     password?: true
     securityPin?: true
+    createdAt?: true
+    lastSessionAt?: true
     failedPinTries?: true
     lastFailedPinTry?: true
     pfpPublicId?: true
@@ -1666,6 +1687,8 @@ export namespace Prisma {
     number?: true
     password?: true
     securityPin?: true
+    createdAt?: true
+    lastSessionAt?: true
     failedPinTries?: true
     lastFailedPinTry?: true
     pfpPublicId?: true
@@ -1678,6 +1701,8 @@ export namespace Prisma {
     number?: true
     password?: true
     securityPin?: true
+    createdAt?: true
+    lastSessionAt?: true
     failedPinTries?: true
     lastFailedPinTry?: true
     pfpPublicId?: true
@@ -1777,6 +1802,8 @@ export namespace Prisma {
     number: string
     password: string
     securityPin: string
+    createdAt: Date
+    lastSessionAt: Date
     failedPinTries: number
     lastFailedPinTry: Date | null
     pfpPublicId: string | null
@@ -1808,6 +1835,8 @@ export namespace Prisma {
     number?: boolean
     password?: boolean
     securityPin?: boolean
+    createdAt?: boolean
+    lastSessionAt?: boolean
     failedPinTries?: boolean
     lastFailedPinTry?: boolean
     pfpPublicId?: boolean
@@ -1828,6 +1857,8 @@ export namespace Prisma {
     number?: boolean
     password?: boolean
     securityPin?: boolean
+    createdAt?: boolean
+    lastSessionAt?: boolean
     failedPinTries?: boolean
     lastFailedPinTry?: boolean
     pfpPublicId?: boolean
@@ -1841,6 +1872,8 @@ export namespace Prisma {
     number?: boolean
     password?: boolean
     securityPin?: boolean
+    createdAt?: boolean
+    lastSessionAt?: boolean
     failedPinTries?: boolean
     lastFailedPinTry?: boolean
     pfpPublicId?: boolean
@@ -1854,12 +1887,14 @@ export namespace Prisma {
     number?: boolean
     password?: boolean
     securityPin?: boolean
+    createdAt?: boolean
+    lastSessionAt?: boolean
     failedPinTries?: boolean
     lastFailedPinTry?: boolean
     pfpPublicId?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "number" | "password" | "securityPin" | "failedPinTries" | "lastFailedPinTry" | "pfpPublicId", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "number" | "password" | "securityPin" | "createdAt" | "lastSessionAt" | "failedPinTries" | "lastFailedPinTry" | "pfpPublicId", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     pfp?: boolean | User$pfpArgs<ExtArgs>
     Balance?: boolean | User$BalanceArgs<ExtArgs>
@@ -1895,6 +1930,8 @@ export namespace Prisma {
       number: string
       password: string
       securityPin: string
+      createdAt: Date
+      lastSessionAt: Date
       failedPinTries: number
       lastFailedPinTry: Date | null
       pfpPublicId: string | null
@@ -2334,6 +2371,8 @@ export namespace Prisma {
     readonly number: FieldRef<"User", 'String'>
     readonly password: FieldRef<"User", 'String'>
     readonly securityPin: FieldRef<"User", 'String'>
+    readonly createdAt: FieldRef<"User", 'DateTime'>
+    readonly lastSessionAt: FieldRef<"User", 'DateTime'>
     readonly failedPinTries: FieldRef<"User", 'Int'>
     readonly lastFailedPinTry: FieldRef<"User", 'DateTime'>
     readonly pfpPublicId: FieldRef<"User", 'String'>
@@ -9703,6 +9742,8 @@ export namespace Prisma {
     number: 'number',
     password: 'password',
     securityPin: 'securityPin',
+    createdAt: 'createdAt',
+    lastSessionAt: 'lastSessionAt',
     failedPinTries: 'failedPinTries',
     lastFailedPinTry: 'lastFailedPinTry',
     pfpPublicId: 'pfpPublicId'
@@ -9949,6 +9990,8 @@ export namespace Prisma {
     number?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
     securityPin?: StringFilter<"User"> | string
+    createdAt?: DateTimeFilter<"User"> | Date | string
+    lastSessionAt?: DateTimeFilter<"User"> | Date | string
     failedPinTries?: IntFilter<"User"> | number
     lastFailedPinTry?: DateTimeNullableFilter<"User"> | Date | string | null
     pfpPublicId?: StringNullableFilter<"User"> | string | null
@@ -9968,6 +10011,8 @@ export namespace Prisma {
     number?: SortOrder
     password?: SortOrder
     securityPin?: SortOrder
+    createdAt?: SortOrder
+    lastSessionAt?: SortOrder
     failedPinTries?: SortOrder
     lastFailedPinTry?: SortOrderInput | SortOrder
     pfpPublicId?: SortOrderInput | SortOrder
@@ -9991,6 +10036,8 @@ export namespace Prisma {
     name?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
     securityPin?: StringFilter<"User"> | string
+    createdAt?: DateTimeFilter<"User"> | Date | string
+    lastSessionAt?: DateTimeFilter<"User"> | Date | string
     failedPinTries?: IntFilter<"User"> | number
     lastFailedPinTry?: DateTimeNullableFilter<"User"> | Date | string | null
     pfp?: XOR<Cloudinary_imagesNullableScalarRelationFilter, Cloudinary_imagesWhereInput> | null
@@ -10009,6 +10056,8 @@ export namespace Prisma {
     number?: SortOrder
     password?: SortOrder
     securityPin?: SortOrder
+    createdAt?: SortOrder
+    lastSessionAt?: SortOrder
     failedPinTries?: SortOrder
     lastFailedPinTry?: SortOrderInput | SortOrder
     pfpPublicId?: SortOrderInput | SortOrder
@@ -10029,6 +10078,8 @@ export namespace Prisma {
     number?: StringWithAggregatesFilter<"User"> | string
     password?: StringWithAggregatesFilter<"User"> | string
     securityPin?: StringWithAggregatesFilter<"User"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    lastSessionAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     failedPinTries?: IntWithAggregatesFilter<"User"> | number
     lastFailedPinTry?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     pfpPublicId?: StringNullableWithAggregatesFilter<"User"> | string | null
@@ -10444,6 +10495,8 @@ export namespace Prisma {
     number: string
     password: string
     securityPin: string
+    createdAt?: Date | string
+    lastSessionAt?: Date | string
     failedPinTries?: number
     lastFailedPinTry?: Date | string | null
     pfp?: Cloudinary_imagesCreateNestedOneWithoutUserInput
@@ -10462,6 +10515,8 @@ export namespace Prisma {
     number: string
     password: string
     securityPin: string
+    createdAt?: Date | string
+    lastSessionAt?: Date | string
     failedPinTries?: number
     lastFailedPinTry?: Date | string | null
     pfpPublicId?: string | null
@@ -10479,6 +10534,8 @@ export namespace Prisma {
     number?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     securityPin?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSessionAt?: DateTimeFieldUpdateOperationsInput | Date | string
     failedPinTries?: IntFieldUpdateOperationsInput | number
     lastFailedPinTry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     pfp?: Cloudinary_imagesUpdateOneWithoutUserNestedInput
@@ -10497,6 +10554,8 @@ export namespace Prisma {
     number?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     securityPin?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSessionAt?: DateTimeFieldUpdateOperationsInput | Date | string
     failedPinTries?: IntFieldUpdateOperationsInput | number
     lastFailedPinTry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     pfpPublicId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -10515,6 +10574,8 @@ export namespace Prisma {
     number: string
     password: string
     securityPin: string
+    createdAt?: Date | string
+    lastSessionAt?: Date | string
     failedPinTries?: number
     lastFailedPinTry?: Date | string | null
     pfpPublicId?: string | null
@@ -10526,6 +10587,8 @@ export namespace Prisma {
     number?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     securityPin?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSessionAt?: DateTimeFieldUpdateOperationsInput | Date | string
     failedPinTries?: IntFieldUpdateOperationsInput | number
     lastFailedPinTry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -10537,6 +10600,8 @@ export namespace Prisma {
     number?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     securityPin?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSessionAt?: DateTimeFieldUpdateOperationsInput | Date | string
     failedPinTries?: IntFieldUpdateOperationsInput | number
     lastFailedPinTry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     pfpPublicId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -10967,6 +11032,17 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type DateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
   export type DateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -11060,6 +11136,8 @@ export namespace Prisma {
     number?: SortOrder
     password?: SortOrder
     securityPin?: SortOrder
+    createdAt?: SortOrder
+    lastSessionAt?: SortOrder
     failedPinTries?: SortOrder
     lastFailedPinTry?: SortOrder
     pfpPublicId?: SortOrder
@@ -11077,6 +11155,8 @@ export namespace Prisma {
     number?: SortOrder
     password?: SortOrder
     securityPin?: SortOrder
+    createdAt?: SortOrder
+    lastSessionAt?: SortOrder
     failedPinTries?: SortOrder
     lastFailedPinTry?: SortOrder
     pfpPublicId?: SortOrder
@@ -11089,6 +11169,8 @@ export namespace Prisma {
     number?: SortOrder
     password?: SortOrder
     securityPin?: SortOrder
+    createdAt?: SortOrder
+    lastSessionAt?: SortOrder
     failedPinTries?: SortOrder
     lastFailedPinTry?: SortOrder
     pfpPublicId?: SortOrder
@@ -11131,6 +11213,20 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -11239,17 +11335,6 @@ export namespace Prisma {
     not?: NestedEnumTransactionTypeFilter<$PrismaModel> | $Enums.TransactionType
   }
 
-  export type DateTimeFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
-  }
-
   export type TransactionsCountOrderByAggregateInput = {
     id?: SortOrder
     status?: SortOrder
@@ -11319,20 +11404,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumTransactionTypeFilter<$PrismaModel>
     _max?: NestedEnumTransactionTypeFilter<$PrismaModel>
-  }
-
-  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type WalletTransfersCountOrderByAggregateInput = {
@@ -11625,6 +11696,10 @@ export namespace Prisma {
     set?: string
   }
 
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -11879,10 +11954,6 @@ export namespace Prisma {
     set?: $Enums.TransactionType
   }
 
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
-  }
-
   export type UserUpdateOneRequiredWithoutTransactionsNestedInput = {
     create?: XOR<UserCreateWithoutTransactionsInput, UserUncheckedCreateWithoutTransactionsInput>
     connectOrCreate?: UserCreateOrConnectWithoutTransactionsInput
@@ -12040,6 +12111,17 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type NestedDateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
   export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -12109,6 +12191,20 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
+  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
   export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -12165,17 +12261,6 @@ export namespace Prisma {
     not?: NestedEnumTransactionTypeFilter<$PrismaModel> | $Enums.TransactionType
   }
 
-  export type NestedDateTimeFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
-  }
-
   export type NestedEnumStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.Status | EnumStatusFieldRefInput<$PrismaModel>
     in?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
@@ -12194,20 +12279,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumTransactionTypeFilter<$PrismaModel>
     _max?: NestedEnumTransactionTypeFilter<$PrismaModel>
-  }
-
-  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type NestedEnumWithdrawalOptionFilter<$PrismaModel = never> = {
@@ -12636,6 +12707,8 @@ export namespace Prisma {
     number: string
     password: string
     securityPin: string
+    createdAt?: Date | string
+    lastSessionAt?: Date | string
     failedPinTries?: number
     lastFailedPinTry?: Date | string | null
     Balance?: BalanceCreateNestedManyWithoutUserInput
@@ -12653,6 +12726,8 @@ export namespace Prisma {
     number: string
     password: string
     securityPin: string
+    createdAt?: Date | string
+    lastSessionAt?: Date | string
     failedPinTries?: number
     lastFailedPinTry?: Date | string | null
     Balance?: BalanceUncheckedCreateNestedManyWithoutUserInput
@@ -12685,6 +12760,8 @@ export namespace Prisma {
     number?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     securityPin?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSessionAt?: DateTimeFieldUpdateOperationsInput | Date | string
     failedPinTries?: IntFieldUpdateOperationsInput | number
     lastFailedPinTry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     Balance?: BalanceUpdateManyWithoutUserNestedInput
@@ -12702,6 +12779,8 @@ export namespace Prisma {
     number?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     securityPin?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSessionAt?: DateTimeFieldUpdateOperationsInput | Date | string
     failedPinTries?: IntFieldUpdateOperationsInput | number
     lastFailedPinTry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     Balance?: BalanceUncheckedUpdateManyWithoutUserNestedInput
@@ -12718,6 +12797,8 @@ export namespace Prisma {
     number: string
     password: string
     securityPin: string
+    createdAt?: Date | string
+    lastSessionAt?: Date | string
     failedPinTries?: number
     lastFailedPinTry?: Date | string | null
     pfp?: Cloudinary_imagesCreateNestedOneWithoutUserInput
@@ -12735,6 +12816,8 @@ export namespace Prisma {
     number: string
     password: string
     securityPin: string
+    createdAt?: Date | string
+    lastSessionAt?: Date | string
     failedPinTries?: number
     lastFailedPinTry?: Date | string | null
     pfpPublicId?: string | null
@@ -12767,6 +12850,8 @@ export namespace Prisma {
     number?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     securityPin?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSessionAt?: DateTimeFieldUpdateOperationsInput | Date | string
     failedPinTries?: IntFieldUpdateOperationsInput | number
     lastFailedPinTry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     pfp?: Cloudinary_imagesUpdateOneWithoutUserNestedInput
@@ -12784,6 +12869,8 @@ export namespace Prisma {
     number?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     securityPin?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSessionAt?: DateTimeFieldUpdateOperationsInput | Date | string
     failedPinTries?: IntFieldUpdateOperationsInput | number
     lastFailedPinTry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     pfpPublicId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -12800,6 +12887,8 @@ export namespace Prisma {
     number: string
     password: string
     securityPin: string
+    createdAt?: Date | string
+    lastSessionAt?: Date | string
     failedPinTries?: number
     lastFailedPinTry?: Date | string | null
     pfp?: Cloudinary_imagesCreateNestedOneWithoutUserInput
@@ -12817,6 +12906,8 @@ export namespace Prisma {
     number: string
     password: string
     securityPin: string
+    createdAt?: Date | string
+    lastSessionAt?: Date | string
     failedPinTries?: number
     lastFailedPinTry?: Date | string | null
     pfpPublicId?: string | null
@@ -12849,6 +12940,8 @@ export namespace Prisma {
     number?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     securityPin?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSessionAt?: DateTimeFieldUpdateOperationsInput | Date | string
     failedPinTries?: IntFieldUpdateOperationsInput | number
     lastFailedPinTry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     pfp?: Cloudinary_imagesUpdateOneWithoutUserNestedInput
@@ -12866,6 +12959,8 @@ export namespace Prisma {
     number?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     securityPin?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSessionAt?: DateTimeFieldUpdateOperationsInput | Date | string
     failedPinTries?: IntFieldUpdateOperationsInput | number
     lastFailedPinTry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     pfpPublicId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -12882,6 +12977,8 @@ export namespace Prisma {
     number: string
     password: string
     securityPin: string
+    createdAt?: Date | string
+    lastSessionAt?: Date | string
     failedPinTries?: number
     lastFailedPinTry?: Date | string | null
     pfp?: Cloudinary_imagesCreateNestedOneWithoutUserInput
@@ -12899,6 +12996,8 @@ export namespace Prisma {
     number: string
     password: string
     securityPin: string
+    createdAt?: Date | string
+    lastSessionAt?: Date | string
     failedPinTries?: number
     lastFailedPinTry?: Date | string | null
     pfpPublicId?: string | null
@@ -12920,6 +13019,8 @@ export namespace Prisma {
     number: string
     password: string
     securityPin: string
+    createdAt?: Date | string
+    lastSessionAt?: Date | string
     failedPinTries?: number
     lastFailedPinTry?: Date | string | null
     pfp?: Cloudinary_imagesCreateNestedOneWithoutUserInput
@@ -12937,6 +13038,8 @@ export namespace Prisma {
     number: string
     password: string
     securityPin: string
+    createdAt?: Date | string
+    lastSessionAt?: Date | string
     failedPinTries?: number
     lastFailedPinTry?: Date | string | null
     pfpPublicId?: string | null
@@ -12969,6 +13072,8 @@ export namespace Prisma {
     number?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     securityPin?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSessionAt?: DateTimeFieldUpdateOperationsInput | Date | string
     failedPinTries?: IntFieldUpdateOperationsInput | number
     lastFailedPinTry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     pfp?: Cloudinary_imagesUpdateOneWithoutUserNestedInput
@@ -12986,6 +13091,8 @@ export namespace Prisma {
     number?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     securityPin?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSessionAt?: DateTimeFieldUpdateOperationsInput | Date | string
     failedPinTries?: IntFieldUpdateOperationsInput | number
     lastFailedPinTry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     pfpPublicId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13013,6 +13120,8 @@ export namespace Prisma {
     number?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     securityPin?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSessionAt?: DateTimeFieldUpdateOperationsInput | Date | string
     failedPinTries?: IntFieldUpdateOperationsInput | number
     lastFailedPinTry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     pfp?: Cloudinary_imagesUpdateOneWithoutUserNestedInput
@@ -13030,6 +13139,8 @@ export namespace Prisma {
     number?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     securityPin?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSessionAt?: DateTimeFieldUpdateOperationsInput | Date | string
     failedPinTries?: IntFieldUpdateOperationsInput | number
     lastFailedPinTry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     pfpPublicId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13070,6 +13181,8 @@ export namespace Prisma {
     number: string
     password: string
     securityPin: string
+    createdAt?: Date | string
+    lastSessionAt?: Date | string
     failedPinTries?: number
     lastFailedPinTry?: Date | string | null
     pfp?: Cloudinary_imagesCreateNestedOneWithoutUserInput
@@ -13087,6 +13200,8 @@ export namespace Prisma {
     number: string
     password: string
     securityPin: string
+    createdAt?: Date | string
+    lastSessionAt?: Date | string
     failedPinTries?: number
     lastFailedPinTry?: Date | string | null
     pfpPublicId?: string | null
@@ -13149,6 +13264,8 @@ export namespace Prisma {
     number?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     securityPin?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSessionAt?: DateTimeFieldUpdateOperationsInput | Date | string
     failedPinTries?: IntFieldUpdateOperationsInput | number
     lastFailedPinTry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     pfp?: Cloudinary_imagesUpdateOneWithoutUserNestedInput
@@ -13166,6 +13283,8 @@ export namespace Prisma {
     number?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     securityPin?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSessionAt?: DateTimeFieldUpdateOperationsInput | Date | string
     failedPinTries?: IntFieldUpdateOperationsInput | number
     lastFailedPinTry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     pfpPublicId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13182,6 +13301,8 @@ export namespace Prisma {
     number: string
     password: string
     securityPin: string
+    createdAt?: Date | string
+    lastSessionAt?: Date | string
     failedPinTries?: number
     lastFailedPinTry?: Date | string | null
     pfp?: Cloudinary_imagesCreateNestedOneWithoutUserInput
@@ -13199,6 +13320,8 @@ export namespace Prisma {
     number: string
     password: string
     securityPin: string
+    createdAt?: Date | string
+    lastSessionAt?: Date | string
     failedPinTries?: number
     lastFailedPinTry?: Date | string | null
     pfpPublicId?: string | null
@@ -13266,6 +13389,8 @@ export namespace Prisma {
     number?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     securityPin?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSessionAt?: DateTimeFieldUpdateOperationsInput | Date | string
     failedPinTries?: IntFieldUpdateOperationsInput | number
     lastFailedPinTry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     pfp?: Cloudinary_imagesUpdateOneWithoutUserNestedInput
@@ -13283,6 +13408,8 @@ export namespace Prisma {
     number?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     securityPin?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastSessionAt?: DateTimeFieldUpdateOperationsInput | Date | string
     failedPinTries?: IntFieldUpdateOperationsInput | number
     lastFailedPinTry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     pfpPublicId?: NullableStringFieldUpdateOperationsInput | string | null

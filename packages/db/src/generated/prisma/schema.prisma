@@ -21,6 +21,8 @@ model User {
   number           String             @unique
   password         String
   securityPin      String
+  createdAt        DateTime           @default(now())
+  lastSessionAt    DateTime           @default(now())
   failedPinTries   Int                @default(0)
   lastFailedPinTry DateTime?
   pfpPublicId      String?            @unique

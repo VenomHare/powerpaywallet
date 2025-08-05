@@ -23,6 +23,47 @@
     --breakpoint-2xs: 375px;
 }
 
+#dashboard_container {
+    justify-items: center;
+    grid-template-columns: 1fr 1.5fr;
+    grid-template-areas:
+        "welcome tip"
+        "quick_actions changelog"
+        "transactions changelog";
+}
+
+
+/* lg */
+@media (width < 64rem) {
+    #dashboard_container {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+            "welcome tip"
+            "quick_actions changelog"
+            "transactions changelog";
+    }
+}
+
+/*  md */
+@media (width < 48rem) {
+    #dashboard_container {
+        margin-left: 2%;
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "welcome"
+            "quick_actions"
+            "tip"
+            "transactions"
+            "changelog";
+    }
+}
+
+#dashboard_container>* {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
 .spinner {
     width: 56px;
     height: 56px;

@@ -63,7 +63,7 @@ const EditAccountPage = () => {
             appDispatch(updateSavedBankAccounts(getSavedBankAccounts))
             cancelEdit();
         }
-        catch(error){
+        catch (error) {
             console.log(error);
             alert(appDispatch, "Something went wrong", "error");
         }
@@ -82,7 +82,11 @@ const EditAccountPage = () => {
 
 
     return (<>
-        <form className="w-full max-h-full ps-5 overflow-y-auto" onSubmit={handleAddAccount}>
+        <form className="w-full max-h-full ps-5 py-5 overflow-y-auto bg-slate-200" onSubmit={handleAddAccount}>
+
+            <h2 className="text-3xl font-bold font-[Manrope]">
+                Edit your account details
+            </h2>
             <div className="flex flex-col font-[Manrope] py-5 ">
                 <label htmlFor="accountNumber" className="">Account Number </label>
                 <div className="text-xs text-slate-400 font-sans">Please double-check your account number to avoid failed transactions.</div>
@@ -129,7 +133,7 @@ const EditAccountPage = () => {
                 />
             </div>
 
-            <div className="flex flex-col font-[Manrope] py-5 ">
+            <div className="flex flex-col font-[Manrope] pb-5 ">
                 <label htmlFor="label" className="">Nickname</label>
                 <div className="text-xs text-slate-400 font-sans">Give this account a nickname like "Main Account" or "Travel Wallet".</div>
                 <input
@@ -142,10 +146,14 @@ const EditAccountPage = () => {
                     required
                 />
             </div>
-
-            <Button type="submit" onClick={() => { }}>
-                Save Changes
-            </Button>
+            <div className="flex gap-2">
+                <Button variant={"ghost"} onClick={cancelEdit}>
+                    Cancel
+                </Button>
+                <Button type="submit" onClick={() => {}}>
+                    Save Changes
+                </Button>
+            </div>
 
         </form>
     </>)

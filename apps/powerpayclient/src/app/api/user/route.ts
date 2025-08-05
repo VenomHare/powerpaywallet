@@ -1,13 +1,13 @@
 import { getServerSession } from "next-auth"
 import { authOptions } from "../../../lib/auth";
 import { NextResponse } from "next/server";
+import { prisma } from "@powerpaywallet/db/client";
 
-export const GET = async() =>  {
+export const GET = async () => {
     const session = await getServerSession(authOptions);
 
 
-    if (session && session.user)
-    {
+    if (session && session.user) {
         return NextResponse.json({
             user: session.user
         });
@@ -15,7 +15,7 @@ export const GET = async() =>  {
     else {
         return NextResponse.json({
             message: "You are not logged in"
-        },{
+        }, {
             status: 403
         })
     }

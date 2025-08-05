@@ -45,8 +45,22 @@ export const authOptions: AuthOptions = {
     secret: process.env.CLIENT_JWT_SECRET || "secret",
     callbacks: {
         async session({ token, session }: any) {
-            (session.user as { id: string }).id = token.sub!;
-            return session
+            const id = parseInt(token.sub!);
+
+            const user = await prisma.user.findUnique({ where: { id } })
+            if (!user) {
+                return null
+            }
+            else {
+                (session.user as { id: number }).id = id;
+                (session.user as { lastSession: Date }).lastSession = user.lastSessionAt;
+                await prisma.user.update({
+                    where: { id }, data: {
+                        lastSessionAt: new Date().toISOString()
+                    }
+                })
+                return session
+            }
         },
     },
     pages: {
@@ -114,7 +128,7 @@ const handleSignUp = async (number: string, password: string, pin: string, name:
             userId: user.id,
         }
     });
-    
+
     return {
         id: user.id.toString(),
         name: user.name,

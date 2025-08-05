@@ -18,16 +18,9 @@ export const ProfileImage = ({ url, onClick, profileName, className, size = "lar
 
 
     return <>
-        <div className={`flex-shrink-0 ${SIZE_VARIANTS[size]} ${className !== undefined ? className : ""} ${onClick !== undefined ? "cursor-pointer" : ""}`} onClick={()=>{onClick?.()}}>
-            {
-                (url == undefined) ?
-                    <>
-                        <div className='w-[95%] h-[95%] rounded-full flex items-center justify-center bg-blue-500 font-[Manrope]'>{profileName.split(" ").map((d, i) => i < 2 && d.slice(0, 1)).join("")}</div>
-                    </>
-                    :
-                    <Image src={url} alt='profile_image' width={512} height={512}
-                        className='w-[95%] h-[95%] rounded-full bg-slate-600' />
-            }
+        <div className={`flex-shrink-0 ${SIZE_VARIANTS[size]} ${className !== undefined ? className : ""} ${onClick !== undefined ? "cursor-pointer" : ""}`} onClick={() => { onClick?.() }}>
+            <Image src={(!url || url == "") ? "/user_placeholder.png" : url} alt='profile_image' width={512} height={512}
+                className='w-[95%] h-[95%] rounded-full bg-slate-600' />
         </div>
     </>
 }

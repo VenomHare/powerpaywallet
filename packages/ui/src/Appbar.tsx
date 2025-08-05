@@ -43,7 +43,7 @@ export const Appbar = ({
             {
                 (status == "authenticated" && profileData !== undefined) &&
                 <>
-                    <ProfileImage onClick={() => { setProfileOptionsPopup(!profileOptionsPopup) }} profileName={profileData?.fullName || ""} url={profileData?.pfpUrl || ""} size="small" />
+                    <ProfileImage onClick={() => { setProfileOptionsPopup(!profileOptionsPopup) }} profileName={profileData?.fullName || ""} url={profileData?.pfpUrl || "/user_placeholder.png"} size="small" />
                 </>
             }
         </div>
@@ -51,7 +51,7 @@ export const Appbar = ({
             profileOptionsPopup &&
             <div  className="z-[100] absolute top-[110%] right-[5dvw] sm:right-10 w-[65%] sm:w-60 min-h-20 bg-slate-200 rounded-md shadow-xl shadow-slate-500 border border-slate-400/60 flex flex-col items-center gap-1">
                 <div className="w-full flex items-center justify-between p-2 px-3 font-[Manrope]">
-                    <ProfileImage profileName={profileData?.fullName || ""} url={profileData?.pfpUrl || ""} size="small" />
+                    <ProfileImage profileName={profileData?.fullName || ""} url={profileData?.pfpUrl || "/user_placeholder.png"} size="small" />
                     <div className="flex flex-col items-end justify-around">
                         <div className="font-medium">{profileData?.fullName}</div>
                         <div className="font-light text-xs">{profileData?.email}</div>

@@ -11,6 +11,8 @@ import { alert } from '../../../components/alerts';
 import { signIn, useSession } from 'next-auth/react';
 import { WrapFadeTransition } from '../../../components/FadeInPageTransition';
 import { TransactionBlock } from '../../../components/Transaction';
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 const ADD_MONEY_BUTTONS = [50, 100, 250, 500, 1000]
 
@@ -20,6 +22,8 @@ const WalletPage = () => {
     const [bank, setBank] = useState<BANKSERVERS>("SELECT")
     const { status, balance, transactions } = useSelector((state: RootState) => state.wallet);
     const appDispatch = useAppDispatch();
+    const router = useRouter();
+    
     // const dispatch = useDispatch();
     const session = useSession();
 
@@ -70,19 +74,22 @@ const WalletPage = () => {
 
     }
 
+    const viewAllTransactions = () => {
+        router.push("/transactions");
+    }
+
     useEffect(() => {
         if (session.status == "unauthenticated") {
             signIn()
         }
     }, [session])
 
-
     useEffect(() => {
         appDispatch(update())
     }, [appDispatch]);
 
     return (
-        <div className='w-full min-h-[85svh] p-3 sm:p-10 flex flex-col gap-5 '>
+        <div className='w-full xl:max-h-[85svh]  p-3 sm:p-7 flex flex-col gap-5 '>
             <div className='w-full flex justify-between px-5'>
                 <h1 className="text-3xl sm:text-4xl h-[20%] w-full font-[Manrope] font-bold">Wallet</h1>
                 <button onClick={() => { appDispatch(update()) }} className='px-5 rounded-md cursor-pointer flex gap-2 items-center justify-center bg-slate-800 text-slate-100 text-sm sm:text-md'>
@@ -173,13 +180,14 @@ const WalletPage = () => {
                     </div>
                 </div>
                 <div className="w-full xl:w-[60%] 2xl:w-2/3 ">
-                    <div className="h-[75svh] p-3 sm:p-6 w-full rounded-xl shadow-xl shadow-slate-400 border border-slate-400 flex flex-col gap-2">
+                    <div className="h-[80dvh] p-3 sm:p-6 w-full rounded-xl shadow-xl shadow-slate-400 border border-slate-400 flex flex-col gap-2">
                         <h3 className="text-lg sm:text-2xl font-semibold font-[Manrope]">Transaction History</h3>
                         <hr className='text-slate-400' />
                         {
                             transactions.length < 1 ?
                                 <div className="w-full h-full flex flex-col items-center justify-center text-lg text-slate-500 font-[Manrope] gap-4">
-                                    <History size={65} className='text-slate-400' />
+                                    <Image src={"/not_found.png"} alt='Not Found' width={256} height={256}/>
+                                    {/* <History size={65} className='text-slate-400' /> */}
                                     Looks like you haven't made any transactions yet
                                 </div>
                                 :
@@ -191,7 +199,7 @@ const WalletPage = () => {
                                     }
                                     {
                                         transactions.length > 10 &&
-                                        <button className='w-full h-[7svh] rounded bg-slate-900 text-slate-300 font-semibold p-2 my-4 cursor-pointer shadow shadow-slate-500'>
+                                        <button onClick={viewAllTransactions} className='w-full h-[7svh] rounded bg-slate-900 text-slate-300 font-semibold p-2 my-4 cursor-pointer shadow shadow-slate-500'>
                                             View All Transactions
                                         </button>
                                     }

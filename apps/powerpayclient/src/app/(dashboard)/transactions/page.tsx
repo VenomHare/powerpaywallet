@@ -1,22 +1,40 @@
 "use client";
-import { Button } from "@powerpaywallet/ui/button"
 import { WrapFadeTransition } from "../../../components/FadeInPageTransition"
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@powerpaywallet/store";
 import { TransactionBlock } from "../../../components/Transaction";
 import { useEffect, useState } from "react";
-import { setCurrentPage, update, updateFilteredTransactions } from "@powerpaywallet/store/slices";
+import { setCurrentPage, updateFilteredTransactions } from "@powerpaywallet/store/slices";
 import { Transaction } from "@powerpaywallet/schemas/client";
 import { RefreshCcw } from "lucide-react";
+import Image from "next/image";
+import { signIn, useSession } from "next-auth/react";
 
 const TransactionsPage = () => {
+    const [dataRequestSent, setDataRequestSent] = useState(false);
 
-    const { currentPage, limit } = useSelector((state: RootState) => state.transactions);
+    const { currentPage, limit, transactions, numberOfTransactions } = useSelector((state: RootState) => state.transactions);
     const appDispatch = useDispatch<AppDispatch>();
+    const session = useSession();
+
+    useEffect(() => {
+        if (session.status == "unauthenticated") {
+            signIn();
+        }
+    }, [session.status])
+
+
+    useEffect(() => {
+        if ((transactions.length == 0 && !dataRequestSent) || isNaN(numberOfTransactions)) {
+            appDispatch(updateFilteredTransactions({ page: currentPage, limit }));
+            setDataRequestSent(true)
+        }
+    }, [transactions, numberOfTransactions])
 
     const refresh = () => {
         appDispatch(updateFilteredTransactions({ limit, page: currentPage }));
     }
+
 
     return (<>
         <div className="w-full h-[92dvh] p-4 font-[Manrope] flex flex-col gap-2 bg-slate-100">
@@ -26,30 +44,33 @@ const TransactionsPage = () => {
                     <RefreshCcw size={20} /> Refresh
                 </button>
             </div>
-            {/*             
-            Filters will added later
-            <div className="w-full h-[5dvh]">
-                <Button onClick={() => { }}>Filters</Button>
-            </div>
-             */}
+            {
+                /*             
+                Filters will added later
+                <div className="w-full h-[5dvh]">
+                    <Button onClick={() => { }}>Filters</Button>
+                </div>
+                 */
+            }
             <div className="relative w-full h-full bg-red-400w-full max-h-full overflow-y-auto overflow-x-hidden flex flex-col ps-2 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-slate-700 scrollbar-track-slate-300">
-                <TransactionsManager />
+                {
+                    transactions.length == 0 ? <>
+                        <div className="w-full h-full flex flex-col items-center justify-center">
+                            <Image src={"/not_found.png"} alt={"Not Found"} height={512} width={512} />
+                            <p className="text-md xs:text-lg sm:text-2xl md:text-3xl text-balance text-center">No Transactions Found</p>
+                        </div>
+                    </> : <>
+                        <TransactionsManager />
+                    </>
+                }
             </div>
         </div>
     </>)
 }
 
 const TransactionsManager = () => {
-    const [dataRequestSent, setDataRequestSent] = useState(false);
-    const { transactions, numberOfTransactions, currentPage, limit } = useSelector((state: RootState) => state.transactions);
+    const { transactions, currentPage, limit } = useSelector((state: RootState) => state.transactions);
     const appDispatch = useDispatch<AppDispatch>();
-
-    useEffect(() => {
-        if ((transactions.length == 0 && !dataRequestSent) || isNaN(numberOfTransactions)) {
-            appDispatch(updateFilteredTransactions({ page: currentPage, limit }));
-            setDataRequestSent(true)
-        }
-    }, [transactions, numberOfTransactions])
 
     useEffect(() => {
         console.log(currentPage, limit);
