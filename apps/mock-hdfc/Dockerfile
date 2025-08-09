@@ -32,6 +32,6 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY --from=build /app/apps/mock-hdfc/.next ./.next
 COPY --from=build /app/apps/mock-hdfc/public ./public
 COPY --from=build /app/apps/mock-hdfc/package.json ./package.json
-COPY --from=build /app/apps/mock-hdfc/next.config.js ./next.config.js
+COPY --from=build /app/apps/mock-hdfc/next.config.ts ./next.config.ts
 EXPOSE 3003
 CMD ["pnpm", "start"]
