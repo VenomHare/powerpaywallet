@@ -1,28 +1,36 @@
 "use client";
-import { FormEvent, useState } from "react"
+import { FormEvent, useEffect, useState } from "react"
 import Link from "next/link";
-import { signIn } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const LoginPage = () => {
 
     const [number, setNumber] = useState("");
     const [password, setPassword] = useState("");
 
+    
     const searchParams = useSearchParams();
     const callbackUrl = searchParams.get("callbackUrl") || "/wallet";
     const error = searchParams.get("error");
-    
+    const session = useSession();
+    const router = useRouter();
+
+    useEffect(()=>{
+        if (session.status == "authenticated") {
+            router.push("/dashboard");
+        }
+    }, [session.status, router])
+
     const handleLogin = async (e: FormEvent) => {
         e.preventDefault();
 
-        const req = await signIn("credentials", {
+        await signIn("credentials", {
             action: "signin",
             phone: number,
             password,
             callbackUrl: callbackUrl
         })
-        console.log(req);
     }
 
 

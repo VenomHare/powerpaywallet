@@ -29,7 +29,7 @@ const TransactionsPage = () => {
             appDispatch(updateFilteredTransactions({ page: currentPage, limit }));
             setDataRequestSent(true)
         }
-    }, [transactions, numberOfTransactions])
+    }, [transactions, numberOfTransactions, appDispatch, currentPage, dataRequestSent, limit])
 
     const refresh = () => {
         appDispatch(updateFilteredTransactions({ limit, page: currentPage }));
@@ -75,7 +75,7 @@ const TransactionsManager = () => {
     useEffect(() => {
         console.log(currentPage, limit);
         appDispatch(updateFilteredTransactions({ page: currentPage, limit }));
-    }, [currentPage, limit])
+    }, [currentPage, limit, appDispatch])
 
 
     return (<>

@@ -2,7 +2,7 @@
 import { AppDispatch, RootState } from "@powerpaywallet/store";
 import { Button } from "@powerpaywallet/ui/button"
 import Link from "next/link";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { alert } from "../../../../components/alerts";
 import { getSavedBankAccounts, SaveBankAccount } from "../../../actions/mislaneous/BankAccount";
@@ -22,12 +22,16 @@ export const AddAccountPopupForProfilePage = () => {
     const [holderName, setHolderName] = useState("");
     const [label, setLabel] = useState("");
 
+    const refreshAccounts = useCallback(()=>{
+        appDispatch(updateSavedBankAccounts(getSavedBankAccounts))
+    }, [appDispatch])
+
     useEffect(() => {
         if (savedBankAccounts.length == 0) {
             refreshAccounts();
         }
 
-    }, [savedBankAccounts.length, appDispatch])
+    }, [savedBankAccounts.length, refreshAccounts])
 
 
     const handleAddAccount = async (e: FormEvent) => {
@@ -55,9 +59,6 @@ export const AddAccountPopupForProfilePage = () => {
         }
     }
 
-    const refreshAccounts = () => {
-        appDispatch(updateSavedBankAccounts(getSavedBankAccounts))
-    }
 
     const resetForm = () => {
         setAccountNumber("");

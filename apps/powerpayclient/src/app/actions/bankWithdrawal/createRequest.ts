@@ -2,7 +2,6 @@
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../../lib/auth";
-import { SavedBankAccount } from "@powerpaywallet/schemas/client";
 import { prisma } from "@powerpaywallet/db/client";
 
 export const createWithdrawalRequest = async (id: number, amount: number) => {

@@ -3,7 +3,7 @@
 import { setLoading, setProfileTab, updateSavedBankAccounts } from "@powerpaywallet/store/slices";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { editAccountData, getAccountById } from "../../../actions/profile/bankAccount";
 import { Button } from "@powerpaywallet/ui/button";
@@ -26,7 +26,12 @@ const EditAccountPage = () => {
     const [holderName, setHolderName] = useState("");
     const [label, setLabel] = useState("");
 
-    const getAccountData = async (id: number) => {
+    const cancelEdit = useCallback(() => {
+        dispatch(setProfileTab("bankaccounts"));
+        router.push("/profile");
+    }, [router, dispatch])
+
+    const getAccountData = useCallback(async (id: number) => {
         dispatch(setLoading(true));
         const data = await getAccountById(id);
         dispatch(setLoading(false));
@@ -39,12 +44,9 @@ const EditAccountPage = () => {
             setIFSCCode(data.bankCode);
             setLabel(data.label);
         }
-    }
+    }, [dispatch, cancelEdit]);
 
-    const cancelEdit = () => {
-        dispatch(setProfileTab("bankaccounts"));
-        router.push("/profile");
-    }
+
 
     const handleAddAccount = async (e: FormEvent) => {
         e.preventDefault();
@@ -77,7 +79,7 @@ const EditAccountPage = () => {
             getAccountData(parseInt(accountId));
         }
 
-    }, [accountId])
+    }, [accountId, cancelEdit, getAccountData])
 
 
 
@@ -150,7 +152,7 @@ const EditAccountPage = () => {
                 <Button variant={"ghost"} onClick={cancelEdit}>
                     Cancel
                 </Button>
-                <Button type="submit" onClick={() => {}}>
+                <Button type="submit" onClick={() => { }}>
                     Save Changes
                 </Button>
             </div>

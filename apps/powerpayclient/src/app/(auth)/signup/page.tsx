@@ -1,10 +1,11 @@
 "use client";
-import { FormEvent, useState } from "react"
+import { FormEvent, useEffect, useState } from "react"
 import { alert } from "../../../components/alerts";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const SignUpPage = () => {
 
@@ -18,6 +19,14 @@ const SignUpPage = () => {
     const [pin, setPin] = useState("");
 
     const appDispatch = useAppDispatch();
+    const session = useSession();
+    const router = useRouter();
+
+    useEffect(() => {
+        if (session.status == "authenticated") {
+            router.push("/dashboard");
+        }
+    }, [session.status, router])
 
     const handleSignUp = (e: FormEvent) => {
         e.preventDefault();
@@ -34,7 +43,7 @@ const SignUpPage = () => {
             return
         }
 
-        signIn("credentials",{
+        signIn("credentials", {
             action: "signup",
             phone: number,
             email,

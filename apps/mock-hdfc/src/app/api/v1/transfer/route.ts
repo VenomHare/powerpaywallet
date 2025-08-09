@@ -1,23 +1,10 @@
 import { BankTransferRequestSchema } from "@powerpaywallet/schemas/client";
 import { NextRequest, NextResponse } from "next/server";
 
-const BANK_SECRET = process.env.BANK_SECRET;
-const TRANSFER_SUCCESS_WEBHOOK_URL = process.env.TRANSFER_SUCCESS_WEBHOOK_URL;
-const TRANSFER_FAILURE_WEBHOOK_URL = process.env.TRANSFER_FAILURE_WEBHOOK_URL;
-const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
+const BANK_SECRET = process.env.BANK_SECRET!;
+const TRANSFER_SUCCESS_WEBHOOK_URL = process.env.TRANSFER_SUCCESS_WEBHOOK_URL!;
+const TRANSFER_FAILURE_WEBHOOK_URL = process.env.TRANSFER_FAILURE_WEBHOOK_URL!;
 
-if (!BANK_SECRET) {
-    throw new Error("BANK_SECRET Not Found")
-}
-if (!TRANSFER_SUCCESS_WEBHOOK_URL) {
-    throw new Error("TRANSFER_SUCCESS_WEBHOOK_URL Not Found")
-}
-if (!TRANSFER_FAILURE_WEBHOOK_URL) {
-    throw new Error("TRANSFER_FAILURE_WEBHOOK_URL Not Found")
-}
-if (!WEBHOOK_SECRET) {
-    throw new Error("WEBHOOK_SECRET not found");
-}
 export const POST = async (req: NextRequest) => {
     try {
         const auth = req.headers.get("Authorization")?.replace("Bearer ", "");

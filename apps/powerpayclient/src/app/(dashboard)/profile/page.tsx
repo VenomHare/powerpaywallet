@@ -36,7 +36,7 @@ const ProfilePage = () => {
 
     return (<>
         <AddAccountPopupForProfilePage/>
-        <div className='w-full min-h-[92dvh] bg-amber-300/0 p-4 flex flex-col font-[Manrope] gap-5'>
+        <div className='w-full min-h-[92dvh] bg-slate-100 p-4 flex flex-col font-[Manrope] gap-5'>
             <div className='flex flex-col gap-2 mb-2'>
                 <h1 className='text-2xl sm:text-4xl md:text-5xl font-semibold '>Edit Profile</h1>
                 <p className='text-lg md:text-2xl'>Update your personal information and account settings.</p>

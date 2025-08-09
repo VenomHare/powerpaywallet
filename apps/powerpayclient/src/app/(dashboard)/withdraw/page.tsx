@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
-import { SavedBankAccount, Transaction, WITHDRAWAL_OPTIONS, WithdrawalTransaction } from "@powerpaywallet/schemas/client";
-import { SquareCheckBig, Landmark, RefreshCcw } from "lucide-react";
+import { SavedBankAccount } from "@powerpaywallet/schemas/client";
+import { RefreshCcw } from "lucide-react";
 import { WrapFadeTransition } from '../../../components/FadeInPageTransition';
 import { SavedBankAccountsPopup } from "../../../components/saved-bank-accounts-popup";
 import { useDispatch, useSelector } from "react-redux";
@@ -51,7 +51,7 @@ const WithdrawPage = () => {
 		}
 
 
-	}, [balance, appDispatch, session.status, withdrawalRequests])
+	}, [balance, appDispatch, session.status, withdrawalRequests, dataRequestSent])
 
 	const handleWithdraw = async () => {
 
@@ -105,7 +105,7 @@ const WithdrawPage = () => {
 			action="BANK_WITHDRAWAL"
 		/>
 		<SavedBankAccountsPopup onSelect={setSelectedAccount} onClose={() => { }} />
-		<div className="overflow-y-auto w-full min-h-[85svh] p-3 sm:p-10 flex flex-col gap-5 ">
+		<div className="overflow-y-auto w-full min-h-[92dvh] p-3 sm:p-10 flex flex-col gap-5 bg-slate-100">
 			<div className='w-full flex justify-between items-center flex-col sm:flex-row sm:px-5 gap-2'>
 				<h1 className="text-2xl sm:text-4xl h-[20%] text-center font-[Manrope] font-bold">Funds Withdrawal</h1>
 				<button onClick={refresh} className='w-full sm:w-auto px-5 py-2 h-fit lg:h-auto rounded-md cursor-pointer flex gap-2 items-center justify-center bg-slate-800 text-slate-100 text-sm sm:text-md'>

@@ -120,3 +120,84 @@
         left: 0%;
     }
 }
+
+@keyframes fadeInSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-on-load {
+    opacity: 0;
+}
+
+.is-visible .animate-on-load {
+    animation: fadeInSlideUp 0.8s ease-out forwards;
+}
+
+.is-visible .animate-on-load:nth-child(1) {
+    animation-delay: 0.2s;
+}
+
+.is-visible .animate-on-load:nth-child(2) {
+    animation-delay: 0.4s;
+}
+
+.is-visible .animate-on-load:nth-child(3) {
+    animation-delay: 0.6s;
+}
+
+/* Staggered delay for child elements */
+.stagger-items>* {
+    opacity: 0;
+}
+
+.is-visible .stagger-items>* {
+    animation: fadeInSlideUp 0.8s ease-out forwards;
+}
+
+.is-visible .stagger-items>*:nth-child(1) {
+    animation-delay: 0.2s;
+}
+
+.is-visible .stagger-items>*:nth-child(2) {
+    animation-delay: 0.4s;
+}
+
+.is-visible .stagger-items>*:nth-child(3) {
+    animation-delay: 0.6s;
+}
+
+.is-visible .stagger-items>*:nth-child(4) {
+    animation-delay: 0.8s;
+}
+
+.is-visible .stagger-items>*:nth-child(5) {
+    animation-delay: 1.0s;
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+}
+
+.animate-fade-in-delay-1 {
+    animation-delay: 0.2s;
+}
+
+.animate-fade-in-delay-2 {
+    animation-delay: 0.4s;
+}
+
+.animate-fade-in-delay-3 {
+    animation-delay: 0.6s;
+}
+
+.animate-fade-in-delay-4 {
+    animation-delay: 0.8s;
+}

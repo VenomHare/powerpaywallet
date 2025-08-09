@@ -3,9 +3,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "@powerpaywallet/store"
 import { Button } from "@powerpaywallet/ui/button";
 import { ArrowLeft } from "lucide-react";
-import { setIsSavedBankAccountsPopupOpen, setSavedBankAccountsTab, update, updateSavedBankAccounts } from "@powerpaywallet/store/slices";
+import { setIsSavedBankAccountsPopupOpen, setSavedBankAccountsTab, updateSavedBankAccounts } from "@powerpaywallet/store/slices";
 import Link from "next/link";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useCallback, useEffect, useState } from "react";
 import { alert } from "./alerts";
 import { getSavedBankAccounts, SaveBankAccount } from "../app/actions/mislaneous/BankAccount";
 
@@ -27,13 +27,16 @@ export const SavedBankAccountsPopup = ({ onSelect, onClose }: Props) => {
 	const [holderName, setHolderName] = useState("");
 	const [label, setLabel] = useState("");
 
+	const refreshAccounts = useCallback(() => {
+		appDispatch(updateSavedBankAccounts(getSavedBankAccounts))
+	}, [appDispatch])
+
 	useEffect(() => {
 		if (savedBankAccounts.length == 0) {
 			refreshAccounts();
 		}
-		
-	}, [savedBankAccounts.length, appDispatch])
-	
+	}, [savedBankAccounts.length, appDispatch, refreshAccounts])
+
 
 	const handleAddAccount = async (e: FormEvent) => {
 		e.preventDefault();
@@ -59,10 +62,6 @@ export const SavedBankAccountsPopup = ({ onSelect, onClose }: Props) => {
 			console.log(err);
 			alert(appDispatch, "Something went wrong", "error");
 		}
-	}
-
-	const refreshAccounts = () => {
-		appDispatch(updateSavedBankAccounts(getSavedBankAccounts))
 	}
 
 	const resetForm = () => {
@@ -129,7 +128,7 @@ export const SavedBankAccountsPopup = ({ onSelect, onClose }: Props) => {
 						<div className="w-full max-h-full h-fit sm:h-auto rounded mt-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-items-center gap-4 py-4 overflow-y-auto  " >
 							{
 								savedBankAccounts.map((acc, i) => (
-									<div onClick={()=>handleSelectClick(acc)} key={i} className="aspect-[2.59/1] py-2 px-4 w-full xs:w-3/4 sm:w-full duration-500 transition-all animate-fadein bg-red-400 bg-repeat-none bg-cover rounded-lg flex flex-col items-start justify-between cursor-pointer" style={{ backgroundImage: "url('/bank-account-bg.png')" }}>
+									<div onClick={() => handleSelectClick(acc)} key={i} className="aspect-[2.59/1] py-2 px-4 w-full xs:w-3/4 sm:w-full duration-500 transition-all animate-fadein bg-red-400 bg-repeat-none bg-cover rounded-lg flex flex-col items-start justify-between cursor-pointer" style={{ backgroundImage: "url('/bank-account-bg.png')" }}>
 										<div className="flex flex-col font-[Manrope] text-sm sm:text-xs md:text-sm lg:text-sm 2xl:text-md text-zinc-700 uppercase">
 											<p>{acc.accountNumber}</p>
 											<p>{acc.holderName}</p>
@@ -197,7 +196,7 @@ export const SavedBankAccountsPopup = ({ onSelect, onClose }: Props) => {
 									id="label"
 									autoComplete="off"
 									value={label}
-                            		maxLength={80}
+									maxLength={80}
 									onChange={(e) => { setLabel(e.target.value) }}
 									required
 								/>

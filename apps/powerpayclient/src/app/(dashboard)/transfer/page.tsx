@@ -80,7 +80,7 @@ const TransferPage = () => {
             }}
         />
 
-        <div className="w-full h-[92dvh] overflow-x-hidden relative ">
+        <div className="w-full h-[92dvh] overflow-x-hidden relative bg-slate-100 ">
             <SelectWalletPopup isPopupOpen={selectPopup} onClose={() => { setSelectPopup(false) }} setData={setRecieverData} />
             <div className="w-full h-full flex flex-col items-center justify-center ">
                 <div className="w-full max-w-sm h-fit border-1 border-slate-400/40 shadow-xl shadow-slate-400/40 rounded-lg bg-slate-200 p-4">

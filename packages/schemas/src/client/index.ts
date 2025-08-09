@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { $Enums, Prisma } from "@powerpaywallet/db"
+import { $Enums } from "@powerpaywallet/db"
 
 export const addFundsRequest = z.object({
     amount: z.number().describe("Amount for Transaction in paise ie 40Rs = 4000(40.00)"),

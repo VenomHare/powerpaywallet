@@ -14,7 +14,7 @@ type ProfileImageProps = {
     size?: keyof typeof SIZE_VARIANTS
 }
 
-export const ProfileImage = ({ url, onClick, profileName, className, size = "large" }: ProfileImageProps) => {
+export const ProfileImage = ({ url, onClick, className, size = "large" }: ProfileImageProps) => {
 
 
     return <>

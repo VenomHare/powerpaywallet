@@ -46,7 +46,8 @@ export const nextJsConfig = [
       "react/react-in-jsx-scope": "off",
       "@typescript-eslint/no-explicit-any": "off",
       "turbo/no-undeclared-env-vars": "off",
-      "react/no-unescaped-entities": "off"
+      "react/no-unescaped-entities": "off",
+      "@typescript-eslint/no-empty-object-type": "off"
     },
   },
 ];

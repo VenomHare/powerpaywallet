@@ -1,75 +1,27 @@
-import { Clock, ChevronDown, Zap, Bug, Plus, Shield, Sparkles } from "lucide-react";
-import { useState } from "react";
+import { Clock, Zap, Bug, Plus, Shield, Sparkles } from "lucide-react";
 
 const ChangelogCard = () => {
 
     // Hard-coded changelog data - update with each build
     const changelog = [
         {
-            version: "v2.1.3",
+            version: "v0.1.2",
+            date: "2025-08-09",
+            tag: "Frontend",
+            changes: [
+                { type: "feature", text: "Informational Pages (Privacy Polices, About, Terms, Support)" },
+                { type: "improvement", text: "Minor CSS changes" },
+            ]
+        },
+        {
+            version: "v0.1.1",
             date: "2025-08-05",
-            tag: "Latest",
+            tag: "",
             changes: [
-                { type: "feature", text: "Added biometric authentication support" },
-                { type: "improvement", text: "Enhanced transaction speed by 40%" },
-                { type: "fix", text: "Fixed notification delivery issues" }
+                { type: "improvement", text: "Added new Dashboard page" },
+                { type: "fix", text: "Fixed Authentication Bugs" }
             ]
         },
-        {
-            version: "v2.1.2",
-            date: "2025-07-28",
-            tag: "Stable",
-            changes: [
-                { type: "feature", text: "New dark mode theme" },
-                { type: "security", text: "Improved encryption protocols" },
-                { type: "fix", text: "Resolved payment gateway timeout" }
-            ]
-        },
-        {
-            version: "v2.1.0",
-            date: "2025-07-01",
-            tag: null,
-            changes: [
-                { type: "feature", text: "Added transaction categorization" },
-                { type: "improvement", text: "Redesigned user interface" }
-            ]
-        },
-        {
-            version: "v2.0.9",
-            date: "2025-06-20",
-            tag: null,
-            changes: [
-                { type: "fix", text: "Fixed memory leak in background sync" },
-                { type: "security", text: "Updated SSL certificates" }
-            ]
-        },
-        {
-            version: "v2.0.9",
-            date: "2025-06-20",
-            tag: null,
-            changes: [
-                { type: "fix", text: "Fixed memory leak in background sync" },
-                { type: "security", text: "Updated SSL certificates" }
-            ]
-        },
-        {
-            version: "v2.0.9",
-            date: "2025-06-20",
-            tag: null,
-            changes: [
-                { type: "fix", text: "Fixed memory leak in background sync" },
-                { type: "security", text: "Updated SSL certificates" }
-            ]
-        },
-        {
-            version: "v2.0.8",
-            date: "2025-06-10",
-            tag: null,
-            changes: [
-                { type: "improvement", text: "Faster app startup time" },
-                { type: "fix", text: "Resolved QR code scanning issues" }
-            ]
-        }
     ];
 
     const getChangeIcon = (type: string) => {

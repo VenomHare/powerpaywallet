@@ -1,7 +1,7 @@
 "use client";
 import React, { FormEvent, useEffect, useState } from 'react'
-import { History, RefreshCcw } from "lucide-react"
-import { addFundsRequestSchema, BANKSERVERS, Transaction } from '@powerpaywallet/schemas/client';
+import { RefreshCcw } from "lucide-react"
+import { addFundsRequestSchema, BANKSERVERS } from '@powerpaywallet/schemas/client';
 import { useSelector } from 'react-redux';
 import { RootState } from '@powerpaywallet/store';
 import { update } from '@powerpaywallet/store/slices';
@@ -89,7 +89,7 @@ const WalletPage = () => {
     }, [appDispatch]);
 
     return (
-        <div className='w-full xl:max-h-[85svh]  p-3 sm:p-7 flex flex-col gap-5 '>
+        <div className='w-full  xl:max-h-[92dvh] p-3 sm:p-7 flex flex-col gap-5 bg-slate-100 '>
             <div className='w-full flex justify-between px-5'>
                 <h1 className="text-3xl sm:text-4xl h-[20%] w-full font-[Manrope] font-bold">Wallet</h1>
                 <button onClick={() => { appDispatch(update()) }} className='px-5 rounded-md cursor-pointer flex gap-2 items-center justify-center bg-slate-800 text-slate-100 text-sm sm:text-md'>

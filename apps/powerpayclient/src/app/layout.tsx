@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Manrope } from 'next/font/google'
 import "./globals.css";
-import "./inline.css";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",

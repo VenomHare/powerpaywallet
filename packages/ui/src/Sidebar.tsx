@@ -38,7 +38,7 @@ export const Sidebar = ({ children, config }: Props) => {
     return (<>
         <nav className="flex justify-between">
             <>
-                <div className={`sm:block fixed top-[8svh] left-0 h-[92svh] bg-slate-200 z-50 shadow-xl shadow-slate-500 transition-all duration-200 animate-leftslidein ${isOpen ? "w-[200px] " :" hidden sm:block sm:w-[50px]"}`}>
+                <div className={`sm:block fixed top-[8svh] left-0 h-[92svh] bg-slate-200 z-[104] shadow-xl shadow-slate-500 transition-all duration-200 animate-leftslidein ${isOpen ? "w-[200px] " :" hidden sm:block sm:w-[50px]"}`}>
                     <div className="w-full h-full flex flex-col items-center justify-between gap-2 pt-[15svh]">
                         <div className="w-full h-fit flex flex-col justify-start gap-4 " style={{ paddingLeft: isOpen ? "2dvw" : "0", alignItems: isOpen ? "flex-start" : "center" }}>
                             {

@@ -7,7 +7,9 @@ import { setOpen } from "@powerpaywallet/store/slices";
 import { RootState } from "@powerpaywallet/store";
 import { AppbarProps } from "@powerpaywallet/schemas/client";
 import { ProfileImage } from "./ProfileImage";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 
 export const Appbar = ({
@@ -20,24 +22,25 @@ export const Appbar = ({
     const { isOpen } = useSelector((state: RootState) => state.sidebar);
     const { profileData } = useSelector((state: RootState) => state.states);
     const [profileOptionsPopup, setProfileOptionsPopup] = useState(false);
+    const router = useRouter();
   
     const closeOptions = () => {
         setProfileOptionsPopup(false)
     }
 
-    return <div className="sticky z-[101] top-0 left-0 flex w-[100%] min-h-[55px] h-[8svh] bg-slate-500 px-4 sm:px-10 py-2 justify-between border-b ">
+    return <div className="sticky z-[101] top-0 left-0 flex w-[100%] min-h-[55px] h-[8svh] bg-slate-200 px-4 sm:px-10 py-2 justify-between shadow-lg shadow-slate-300  ">
         <div className="text-2xl sm:text-3xl font-bold flex items-center justify-center gap-4 italic">
             {
-                status !== "loading" &&
+                status == "authenticated" &&
                 <div className="sm:hidden" onClick={() => { dispatch(setOpen(!isOpen)) }}><Menu /></div>
             }
-            PowerPay
+            <Link href={"/"}>PowerPay</Link>
         </div>
         <div className="flex flex-col justify-center pt-2 ">
 
             {
                 status == "unauthenticated" &&
-                <Button onClick={() => signIn?.()}> Login</Button>
+                    <Button onClick={() => signIn !== undefined ? signIn() : router.push("/login") }> Login</Button>
             }
 
             {
@@ -49,7 +52,7 @@ export const Appbar = ({
         </div>
         {
             profileOptionsPopup &&
-            <div  className="z-[100] absolute top-[110%] right-[5dvw] sm:right-10 w-[65%] sm:w-60 min-h-20 bg-slate-200 rounded-md shadow-xl shadow-slate-500 border border-slate-400/60 flex flex-col items-center gap-1">
+            <div  className="z-[100] absolute top-[110%] right-[5dvw] sm:right-10 w-[65%] sm:w-60 min-h-20 bg-slate-200 rounded-md shadow-xl border border-slate-400/60 flex flex-col items-center gap-1">
                 <div className="w-full flex items-center justify-between p-2 px-3 font-[Manrope]">
                     <ProfileImage profileName={profileData?.fullName || ""} url={profileData?.pfpUrl || "/user_placeholder.png"} size="small" />
                     <div className="flex flex-col items-end justify-around">

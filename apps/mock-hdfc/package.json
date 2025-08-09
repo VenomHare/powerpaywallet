@@ -21,10 +21,12 @@
     "zod": "^3.25.36"
   },
   "devDependencies": {
+    "@powerpaywallet/eslint-config": "workspace:*",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "eslint": "^9.26.0",
     "node-mocks-http": "^1.17.2",
     "tailwindcss": "^4",
     "typescript": "^5",
