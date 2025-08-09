@@ -13,29 +13,30 @@ RUN turbo prune --scope=powerpayclient --docker
 
 # -------- Install deps for build --------
 FROM base AS deps
-# Copy pruned package.jsons
 COPY --from=prune /app/out/json/ ./
-# Copy root configs so turbo can run
-COPY turbo.json pnpm-workspace.yaml  ./
+COPY turbo.json pnpm-workspace.yaml ./
+# Install ALL dependencies (including dev) for build tools like Prisma
 RUN pnpm install --frozen-lockfile
 
 # -------- Build stage --------
 FROM base AS build
 COPY --from=prune /app/out/full/ ./
 COPY --from=deps /app/node_modules ./node_modules
-# Generate Prisma Client
+# Generate Prisma client
 RUN pnpm --filter=@powerpaywallet/db generate
-# Build only the target app
+# Build app
 RUN pnpm turbo run build --filter=powerpayclient
 
 # -------- Production image --------
 FROM node:20-alpine AS runner
 ENV NODE_ENV=production
 WORKDIR /app
-# Copy only prod dependencies
+# Install only prod deps in final image
 COPY --from=deps /app/node_modules ./node_modules
-# Copy build output (adjust for Next.js or Express)
+# Copy Next.js build output & assets
 COPY --from=build /app/apps/powerpayclient/.next ./.next
-COPY --from=build /app/apps/powerpayclient/package.json ./
+COPY --from=build /app/apps/powerpayclient/public ./public
+COPY --from=build /app/apps/powerpayclient/package.json ./package.json
+COPY --from=build /app/apps/powerpayclient/next.config.js ./next.config.js
 EXPOSE 3001
 CMD ["pnpm", "start"]
