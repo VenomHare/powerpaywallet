@@ -18,20 +18,20 @@ jobs:
 
       # Build
       - name: Build Powerpay Client
-        run: docker build -t ghcr.io/${{ github.repository }}/powerpayclient:latest -f apps/powerpayclient/Dockerfile .
+        run: docker build -t ghcr.io/venomhare/powerpaywallet/powerpayclient:latest -f apps/powerpayclient/Dockerfile .
 
       - name: Build Mock HDFC
-        run: docker build -t ghcr.io/${{ github.repository }}/mock-hdfc:latest -f apps/mock-hdfc/Dockerfile .
+        run: docker build -t ghcr.io/venomhare/powerpaywallet/mock-hdfc:latest -f apps/mock-hdfc/Dockerfile .
 
       - name: Build Bank Webhook
-        run: docker build -t ghcr.io/${{ github.repository }}/bank-webhook:latest -f apps/bank-webhook/Dockerfile .
+        run: docker build -t ghcr.io/venomhare/powerpaywallet/bank-webhook:latest -f apps/bank-webhook/Dockerfile .
 
       # Push
       - name: Push Images
         run: |
-          docker push ghcr.io/${{ github.repository }}/powerpayclient:latest
-          docker push ghcr.io/${{ github.repository }}/mock-hdfc:latest
-          docker push ghcr.io/${{ github.repository }}/bank-webhook:latest
+          docker push ghcr.io/venomhare/powerpaywallet/powerpayclient:latest
+          docker push ghcr.io/venomhare/powerpaywallet/mock-hdfc:latest
+          docker push ghcr.io/venomhare/powerpaywallet/bank-webhook:latest
 
       # Deploy via SSH
       - name: Deploy to Server
@@ -41,13 +41,13 @@ jobs:
           username: ${{ secrets.PROD_USER }}
           key: ${{ secrets.PROD_SSH_KEY }}
           script: |
-            docker pull ghcr.io/${{ github.repository }}/powerpayclient:latest
-            docker pull ghcr.io/${{ github.repository }}/mock-hdfc:latest
-            docker pull ghcr.io/${{ github.repository }}/bank-webhook:latest
+            docker pull ghcr.io/venomhare/powerpaywallet/powerpayclient:latest
+            docker pull ghcr.io/venomhare/powerpaywallet/mock-hdfc:latest
+            docker pull ghcr.io/venomhare/powerpaywallet/bank-webhook:latest
             
             docker run --rm \
               -e DATABASE_URL=${{ secrets.POSTGRES_DATABASE_URL }} \
-              ghcr.io/${{ github.repository }}/bank-webhook:latest \
+              ghcr.io/venomhare/powerpaywallet/bank-webhook:latest \
               pnpm --filter=@powerpaywallet/db migrate deploy
 
             docker stop powerpayclient || true && docker rm powerpayclient || true
@@ -64,7 +64,7 @@ jobs:
               -e NEXT_PUBLIC_CLOUDINARY_API_KEY=${{ secrets.CLOUDINARY_API_KEY }} \
               -e NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=${{ secrets.CLOUDINARY_CLOUD_NAME}} \
               -e CLOUDINARY_API_SECRET=${{ secrets.CLOUDINARY_API_SECRET}} \
-              ghcr.io/${{ github.repository }}/powerpayclient:latest
+              ghcr.io/venomhare/powerpaywallet/powerpayclient:latest
 
             docker run -d --name mock-hdfc \
               -p 3003:3003 \
@@ -76,11 +76,11 @@ jobs:
               -e TRANSFER_SUCCESS_WEBHOOK_URL=${{ secrets.WEBHOOK_TRANSFER_SUCCESS_URL}} \
               -e TRANSFER_FAILURE_WEBHOOK_URL=${{ secrets.WEBHOOK_TRANSFER_FAILURE_URL}} \
               -e ALLOWED_ORIGIN=${{ secrets.POWERPAY_CLIENT_URL }} \
-              ghcr.io/${{ github.repository }}/mock-hdfc:latest
+              ghcr.io/venomhare/powerpaywallet/mock-hdfc:latest
 
             docker run -d --name bank-webhook \
               -p 3002:3002 \
               -e PORT=3002 \
               -e WEBHOOK_SECRET=${{ secrets.BANK_WEBHOOK_SECRET }} \
               -e DATABASE_URL=${{ secrets.POSTGRES_DATABASE_URL}} \
-              ghcr.io/${{ github.repository }}/bank-webhook:latest
+              ghcr.io/venomhare/powerpaywallet/bank-webhook:latest
