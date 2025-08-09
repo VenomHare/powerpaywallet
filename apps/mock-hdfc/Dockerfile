@@ -21,6 +21,7 @@ RUN pnpm install --frozen-lockfile
 FROM base AS build
 COPY --from=prune /app/out/full/ ./
 COPY --from=deps /app/node_modules ./node_modules
+RUN pnpm install --filter=mock-hdfc...
 RUN pnpm turbo run build --filter=mock-hdfc
 
 # -------- Production stage --------
