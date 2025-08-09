@@ -15,7 +15,7 @@ RUN turbo prune --scope=powerpayclient --docker
 WORKDIR /app/out
 
 # Copy package files 
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json .
 
 RUN corepack enable && pnpm install --frozen-lockfile
 
