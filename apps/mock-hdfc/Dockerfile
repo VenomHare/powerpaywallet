@@ -13,6 +13,10 @@ RUN turbo prune --scope=mock-hdfc --docker
 
 # Install dependencies (using workspace lockfile)
 WORKDIR /app/out
+
+# Copy package files 
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .
+
 RUN corepack enable && pnpm install --frozen-lockfile
 
 # Build the app
