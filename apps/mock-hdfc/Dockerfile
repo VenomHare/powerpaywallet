@@ -16,7 +16,7 @@ FROM base AS deps
 # Copy pruned package.jsons
 COPY --from=prune /app/out/json/ ./
 # Copy root configs so turbo can run
-COPY turbo.json pnpm-workspace.yaml tsconfig.base.json ./
+COPY turbo.json pnpm-workspace.yaml  ./
 RUN pnpm install --frozen-lockfile
 
 # -------- Build stage --------
