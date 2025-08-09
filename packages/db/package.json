@@ -17,14 +17,14 @@
   },
   "dependencies": {
     "@powerpaywallet/typescript-config": "workspace:*",
-    "@types/node": "^22.15.3"
+    "@prisma/client": "6.13.0",
+    "prisma": "^6.13.0"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@prisma/client": "6.13.0",
-    "prisma": "^6.13.0",
+    "@types/node": "^22.15.3",
     "typescript": "^5.8.3"
   }
 }
