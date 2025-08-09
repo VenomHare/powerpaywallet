@@ -9,7 +9,7 @@ WORKDIR /app
 FROM base AS prune
 RUN pnpm install -g turbo
 COPY . .
-RUN turbo prune --scope=bank-webhook --docker
+RUN turbo prune --scope=bank-webhook --scope=@powerpaywallet/db  --docker
 
 # -------- Install deps for build --------
 FROM base AS deps
