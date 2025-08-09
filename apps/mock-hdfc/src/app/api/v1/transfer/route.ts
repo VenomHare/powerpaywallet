@@ -1,3 +1,4 @@
+import { withCors } from "@/lib/cors";
 import { BankTransferRequestSchema } from "@powerpaywallet/schemas/client";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -9,11 +10,12 @@ export const POST = async (req: NextRequest) => {
     try {
         const auth = req.headers.get("Authorization")?.replace("Bearer ", "");
         if (!auth || auth !== BANK_SECRET) {
-            return NextResponse.json({
+            const res = NextResponse.json({
                 message: "Unauthorized"
             }, {
                 status: 401
             });
+            return withCors(req, res)
         }
 
         const body = await req.json();
@@ -21,11 +23,12 @@ export const POST = async (req: NextRequest) => {
         const { success } = BankTransferRequestSchema.safeParse(body);
 
         if (!success) {
-            return NextResponse.json({
+            const res = NextResponse.json({
                 message: "Invalid Request Parameters"
             }, {
                 status: 406
             })
+            return withCors(req, res);
         }
 
         const token = generateTransferToken();
@@ -47,19 +50,21 @@ export const POST = async (req: NextRequest) => {
                 sendRequest(TRANSFER_FAILURE_WEBHOOK_URL, token);
             }
         });
-
-        return NextResponse.json({
+        
+        const res = NextResponse.json({
             token
         });
-
+        return withCors(req, res);
     }
     catch (err) {
         console.log(err);
-        return NextResponse.json({
+
+        const res = NextResponse.json({
             message: "Something went wrong"
         }, {
             status: 500
         })
+        return withCors(req, res);
     }
 }
 

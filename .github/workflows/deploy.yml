@@ -77,6 +77,7 @@ jobs:
               -e FAILURE_WEBHOOK_URL=${{ secrets.WEBHOOK_PAYMENT_FAILURE_URL}} \
               -e TRANSFER_SUCCESS_WEBHOOK_URL=${{ secrets.WEBHOOK_TRANSFER_SUCCESS_URL}} \
               -e TRANSFER_FAILURE_WEBHOOK_URL=${{ secrets.WEBHOOK_TRANSFER_FAILURE_URL}} \
+              -e ALLOWED_ORIGIN=${{ secrets.POWERPAY_CLIENT_URL }} \
               ghcr.io/${{ github.repository }}/mock-hdfc:latest
 
             docker run -d --name bank-webhook \

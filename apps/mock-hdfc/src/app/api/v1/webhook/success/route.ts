@@ -1,3 +1,4 @@
+import { withCors } from "@/lib/cors";
 import { mockPaymentStorage } from "@/lib/MockPaymentStorage";
 import { MockPaymentSchema } from "@powerpaywallet/schemas/webhook";
 import { NextRequest, NextResponse } from "next/server";
@@ -7,16 +8,18 @@ export const GET = async (req: NextRequest) => {
 
     const token = req.nextUrl.searchParams.get("token");
     if (!token) {
-        return NextResponse.json("Token Not Found", {
+        const res = NextResponse.json("Token Not Found", {
             status: 422
         })
+        return withCors(req, res);
     }
     const payment = mockPaymentStorage.get(token);
-    
+
     if (!payment) {
-        return NextResponse.json("Payment Not Found", {
+        const res = NextResponse.json("Payment Not Found", {
             status: 422
         })
+        return withCors(req, res);
     }
     const url = process.env.SUCCESS_WEBHOOK_URL || "";
     const body: z.infer<typeof MockPaymentSchema> = {
@@ -25,7 +28,7 @@ export const GET = async (req: NextRequest) => {
         token: payment.token
     }
     try {
-        const req = await fetch(url, {
+        const request = await fetch(url, {
             method: "POST",
             body: JSON.stringify(body),
             headers: {
@@ -33,16 +36,19 @@ export const GET = async (req: NextRequest) => {
                 "Content-Type": "application/json"
             }
         });
-        console.log(JSON.stringify(await req.text()));
-        if (req.ok) {
+        console.log(JSON.stringify(await request.text()));
+        if (request.ok) {
             mockPaymentStorage.set({ ...payment, status: "completed" });
-            return NextResponse.json({ message: "sent" })
+            const res = NextResponse.json({ message: "sent" })
+            return withCors(req, res);
         }
-        return NextResponse.json({ message: "ERROR" }, { status: 503 });
+        const res = NextResponse.json({ message: "ERROR" }, { status: 503 });
+        return withCors(req, res);
     }
     catch (err) {
         //If request fails retry it again after interval 
         console.log(err);
-        return NextResponse.json({ message: "ERROR" }, { status: 500 })
+        const res = NextResponse.json({ message: "ERROR" }, { status: 500 })
+        return withCors(req, res);
     }
 } 
