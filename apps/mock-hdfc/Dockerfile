@@ -1,35 +1,41 @@
-# Stage 1: Builder
-FROM node:20-alpine AS builder
+# -------- Base image --------
+FROM node:20-alpine AS base
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
 WORKDIR /app
 
-# Install pnpm & turbo globally
-RUN corepack enable && npm install -g turbo
-
-# Copy repo files
+# -------- Prune stage --------
+FROM base AS prune
+RUN pnpm install -g turbo
 COPY . .
-
-# Prune for this app only (reduces build context)
 RUN turbo prune --scope=mock-hdfc --docker
 
-# Install dependencies (using workspace lockfile)
-WORKDIR /app/out
+# -------- Install deps for build --------
+FROM base AS deps
+# Copy pruned package.jsons
+COPY --from=prune /app/out/json/ ./
+# Copy root configs so turbo can run
+COPY turbo.json pnpm-workspace.yaml tsconfig.base.json ./
+RUN pnpm install --frozen-lockfile
 
-# Copy package files 
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json .
-
-RUN corepack enable && pnpm install --frozen-lockfile
-
-# Build the app
+# -------- Build stage --------
+FROM base AS build
+COPY --from=prune /app/out/full/ ./
+COPY --from=deps /app/node_modules ./node_modules
+# Generate Prisma Client
 RUN pnpm --filter=@powerpaywallet/db generate
+# Build only the target app
+RUN pnpm turbo run build --filter=mock-hdfc
 
-RUN pnpm build --filter=mock-hdfc...
-
-# Stage 2: Runner
+# -------- Production image --------
 FROM node:20-alpine AS runner
+ENV NODE_ENV=production
 WORKDIR /app
-
-# Copy built app from builder
-COPY --from=builder /app/out .
-
-# Start app
-CMD ["pnpm", "start", "--filter=mock-hdfc..."]
+# Copy only prod dependencies
+COPY --from=deps /app/node_modules ./node_modules
+# Copy build output (adjust for Next.js or Express)
+COPY --from=build /app/apps/mock-hdfc/.next ./.next
+COPY --from=build /app/apps/mock-hdfc/package.json ./
+EXPOSE 3003
+CMD ["pnpm", "start"]
