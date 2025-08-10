@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "generate": "prisma generate --schema=./prisma/schema.prisma",
+    "generate": "prisma generate",
     "migrate": "prisma migrate dev --skip-generate",
     "deploy": "prisma migrate deploy",
     "studio": "prisma studio",
