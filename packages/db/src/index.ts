@@ -1,1 +1,1 @@
-export * from "@prisma/client" // exports generated types from prisma
+export * from "./generated/prisma" // exports generated types from prisma
