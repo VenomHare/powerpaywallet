@@ -12,6 +12,10 @@ const nextConfig = {
       },
     ],
   },
+  experimental: {
+    serverComponentsExternalPackages: ['@powerpaywallet/db'],
+  },
+  transpilePackages: ['@powerpaywalley/db'],
 };
 
 export default nextConfig;
