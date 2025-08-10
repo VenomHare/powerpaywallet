@@ -3,9 +3,13 @@ name: CI/CD
 on:
   push:
     branches: [ production ]
+    paths: 
+      - "apps/bank-webhook/**" 
+      - "packages/db/**" 
+      - "packages/schemas/**" 
 
 jobs:
-  build-and-deploy:
+  deploy-webhook:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,20 +22,12 @@ jobs:
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
       # Build
-      - name: Build Powerpay Client
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/powerpayclient:latest -f apps/powerpayclient/Dockerfile .
-
-      - name: Build Mock HDFC
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/mock-hdfc:latest -f apps/mock-hdfc/Dockerfile .
-
       - name: Build Bank Webhook
         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/bank-webhook:latest -f apps/bank-webhook/Dockerfile .
 
       # Push
-      - name: Push Images
+      - name: Push Image
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/powerpayclient:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/mock-hdfc:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/bank-webhook:latest
 
       # Deploy via SSH
@@ -42,42 +38,14 @@ jobs:
           username: ${{ secrets.PROD_USER }}
           key: ${{ secrets.PROD_SSH_KEY }}
           script: |
-            docker pull ${{ secrets.DOCKER_USERNAME }}/powerpayclient:latest
-            docker pull ${{ secrets.DOCKER_USERNAME }}/mock-hdfc:latest
             docker pull ${{ secrets.DOCKER_USERNAME }}/bank-webhook:latest
             
             docker run --rm \
               -e DATABASE_URL=${{ secrets.POSTGRES_DATABASE_URL }} \
               ${{ secrets.DOCKER_USERNAME }}/bank-webhook:latest \
               pnpm --filter=@powerpaywallet/db migrate deploy
-
-            docker stop powerpayclient || true && docker rm powerpayclient || true
-            docker stop mock-hdfc || true && docker rm mock-hdfc || true
+              
             docker stop bank-webhook || true && docker rm bank-webhook || true
-
-            docker run -d --name powerpayclient \
-              -p 3001:3001 \
-              -e DATABASE_URL=${{ secrets.POSTGRES_DATABASE_URL }} \
-              -e NEXTAUTH_URL=${{ secrets.POWERPAY_CLIENT_URL }} \
-              -e BANK_SECRET=${{ secrets.MOCK_BANK_SECRET }} \
-              -e POWERPAY_MOCKBANK_TRANSFER=${{ secrets.MOCK_BANK_TRANSFER_URL }} \
-              -e POWERPAY_MOCKBANK_REQ=${{ secrets.MOCK_BANK_PAYMENT_URL }} \
-              -e NEXT_PUBLIC_CLOUDINARY_API_KEY=${{ secrets.CLOUDINARY_API_KEY }} \
-              -e NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=${{ secrets.CLOUDINARY_CLOUD_NAME}} \
-              -e CLOUDINARY_API_SECRET=${{ secrets.CLOUDINARY_API_SECRET}} \
-              ${{ secrets.DOCKER_USERNAME }}/powerpayclient:latest
-
-            docker run -d --name mock-hdfc \
-              -p 3003:3003 \
-              -e WEBHOOK_SECRET=${{ secrets.BANK_WEBHOOK_SECRET }} \
-              -e BANK_SECRET=${{ secrets.MOCK_BANK_SECRET }} \
-              -e BANK_HOSTNAME=${{ secrets.MOCK_BANK_HOSTNAME }} \
-              -e SUCCESS_WEBHOOK_URL=${{ secrets.WEBHOOK_PAYMENT_SUCCESS_URL}} \
-              -e FAILURE_WEBHOOK_URL=${{ secrets.WEBHOOK_PAYMENT_FAILURE_URL}} \
-              -e TRANSFER_SUCCESS_WEBHOOK_URL=${{ secrets.WEBHOOK_TRANSFER_SUCCESS_URL}} \
-              -e TRANSFER_FAILURE_WEBHOOK_URL=${{ secrets.WEBHOOK_TRANSFER_FAILURE_URL}} \
-              -e ALLOWED_ORIGIN=${{ secrets.POWERPAY_CLIENT_URL }} \
-              ${{ secrets.DOCKER_USERNAME }}/mock-hdfc:latest
 
             docker run -d --name bank-webhook \
               -p 3002:3002 \
