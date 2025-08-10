@@ -1,0 +1,10 @@
+{
+  "functions": {
+    "*": {
+      "includeFiles": [
+        "../../packages/db/prisma/**",
+        "../../packages/db/src/**"
+      ]
+    }
+  }
+}

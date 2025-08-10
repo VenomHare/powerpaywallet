@@ -14,7 +14,7 @@
   "dependencies": {
     "@powerpaywallet/db": "workspace:*",
     "@powerpaywallet/schemas": "workspace:*",
-    "@powerpaywallet/store": "workspace:*",
+    "@powerpaywallet/store": "workspace:*", 
     "@powerpaywallet/ui": "workspace:*",
     "@tailwindcss/postcss": "^4.1.6",
     "@types/bcrypt": "^5.0.2",
