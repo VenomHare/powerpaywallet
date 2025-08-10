@@ -15,6 +15,7 @@ RUN turbo prune --scope=bank-webhook --docker
 FROM base AS deps
 COPY --from=prune /app/out/json/ ./
 COPY turbo.json pnpm-workspace.yaml ./
+COPY packages/db/prisma ./packages/db/prisma
 RUN pnpm install --frozen-lockfile
 
 # -------- Build stage --------
@@ -22,7 +23,6 @@ FROM base AS build
 COPY --from=prune /app/out/full/ ./
 COPY --from=deps /app/node_modules ./node_modules
 RUN pnpm install --filter=bank-webhook...
-RUN pnpm db:generate
 RUN pnpm turbo run build --filter=bank-webhook
 
 # -------- Production stage --------
