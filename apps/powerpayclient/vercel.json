@@ -2,13 +2,7 @@
   "buildCommand": "cd ../.. && pnpm turbo run build --filter=powerpayclient",
   "installCommand": "cd ../.. && pnpm install",
   "functions": {
-    "app/api/**/*.js": {
-      "includeFiles": "../../packages/db/src/generated/prisma/**"
-    },
-    ".next/server/app/**/*.js": {
-      "includeFiles": "../../packages/db/src/generated/prisma/**"
-    },
-    ".next/server/chunks/**/*.js": {
+    "app/**/*.js": {
       "includeFiles": "../../packages/db/src/generated/prisma/**"
     }
   }
