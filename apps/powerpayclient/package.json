@@ -43,5 +43,8 @@
     "tailwind-scrollbar": "^4.0.2",
     "tw-animate-css": "^1.2.9",
     "typescript": "5.8.2"
+  },
+  "prisma": {
+    "schema": "../../packages/db/prisma/schema.prisma"
   }
 }

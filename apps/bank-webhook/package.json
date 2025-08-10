@@ -34,5 +34,8 @@
     "express": "^5.1.0",
     "ts-node": "^10.9.2",
     "zod": "^3.25.36"
+  },
+  "prisma": {
+    "schema":"../../packages/db/prisma/schema.prisma"
   }
 }
