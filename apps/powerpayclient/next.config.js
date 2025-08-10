@@ -12,9 +12,7 @@ const nextConfig = {
       },
     ],
   },
-  experimental: {
-    serverComponentsExternalPackages: ['@powerpaywallet/db'],
-  },
+  serverExternalPackages: ['@powerpaywallet/db'],
   transpilePackages: ['@powerpaywalley/db'],
 };
 
