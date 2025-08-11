@@ -33,4 +33,6 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY --from=build /app/apps/bank-webhook/dist ./dist
 COPY --from=build /app/apps/bank-webhook/package.json ./package.json
 EXPOSE 3002
+CMD ["pnpm", "list"]
+CMD ["pnpm", "install"]
 CMD ["pnpm", "start"]

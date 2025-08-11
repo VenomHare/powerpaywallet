@@ -12,7 +12,7 @@ export default function Footer() {
                     </p>
                 </div>
                 <div className="flex justify-center space-x-6 mb-8">
-                    <Link href="/" className="hover:text-blue-600 transition-colors">About Us</Link>
+                    <Link href="/about" className="hover:text-blue-600 transition-colors">About Us</Link>
                     <Link href="/support" className="hover:text-blue-600 transition-colors">Support</Link>
                     <Link href="/privacy-policy" className="hover:text-blue-600 transition-colors">Privacy Policy</Link>
                     <Link href="/terms" className="hover:text-blue-600 transition-colors">Terms of Service</Link>
