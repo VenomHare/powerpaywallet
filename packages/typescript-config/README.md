@@ -1,10 +1,12 @@
-## `@powerpaywallet/eslint-config`
+## `@powerpaywallet/typescript-config`
 
-[![ESLint](https://img.shields.io/badge/ESLint-9-4B32C3?logo=eslint&logoColor=white)](https://eslint.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 
-Collection of internal ESLint configurations for the monorepo.
+Shared TypeScript `tsconfig` bases used across the monorepo.
+
+Publish is disabled; used internally via `workspace:*`.
 
 ### About me
 
 Built by Sarthak ([`@venomhare`](https://github.com/venomhare)).
+
